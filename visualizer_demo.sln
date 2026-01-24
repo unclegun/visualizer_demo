@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "visualizer_demo", "visualizer_demo\visualizer_demo.csproj", "{FE32B35E-70BA-B533-299E-E13CCD9B546D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FE32B35E-70BA-B533-299E-E13CCD9B546D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE32B35E-70BA-B533-299E-E13CCD9B546D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE32B35E-70BA-B533-299E-E13CCD9B546D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE32B35E-70BA-B533-299E-E13CCD9B546D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A0E1A645-FB58-4276-A541-17B95560C2F2}
+	EndGlobalSection
+EndGlobal

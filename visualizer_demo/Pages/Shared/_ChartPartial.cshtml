@@ -1,0 +1,435 @@
+@model dynamic
+
+<div class="card h-100 shadow-sm">
+    <div class="card-header bg-primary text-white">
+        <h5 class="card-title mb-0">@Model.Title</h5>
+    </div>
+    <div class="card-body d-flex align-items-center">
+        @if (Model.Type == "table")
+        {
+            <div class="table-responsive">
+                <table id="@Model.Id" class="table table-striped">
+                    <thead>
+                        <tr>
+                            @foreach (var header in Model.Data.Item1)
+                            {
+                                <th>@header</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in Model.Data.Item2)
+                        {
+                            <tr>
+                                @foreach (var cell in row)
+                                {
+                                    <td>@cell</td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <canvas id="@Model.Id" class="chart-canvas"></canvas>
+        }
+    </div>
+</div>
+
+@if (Model.Type != "table")
+{
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const canvas = document.getElementById('@Model.Id');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const data = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Data));
+
+    let config = {};
+
+    switch ('@Model.Type') {
+        case 'bar':
+            config = {
+                type: 'bar',
+                data: {
+                    labels: data.Labels,
+                    datasets: [{
+                        label: 'Value',
+                        data: data.Values,
+                        backgroundColor: [
+                            'rgba(0, 123, 255, 0.8)',
+                            'rgba(40, 167, 69, 0.8)',
+                            'rgba(255, 193, 7, 0.8)',
+                            'rgba(220, 53, 69, 0.8)',
+                            'rgba(108, 117, 125, 0.8)',
+                            'rgba(23, 162, 184, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(0, 123, 255, 1)',
+                            'rgba(40, 167, 69, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(220, 53, 69, 1)',
+                            'rgba(108, 117, 125, 1)',
+                            'rgba(23, 162, 184, 1)'
+                        ],
+                        borderWidth: 2,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+            break;
+
+        case 'pie':
+            config = {
+                type: 'pie',
+                data: {
+                    labels: data.Labels,
+                    datasets: [{
+                        label: 'Value',
+                        data: data.Values,
+                        backgroundColor: [
+                            'rgba(0, 123, 255, 0.8)',
+                            'rgba(40, 167, 69, 0.8)',
+                            'rgba(255, 193, 7, 0.8)',
+                            'rgba(220, 53, 69, 0.8)',
+                            'rgba(108, 117, 125, 0.8)',
+                            'rgba(23, 162, 184, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(0, 123, 255, 1)',
+                            'rgba(40, 167, 69, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(220, 53, 69, 1)',
+                            'rgba(108, 117, 125, 1)',
+                            'rgba(23, 162, 184, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    }
+                }
+            };
+            break;
+
+        case 'line':
+            config = {
+                type: 'line',
+                data: {
+                    labels: data.Labels,
+                    datasets: [{
+                        label: 'Value',
+                        data: data.Values,
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(0, 123, 255, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(0, 123, 255, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+            break;
+
+        case 'doughnut':
+            config = {
+                type: 'doughnut',
+                data: {
+                    labels: data.Labels,
+                    datasets: [{
+                        label: 'Value',
+                        data: data.Values,
+                        backgroundColor: [
+                            'rgba(0, 123, 255, 0.8)',
+                            'rgba(40, 167, 69, 0.8)',
+                            'rgba(255, 193, 7, 0.8)',
+                            'rgba(220, 53, 69, 0.8)',
+                            'rgba(108, 117, 125, 0.8)',
+                            'rgba(23, 162, 184, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(0, 123, 255, 1)',
+                            'rgba(40, 167, 69, 1)',
+                            'rgba(255, 193, 7, 1)',
+                            'rgba(220, 53, 69, 1)',
+                            'rgba(108, 117, 125, 1)',
+                            'rgba(23, 162, 184, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    }
+                }
+            };
+            break;
+
+        case 'radar':
+            config = {
+                type: 'radar',
+                data: {
+                    labels: data.Labels,
+                    datasets: [{
+                        label: 'Score',
+                        data: data.Values,
+                        backgroundColor: 'rgba(23, 162, 184, 0.2)',
+                        borderColor: 'rgba(23, 162, 184, 1)',
+                        borderWidth: 2,
+                        pointBackgroundColor: 'rgba(23, 162, 184, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(23, 162, 184, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    },
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 10
+                        }
+                    }
+                }
+            };
+            break;
+
+        case 'polarArea':
+            config = {
+                type: 'polarArea',
+                data: {
+                    labels: data.Labels,
+                    datasets: [{
+                        label: 'Value',
+                        data: data.Values,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.8)',
+                            'rgba(54, 162, 235, 0.8)',
+                            'rgba(255, 205, 86, 0.8)',
+                            'rgba(75, 192, 192, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 205, 86, 1)',
+                            'rgba(75, 192, 192, 1)'
+                        ],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    }
+                }
+            };
+            break;
+
+        case 'area':
+            config = {
+                type: 'line',
+                data: {
+                    labels: data.Labels,
+                    datasets: [{
+                        label: 'Value',
+                        data: data.Values,
+                        fill: true,
+                        backgroundColor: 'rgba(40, 167, 69, 0.3)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        pointBackgroundColor: 'rgba(40, 167, 69, 1)',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: 'rgba(40, 167, 69, 1)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+            break;
+
+        case 'horizontalBar':
+            config = {
+                type: 'bar',
+                data: {
+                    labels: data.Labels,
+                    datasets: [{
+                        label: 'Value',
+                        data: data.Values,
+                        backgroundColor: 'rgba(108, 117, 125, 0.8)',
+                        borderColor: 'rgba(108, 117, 125, 1)',
+                        borderWidth: 2,
+                        borderRadius: 4,
+                        borderSkipped: false,
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            };
+            break;
+
+        case 'scatter':
+            config = {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Data Points',
+                        data: data,
+                        backgroundColor: 'rgba(52, 58, 64, 0.8)',
+                        borderColor: 'rgba(52, 58, 64, 1)',
+                        borderWidth: 2,
+                        pointRadius: 6,
+                        pointHoverRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '@Model.Title'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: 'X Axis'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Y Axis'
+                            }
+                        }
+                    }
+                }
+            };
+            break;
+    }
+
+    new Chart(ctx, config);
+});
+</script>
+}
