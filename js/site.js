@@ -169,8 +169,8 @@ async function loadCharts() {
 function renderAllCharts() {
 	// Wait for Chart.js to be available
 	if (typeof Chart === "undefined") {
-		console.warn("Chart.js library not loaded yet, retrying in 500ms...");
-		setTimeout(renderAllCharts, 500);
+		console.warn("Chart.js library not loaded yet, retrying in 1s...");
+		setTimeout(renderAllCharts, 1000);
 		return;
 	}
 
@@ -202,12 +202,12 @@ function renderAllCharts() {
 						}
 					}
 				});
-				console.log("Rendered chart:", chartId);
+				console.log("✓ Rendered chart:", chartId);
 			} catch (error) {
-				console.error(`Failed to render chart ${chartId}:`, error);
+				console.error(`✗ Failed to render chart ${chartId}:`, error);
 			}
 		} else {
-			console.warn(`Canvas element not found for chart: ${canvasId}`);
+			console.warn(`✗ Canvas element not found for chart: ${canvasId}`);
 		}
 	});
 }
