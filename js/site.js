@@ -110,36 +110,106 @@ function filterPalettes(searchText) {
 }
 
 async function loadPalettes() {
-	const response = await fetch("./data/palettes.json", { method: "GET" });
-	if (!response.ok) {
-		throw new Error("Failed to load palettes");
-	}
+	try {
+		console.log("Fetching palettes from ./data/palettes.json...");
+		const response = await fetch("./data/palettes.json", { method: "GET" });
+		
+		if (!response.ok) {
+			console.error("Failed to fetch palettes.json:", response.status, response.statusText);
+			throw new Error("Failed to load palettes");
+		}
 
-	const palettes = await response.json();
-	if (!Array.isArray(palettes)) {
-		throw new Error("Palette response format was invalid");
-	}
+		const palettes = await response.json();
+		console.log("Palettes loaded:", palettes.length, "palettes found");
+		
+		if (!Array.isArray(palettes)) {
+			throw new Error("Palette response format was invalid");
+		}
 
-	paletteState.all = palettes;
-	paletteState.filtered = [...palettes];
-	return palettes;
+		paletteState.all = palettes;
+		paletteState.filtered = [...palettes];
+		return palettes;
+	} catch (error) {
+		console.error("Error loading palettes:", error);
+		throw error;
+	}
 }
 
 async function loadCharts() {
-	const response = await fetch("./data/charts.json", { method: "GET" });
-	if (!response.ok) {
-		console.warn("Failed to load charts");
+	try {
+		console.log("Loading chart data from ./data/charts.json...");
+		const response = await fetch("./data/charts.json", { method: "GET" });
+		
+		if (!response.ok) {
+			console.error("Failed to fetch charts.json:", response.status, response.statusText);
+			return {};
+		}
+
+		const charts = await response.json();
+		console.log("Chart data loaded successfully:", Object.keys(charts).length, "charts found");
+		
+		if (typeof charts !== "object") {
+			console.warn("Charts response format was invalid");
+			return {};
+		}
+
+		chartState.all = charts;
+		
+		// Render charts (with automatic retry if Chart.js not ready yet)
+		console.log("Rendering charts...");
+		renderAllCharts();
+		
+		return charts;
+	} catch (error) {
+		console.error("Failed to load charts:", error);
 		return {};
 	}
+}
 
-	const charts = await response.json();
-	if (typeof charts !== "object") {
-		console.warn("Charts response format was invalid");
-		return {};
+function renderAllCharts() {
+	// Wait for Chart.js to be available
+	if (typeof Chart === "undefined") {
+		console.warn("Chart.js library not loaded yet, retrying in 500ms...");
+		setTimeout(renderAllCharts, 500);
+		return;
 	}
 
-	chartState.all = charts;
-	return charts;
+	const chartIds = Object.keys(chartState.all);
+	console.log("Rendering", chartIds.length, "charts...");
+	
+	chartIds.forEach((chartId) => {
+		const chartConfig = chartState.all[chartId];
+		const canvasId = `chart-${chartId}`;
+		const canvas = document.getElementById(canvasId);
+		
+		if (canvas) {
+			try {
+				const ctx = canvas.getContext("2d");
+				new Chart(ctx, {
+					type: chartConfig.type,
+					data: {
+						labels: chartConfig.labels,
+						datasets: chartConfig.datasets
+					},
+					options: {
+						responsive: true,
+						maintainAspectRatio: true,
+						plugins: {
+							legend: {
+								display: true,
+								position: "top"
+							}
+						}
+					}
+				});
+				console.log("Rendered chart:", chartId);
+			} catch (error) {
+				console.error(`Failed to render chart ${chartId}:`, error);
+			}
+		} else {
+			console.warn(`Canvas element not found for chart: ${canvasId}`);
+		}
+	});
 }
 
 function applySelectedPalette() {
@@ -160,21 +230,26 @@ async function initializePalettePicker() {
 	const applyButton = document.getElementById("applyPaletteBtn");
 
 	if (!select || !search || !applyButton) {
+		console.warn("Palette picker elements not found");
 		return;
 	}
 
 	try {
+		console.log("Loading palettes from ./data/palettes.json...");
 		await loadPalettes();
+		console.log("Palettes loaded successfully:", paletteState.all.length, "palettes found");
 
 		const savedId = localStorage.getItem(getPaletteStorageKey());
 		const initialId = savedId && paletteState.all.some((p) => p.id === savedId)
 			? savedId
 			: paletteState.all[0]?.id;
 
+		console.log("Rendering palette options with initial palette:", initialId);
 		renderPaletteOptions(paletteState.filtered, initialId);
 
 		const initialPalette = paletteState.all.find((p) => p.id === initialId);
 		if (initialPalette) {
+			console.log("Applying initial palette:", initialPalette.name);
 			applyPalette(initialPalette);
 		}
 
@@ -187,9 +262,14 @@ async function initializePalettePicker() {
 			}
 		});
 
-		applyButton.addEventListener("click", applySelectedPalette);
+		applyButton.addEventListener("click", () => {
+			console.log("Apply button clicked");
+			applySelectedPalette();
+		});
 		select.addEventListener("dblclick", applySelectedPalette);
 		select.addEventListener("change", applySelectedPalette);
+		
+		console.log("Palette picker initialized successfully");
 	} catch (error) {
 		console.error("Palette picker initialization failed:", error);
 		const sourceLink = document.getElementById("paletteSourceLink");
@@ -314,8 +394,10 @@ function createChartCanvas(chartId, chartType, chartTitle) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+	console.log("Document loaded, initializing...");
 	initializePalettePicker();
 	initializeToneToggle();
 	initDashboard();
-	loadCharts();
+	loadCharts().catch((error) => console.error("Chart loading error:", error));
+	console.log("Initialization complete");
 });
