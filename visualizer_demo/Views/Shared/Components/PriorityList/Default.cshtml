@@ -1,0 +1,20 @@
+@model visualizer_demo.ViewComponents.PriorityListViewModel
+
+<bs-card header="Priority List" subheader="Showing top @Model.MaxItems items" card-class="shadow-sm">
+    <ul class="list-group list-group-flush">
+        @foreach (var item in Model.Items)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="ms-2 me-auto">
+                    <div class="fw-bold">@item.Title</div>
+                    @item.Description
+                </div>
+                <span class="badge @item.GetPriorityBadgeClass() rounded-pill">@item.Priority</span>
+            </li>
+        }
+    </ul>
+</bs-card>
+
+<p class="text-muted mt-2 small">
+    This is rendered by the PriorityList View Component with its own logic and data
+</p>

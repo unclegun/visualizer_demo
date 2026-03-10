@@ -1,6 +1,7 @@
 ﻿@page
 @model IndexModel
 @{
+    Layout = null;
     ViewData["Title"] = "ASP.NET Core Chart.js Visualizer";
 }
 
@@ -19,7 +20,7 @@
     <!-- Modern Header -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg">
         <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center" href="#">
+            <a class="navbar-brand d-flex align-items-center" asp-page="/Index">
                 <i class="fas fa-chart-line me-2"></i>
                 <span class="fw-bold">Chart.js Visualizer</span>
             </a>
@@ -31,40 +32,56 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#dashboard" onclick="showSection('dashboard')">
+                        <a class="nav-link active" href="#dashboard" onclick="showSection('dashboard', this)">
                             <i class="fas fa-tachometer-alt me-1"></i>Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#documentation" onclick="showSection('documentation')">
+                        <a class="nav-link" href="#documentation" onclick="showSection('documentation', this)">
                             <i class="fas fa-book me-1"></i>Documentation
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#examples" onclick="showSection('examples')">
+                        <a class="nav-link" href="#examples" onclick="showSection('examples', this)">
                             <i class="fas fa-code me-1"></i>Code Examples
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#api" onclick="showSection('api')">
+                        <a class="nav-link" href="#api" onclick="showSection('api', this)">
                             <i class="fas fa-cogs me-1"></i>API Reference
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/Sandbox">
+                            <i class="fas fa-flask me-1"></i>Sandbox Examples
                         </a>
                     </li>
                 </ul>
 
-                <div class="d-flex">
+                <div class="d-flex align-items-center gap-2 flex-wrap justify-content-end">
                     <button id="resetLayout" class="btn btn-outline-light btn-sm me-2" title="Reset Dashboard Layout">
                         <i class="fas fa-undo me-1"></i>Reset Layout
                     </button>
                     <div class="dropdown">
-                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-palette me-1"></i>Theme
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-swatchbook me-1"></i>Palette
                         </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#" onclick="setTheme('light')">Light</a></li>
-                            <li><a class="dropdown-item" href="#" onclick="setTheme('dark')">Dark</a></li>
-                        </ul>
+                        <div class="dropdown-menu dropdown-menu-end p-3 palette-dropdown-menu">
+                            <label for="paletteSearchInput" class="form-label small mb-1">Search Palettes</label>
+                            <input id="paletteSearchInput" class="form-control form-control-sm mb-2" type="search" placeholder="Type to filter palettes..." autocomplete="off" />
+
+                            <label for="paletteSelect" class="form-label small mb-1">Palette</label>
+                            <select id="paletteSelect" class="form-select form-select-sm mb-2" size="8"></select>
+
+                            <div class="d-flex justify-content-between align-items-center gap-2">
+                                <button id="applyPaletteBtn" type="button" class="btn btn-primary btn-sm">Apply</button>
+                                <a id="paletteSourceLink" class="small" href="https://coolors.co/palettes/trending" target="_blank" rel="noopener noreferrer">View on Coolors</a>
+                            </div>
+                        </div>
                     </div>
+                    <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button" title="Toggle light/dark mode">
+                        <i class="fas fa-moon me-1"></i>Dark
+                    </button>
                 </div>
             </div>
         </div>
@@ -112,17 +129,17 @@
                         </h6>
                         <ul class="nav flex-column mb-2">
                             <li class="nav-item">
-                                <a class="nav-link" href="#drag-drop">
+                                <a class="nav-link" href="#drag-drop" onclick="return navigateToFeature('drag-drop', this)">
                                     <i class="fas fa-arrows-alt me-2"></i>Drag & Drop
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#responsive">
+                                <a class="nav-link" href="#responsive" onclick="return navigateToFeature('responsive', this)">
                                     <i class="fas fa-mobile-alt me-2"></i>Responsive Design
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#animations">
+                                <a class="nav-link" href="#animations" onclick="return navigateToFeature('animations', this)">
                                     <i class="fas fa-play-circle me-2"></i>Animations
                                 </a>
                             </li>
@@ -220,6 +237,110 @@
                                     </ul>
                                 </div>
                             </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-4">
+                                    <div class="card h-100" id="drag-drop">
+                                        <div class="card-header"><strong>Drag &amp; Drop</strong></div>
+                                        <div class="card-body">
+                                            <p class="mb-0">Cards are draggable and their order is persisted in local storage using <code>dashboardOrder</code>.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100" id="responsive">
+                                        <div class="card-header"><strong>Responsive Design</strong></div>
+                                        <div class="card-body">
+                                            <p class="mb-0">Bootstrap grid + responsive media queries ensure layout adapts from desktop to mobile breakpoints.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100" id="animations">
+                                        <div class="card-header"><strong>Animations</strong></div>
+                                        <div class="card-body">
+                                            <p class="mb-0">UI transitions and entry animations are implemented with native CSS keyframes and transitions.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mb-4 border-primary-subtle">
+                                <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                                    <div>
+                                        <h5 class="mb-1"><i class="fas fa-book-open me-2 text-primary"></i>Sandbox Documentation</h5>
+                                        <p class="mb-0 text-muted">Jump to the live Sandbox examples and full Tag Helper reference.</p>
+                                    </div>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <a href="/Sandbox" class="btn btn-outline-primary btn-sm">Open Sandbox</a>
+                                        <a href="/Sandbox/TagHelpers" class="btn btn-primary btn-sm">Tag Helper Docs</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                                                        <div class="card mb-4">
+                                                                <div class="card-header">
+                                                                        <h5 class="mb-0"><i class="fas fa-swatchbook me-2"></i>Theme System Implementation</h5>
+                                                                </div>
+                                                                <div class="card-body">
+                                                                        <p class="mb-3">The navbar palette dropdown applies live theme colors by setting CSS variables on <code>:root</code>. The tone toggle switches between light and dark surface styles without changing the selected palette identity.</p>
+
+                                                                        <h6>How It Works</h6>
+                                                                        <ul>
+                                                                                <li><strong>Palette source:</strong> <code>GET /Sandbox/Palettes</code> returns JSON records with <code>id</code>, <code>name</code>, <code>colors</code>, and <code>sourceUrl</code>.</li>
+                                                                                <li><strong>Palette UI:</strong> Search input filters available palettes; selecting one maps color tokens to CSS variables.</li>
+                                                                                <li><strong>Tone mode:</strong> Light/Dark toggle adds or removes <code>theme-dark</code> on <code>body</code>.</li>
+                                                                                <li><strong>Persistence:</strong> Selected palette and tone are saved in <code>localStorage</code> and restored on load.</li>
+                                                                        </ul>
+
+                                                                        <h6 class="mt-3">Server Contract</h6>
+                                                                        <pre><code class="language-javascript">[
+    {
+        "id": "264653-2a9d8f-e9c46a-f4a261-e76f51",
+        "name": "Coolors Terra",
+        "colors": ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"],
+        "sourceUrl": "https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51"
+    }
+]</code></pre>
+
+                                                                        <h6 class="mt-3">CSS Variable Mapping</h6>
+                                                                        <pre><code class="language-css">:root {
+    --theme-primary: #0d6efd;
+    --theme-secondary: #0b5ed7;
+    --theme-accent: #6ea8fe;
+    --theme-surface: #f8f9fa;
+    --theme-text-on-primary: #ffffff;
+}
+
+.navbar.bg-primary {
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+}</code></pre>
+
+                                                                        <h6 class="mt-3">Client Integration Pattern</h6>
+                                                                        <pre><code class="language-javascript">const palettes = await fetch('/Sandbox/Palettes').then(r => r.json());
+
+function applyPalette(palette) {
+    document.documentElement.style.setProperty('--theme-primary', palette.colors[0]);
+    document.documentElement.style.setProperty('--theme-secondary', palette.colors[1] ?? palette.colors[0]);
+    document.documentElement.style.setProperty('--theme-accent', palette.colors[2] ?? palette.colors[0]);
+    localStorage.setItem('selectedThemePalette', palette.id);
+}
+
+function applyTone(mode) {
+    document.body.classList.toggle('theme-dark', mode === 'dark');
+    localStorage.setItem('toneMode', mode);
+}</code></pre>
+
+                                                                        <h6 class="mt-3">Implementation Checklist</h6>
+                                                                        <ol class="mb-0">
+                                                                                <li>Add palette + tone controls to your shared navbar layout.</li>
+                                                                                <li>Expose palette JSON endpoint from MVC controller.</li>
+                                                                                <li>Define theme CSS variables and consume them in key UI components.</li>
+                                                                                <li>Initialize picker and toggle logic on <code>DOMContentLoaded</code>.</li>
+                                                                                <li>Persist selected palette and tone in <code>localStorage</code>.</li>
+                                                                        </ol>
+                                                                </div>
+                                                        </div>
 
                             <div class="row">
                                 <div class="col-md-6">
@@ -536,8 +657,7 @@ new Chart(document.getElementById('customChart'), customConfig);</code></pre>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-light py-4 mt-5">
+    <footer class="border-top footer text-muted mt-4">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -556,7 +676,7 @@ new Chart(document.getElementById('customChart'), customConfig);</code></pre>
             </div>
             <hr class="my-3">
             <div class="text-center">
-                <small>&copy; 2024 ASP.NET Core Chart.js Visualizer. Built for modern enterprise applications.</small>
+                <small>&copy; 2026 - visualizer_demo</small>
             </div>
         </div>
     </footer>
@@ -729,7 +849,7 @@ new Chart(document.getElementById('customChart'), customConfig);</code></pre>
         });
 
         // Navigation functionality
-        function showSection(sectionName) {
+        function showSection(sectionName, linkElement) {
             // Hide all sections
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.add('d-none');
@@ -742,7 +862,22 @@ new Chart(document.getElementById('customChart'), customConfig);</code></pre>
             document.querySelectorAll('.navbar-nav .nav-link').forEach(link => {
                 link.classList.remove('active');
             });
-            event.target.classList.add('active');
+            if (linkElement) {
+                linkElement.classList.add('active');
+            }
+        }
+
+        function navigateToFeature(featureId, linkElement) {
+            showSection('documentation', document.querySelector('a[href="#documentation"]'));
+
+            const target = document.getElementById(featureId);
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                target.classList.add('shadow');
+                window.setTimeout(() => target.classList.remove('shadow'), 900);
+            }
+
+            return false;
         }
 
         // Chart filtering
@@ -755,12 +890,6 @@ new Chart(document.getElementById('customChart'), customConfig);</code></pre>
                     card.style.display = 'none';
                 }
             });
-        }
-
-        // Theme switching
-        function setTheme(theme) {
-            document.body.className = theme === 'dark' ? 'bg-dark text-light' : '';
-            localStorage.setItem('theme', theme);
         }
 
         // Grid toggle
@@ -791,163 +920,6 @@ new Chart(document.getElementById('customChart'), customConfig);</code></pre>
             linkElement.click();
         }
 
-        // Load theme on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            const theme = localStorage.getItem('theme') || 'light';
-            setTheme(theme);
-        });
     </script>
-
-    // Load saved order
-    loadOrder();
-
-    // Add resize handles to each card
-    cards.forEach(card => {
-        const handle = document.createElement('div');
-        handle.className = 'resize-handle';
-        handle.style.cssText = 'position: absolute; bottom: 0; right: 0; width: 20px; height: 20px; cursor: nw-resize; background: rgba(0,0,0,0.1); opacity: 0.5;';
-        card.appendChild(handle);
-    });
-
-    // Drag and drop for reordering
-    cards.forEach(card => {
-        card.draggable = true;
-        card.addEventListener('dragstart', function(e) {
-            draggedElement = this;
-            this.style.opacity = '0.5';
-            e.dataTransfer.effectAllowed = 'move';
-        });
-
-        card.addEventListener('dragend', function(e) {
-            this.style.opacity = '';
-            draggedElement = null;
-            saveOrder();
-        });
-
-        card.addEventListener('dragover', function(e) {
-            e.preventDefault();
-            e.dataTransfer.dropEffect = 'move';
-        });
-
-        card.addEventListener('drop', function(e) {
-            e.preventDefault();
-            if (draggedElement && draggedElement !== this) {
-                const draggedIndex = Array.from(container.children).indexOf(draggedElement);
-                const targetIndex = Array.from(container.children).indexOf(this);
-                
-                if (draggedIndex < targetIndex) {
-                    container.insertBefore(draggedElement, this.nextSibling);
-                } else {
-                    container.insertBefore(draggedElement, this);
-                }
-            }
-        });
-    });
-
-    // Resize functionality (only on selected cards)
-    container.addEventListener('mousedown', function(e) {
-        if (e.target.classList.contains('resize-handle')) {
-            const card = e.target.parentElement;
-            if (card.classList.contains('selected-for-resize')) {
-                resizeElement = card;
-                const rect = resizeElement.getBoundingClientRect();
-                initialWidth = rect.width;
-                initialHeight = rect.height;
-                initialX = e.clientX;
-                initialY = e.clientY;
-                e.preventDefault();
-            }
-        }
-    });
-
-    document.addEventListener('mousemove', function(e) {
-        if (resizeElement) {
-            const deltaX = e.clientX - initialX;
-            const deltaY = e.clientY - initialY;
-            const newWidth = Math.max(200, initialWidth + deltaX);
-            const newHeight = Math.max(200, initialHeight + deltaY);
-            resizeElement.style.width = newWidth + 'px';
-            resizeElement.style.height = newHeight + 'px';
-        }
-    });
-
-    document.addEventListener('mouseup', function() {
-        if (resizeElement) {
-            saveOrder(); // Save after resize
-            resizeElement = null;
-        }
-    });
-
-    // Selection for resize
-    container.addEventListener('click', function(e) {
-        if (!e.target.closest('.resize-handle') && !e.target.closest('.card')) {
-            cards.forEach(card => {
-                card.classList.remove('selected-for-resize');
-                const handle = card.querySelector('.resize-handle');
-                if (handle) handle.style.opacity = '0.5';
-            });
-        }
-    });
-
-    cards.forEach(card => {
-        card.addEventListener('click', function(e) {
-            if (!e.target.classList.contains('resize-handle')) {
-                // Select for resize
-                cards.forEach(c => {
-                    c.classList.remove('selected-for-resize');
-                    const handle = c.querySelector('.resize-handle');
-                    if (handle) handle.style.opacity = '0.5';
-                });
-                this.classList.add('selected-for-resize');
-                const handle = this.querySelector('.resize-handle');
-                if (handle) handle.style.opacity = '1';
-            }
-        });
-    });
-
-    // Reset layout
-    document.getElementById('resetLayout').addEventListener('click', function() {
-        // Reset to default order
-        const defaultOrder = ['card1', 'card2', 'card3', 'card4', 'card5', 'card6', 'card7', 'card8', 'card9', 'card10', 'card11', 'card12', 'card13'];
-        const sortedCards = defaultOrder.map(id => document.getElementById(id)).filter(card => card);
-        sortedCards.forEach(card => {
-            container.appendChild(card);
-            card.style.width = '';
-            card.style.height = '';
-            card.classList.remove('selected-for-resize');
-            const handle = card.querySelector('.resize-handle');
-            if (handle) handle.style.opacity = '0.5';
-        });
-        localStorage.removeItem('dashboardOrder');
-    });
-
-    function saveOrder() {
-        const order = Array.from(container.children)
-            .filter(child => child.classList.contains('draggable-card'))
-            .map(card => ({
-                id: card.id,
-                width: card.style.width,
-                height: card.style.height
-            }));
-        localStorage.setItem('dashboardOrder', JSON.stringify(order));
-    }
-
-    function loadOrder() {
-        const saved = localStorage.getItem('dashboardOrder');
-        if (saved) {
-            const order = JSON.parse(saved);
-            // Reorder DOM
-            order.forEach(item => {
-                const card = document.getElementById(item.id);
-                if (card) {
-                    container.appendChild(card);
-                    if (item.width) card.style.width = item.width;
-                    if (item.height) card.style.height = item.height;
-                }
-            });
-        }
-    }
-});
-</script>
 </body>
 </html>

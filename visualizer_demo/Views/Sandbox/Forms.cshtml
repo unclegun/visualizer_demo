@@ -1,0 +1,80 @@
+@model visualizer_demo.Models.Sandbox.SampleFormModel
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Forms Sandbox";
+
+    var colorOptions = new List<SelectListItem>
+    {
+        new() { Value = "Red", Text = "Red" },
+        new() { Value = "Blue", Text = "Blue" },
+        new() { Value = "Green", Text = "Green" },
+        new() { Value = "Yellow", Text = "Yellow" },
+        new() { Value = "Purple", Text = "Purple" }
+    };
+}
+
+<div class="container mt-4">
+    <div class="sandbox-hero mb-4">
+        <span class="badge text-bg-light border">Sandbox</span>
+        <h1 class="h3 mt-3 mb-2">Forms Sandbox</h1>
+        <p class="mb-0 text-secondary">Experiment with reusable form controls, validation, and model binding patterns.</p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <bs-alert type="success" title="Success" dismissible="true" icon="bi bi-check-circle-fill">
+            @TempData["SuccessMessage"]
+        </bs-alert>
+    }
+
+    <div class="row g-4">
+        <div class="col-lg-8">
+            <bs-card header="Sample Form" subheader="Reusable form-group and select-group tag helpers" card-class="h-100 shadow-sm border-0">
+                <form asp-action="Forms" method="post">
+                    <validation-summary-alert title="Please correct the form errors before submitting." />
+
+                    <form-group asp-for="Name" input-type="text" placeholder="Enter your name" help-text="Full name as it should appear in reports." />
+
+                    <form-group asp-for="Email" input-type="email" placeholder="your.email@example.com" />
+
+                    <form-group asp-for="Age" input-type="number" placeholder="18" />
+
+                    <select-group asp-for="FavoriteColor" label="Favorite Color" placeholder="-- Select a color --" items="colorOptions" />
+
+                    <form-group asp-for="Comments" input-type="textarea" rows="4" placeholder="Enter your comments..." />
+
+                    <checkbox-group asp-for="AcceptTerms" label="I accept the terms and conditions" />
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                        <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                        <button type="submit" class="btn btn-primary">Submit Form</button>
+                    </div>
+                </form>
+            </bs-card>
+        </div>
+
+        <div class="col-lg-4">
+            <bs-card header="Form Features" card-class="h-100 shadow-sm border-0">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Text inputs</li>
+                    <li class="list-group-item">Email validation</li>
+                    <li class="list-group-item">Number inputs</li>
+                    <li class="list-group-item">Dropdowns</li>
+                    <li class="list-group-item">Textareas</li>
+                    <li class="list-group-item">Checkboxes</li>
+                    <li class="list-group-item">Server-side validation</li>
+                    <li class="list-group-item">Client-side validation</li>
+                </ul>
+            </bs-card>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-link ps-0">Back to Sandbox Home</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

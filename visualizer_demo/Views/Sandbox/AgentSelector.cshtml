@@ -1,0 +1,192 @@
+@model visualizer_demo.Models.Sandbox.AgentSelectorViewModel
+@using visualizer_demo.TagHelpers
+
+@{
+    ViewData["Title"] = "Agent Selector - Accordion Form";
+
+    var virusOptions = Model.Viruses
+        .Select(v => new CheckboxOptionItem(
+            Id: $"virus_{v.Id}",
+            Value: v.Id.ToString(),
+            Label: v.Name,
+            Description: v.Description,
+            Selected: Model.FormModel.SelectedAgentIds.Contains(v.Id)))
+        .ToList();
+
+    var toxinOptions = Model.Toxins
+        .Select(t => new CheckboxOptionItem(
+            Id: $"toxin_{t.Id}",
+            Value: t.Id.ToString(),
+            Label: t.Name,
+            Description: t.Description,
+            Selected: Model.FormModel.SelectedAgentIds.Contains(t.Id)))
+        .ToList();
+
+    var bacteriaOptions = Model.Bacteria
+        .Select(b => new CheckboxOptionItem(
+            Id: $"bacteria_{b.Id}",
+            Value: b.Id.ToString(),
+            Label: b.Name,
+            Description: b.Description,
+            Selected: Model.FormModel.SelectedAgentIds.Contains(b.Id)))
+        .ToList();
+}
+
+<div class="container mt-4">
+    <div class="sandbox-hero mb-4">
+        <span class="badge text-bg-light border">Sandbox</span>
+        <h1 class="h3 mt-3 mb-2">Agent Selector</h1>
+        <p class="mb-0 text-secondary">Select multiple agents from category groups with live selection totals.</p>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <bs-alert type="success" title="Selection Saved" dismissible="true" icon="bi bi-check-circle-fill">
+            @TempData["SuccessMessage"]
+        </bs-alert>
+    }
+
+    <form asp-action="AgentSelector" method="post">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <!-- Accordion Container -->
+                <div class="accordion" id="agentAccordion">
+
+                    <checkbox-list-group
+                        group-id="viruses"
+                        title="🦠 Viruses"
+                        collapse-id="virusesCollapse"
+                        accordion-parent="agentAccordion"
+                        name="SelectedAgentIds"
+                        items="virusOptions"
+                        expanded="true" />
+
+                    <checkbox-list-group
+                        group-id="toxins"
+                        title="☠️ Toxins"
+                        collapse-id="toxinsCollapse"
+                        accordion-parent="agentAccordion"
+                        name="SelectedAgentIds"
+                        items="toxinOptions"
+                        expanded="false" />
+
+                    <checkbox-list-group
+                        group-id="bacteria"
+                        title="🦠 Bacteria"
+                        collapse-id="bacteriaCollapse"
+                        accordion-parent="agentAccordion"
+                        name="SelectedAgentIds"
+                        items="bacteriaOptions"
+                        expanded="false" />
+
+                </div>
+
+                <validation-summary-alert title="Please resolve validation issues before submitting." />
+
+                <!-- Additional Form Fields -->
+                <bs-card header="Additional Information" card-class="mt-4 shadow-sm border-0">
+                    <form-group asp-for="FormModel.Reason" input-type="textarea" rows="3" placeholder="Why are you selecting these agents?" />
+                    <form-group asp-for="FormModel.Notes" input-type="textarea" label="Notes (Optional)" rows="3" placeholder="Any additional notes..." />
+                </bs-card>
+
+                <!-- Form Actions -->
+                <div class="mt-4 d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="reset" class="btn btn-outline-secondary">Reset Form</button>
+                    <button type="submit" class="btn btn-primary">Submit Selection</button>
+                </div>
+            </div>
+
+            <!-- Sidebar - Selection Summary -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm position-sticky" style="top: 1rem;">
+                    <div class="card-header">
+                        <strong>Selection Summary</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <h6>Viruses Selected</h6>
+                            <p id="virusCount" class="fs-5"><strong>0</strong></p>
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <h6>Toxins Selected</h6>
+                            <p id="toxinCount" class="fs-5"><strong>0</strong></p>
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <h6>Bacteria Selected</h6>
+                            <p id="bacteriaCount" class="fs-5"><strong>0</strong></p>
+                        </div>
+                        <hr />
+                        <div class="mb-3">
+                            <h6>Total Selected</h6>
+                            <p id="totalCount" class="fs-4 text-primary"><strong>0</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-link ps-0">Back to Sandbox Home</a>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    
+    <script>
+        // Get all checkboxes for a specific group
+        function getAllCheckboxesInGroup(groupId) {
+            const group = document.getElementById(groupId);
+            return group.querySelectorAll('input[type="checkbox"]');
+        }
+
+        // Select all checkboxes in a group
+        function selectAllInGroup(groupId) {
+            const checkboxes = getAllCheckboxesInGroup(groupId);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+            });
+            updateSelectionSummary();
+        }
+
+        // Clear all checkboxes in a group
+        function clearAllInGroup(groupId) {
+            const checkboxes = getAllCheckboxesInGroup(groupId);
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+            updateSelectionSummary();
+        }
+
+        // Update the selection summary display
+        function updateSelectionSummary() {
+            const virusCheckboxes = getAllCheckboxesInGroup('viruses');
+            const toxinCheckboxes = getAllCheckboxesInGroup('toxins');
+            const bacteriaCheckboxes = getAllCheckboxesInGroup('bacteria');
+
+            const virusCount = Array.from(virusCheckboxes).filter(cb => cb.checked).length;
+            const toxinCount = Array.from(toxinCheckboxes).filter(cb => cb.checked).length;
+            const bacteriaCount = Array.from(bacteriaCheckboxes).filter(cb => cb.checked).length;
+            const totalCount = virusCount + toxinCount + bacteriaCount;
+
+            document.getElementById('virusCount').innerHTML = `<strong>${virusCount}</strong>`;
+            document.getElementById('toxinCount').innerHTML = `<strong>${toxinCount}</strong>`;
+            document.getElementById('bacteriaCount').innerHTML = `<strong>${bacteriaCount}</strong>`;
+            document.getElementById('totalCount').innerHTML = `<strong>${totalCount}</strong>`;
+        }
+
+        // Add event listeners to all checkboxes
+        document.addEventListener('DOMContentLoaded', function () {
+            const checkboxes = document.querySelectorAll('.agent-checkbox');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateSelectionSummary);
+            });
+
+            // Initial update
+            updateSelectionSummary();
+        });
+    </script>
+}

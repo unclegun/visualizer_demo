@@ -1,0 +1,10 @@
+@model dynamic
+
+@{
+    var alertType = Model?.Type ?? "info";
+    var message = Model?.Message ?? "Alert message";
+}
+
+<bs-alert type="@alertType" dismissible="true">
+    @message
+</bs-alert>

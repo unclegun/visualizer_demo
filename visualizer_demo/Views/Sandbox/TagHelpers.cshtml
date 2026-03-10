@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Tag Helpers Guide";
+}
+
+<div class="sandbox-page py-4">
+    <div class="sandbox-hero mb-4">
+        <span class="badge text-bg-light border">Developer Documentation</span>
+        <h1 class="h3 mt-3 mb-2">Tag Helper Library Guide</h1>
+        <p class="mb-0 text-secondary">Browse helper usage, attributes, and production notes directly in the application.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-12 col-lg-9">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-lg-5 markdown-docs">
+                    @Html.Raw(ViewBag.TagHelpersDocsHtml)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-3">
+            <div class="card border-0 shadow-sm sticky-lg-top" style="top: 1rem;">
+                <div class="card-body">
+                    <h2 class="h6 text-uppercase text-secondary">Quick Links</h2>
+                    <div class="d-grid gap-2 mt-3">
+                        <a asp-action="Forms" class="btn btn-outline-primary btn-sm">Forms Example</a>
+                        <a asp-action="AgentSelector" class="btn btn-outline-primary btn-sm">Agent Selector</a>
+                        <a asp-action="Partials" class="btn btn-outline-primary btn-sm">Partials Example</a>
+                        <a asp-action="Components" class="btn btn-outline-primary btn-sm">Components Example</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-link ps-0">Back to Sandbox Home</a>
+    </div>
+</div>

@@ -4,7 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DataAccess>();
+builder.Services.AddHttpClient();
+builder.Services.AddMemoryCache();
 
 var app = builder.Build();
 
@@ -23,6 +26,12 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+app.MapControllerRoute(
+     name: "sandbox",
+     pattern: "Sandbox/{action=Index}/{id?}",
+     defaults: new { controller = "Sandbox" })
+    .WithStaticAssets();
+
 app.MapRazorPages()
    .WithStaticAssets();
 

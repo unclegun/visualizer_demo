@@ -10,6 +10,53 @@ A comprehensive Chart.js integration demo for ASP.NET Core Razor Pages with drag
 - SQLite database integration
 - Modern web application interface
 - Comprehensive documentation and code examples
+- Integrated .NET Sandbox examples from `.Net_Sandbox` repository
+
+## Sandbox Examples
+
+The repository now includes a dedicated MVC sandbox section at `/Sandbox` with:
+
+- Forms and validation example (`/Sandbox/Forms`)
+- Partial views example (`/Sandbox/Partials`)
+- View components example (`/Sandbox/Components`)
+- AJAX example (`/Sandbox/AjaxExample`)
+- Agent selector accordion form example (`/Sandbox/AgentSelector`)
+
+Implementation is organized under:
+
+- `visualizer_demo/Controllers/SandboxController.cs`
+- `visualizer_demo/Models/Sandbox/`
+- `visualizer_demo/ViewComponents/`
+- `visualizer_demo/Views/Sandbox/`
+
+## Reusable Tag Helpers
+
+Sandbox UI now includes a reusable Bootstrap-based Tag Helper library for production-ready forms and reusable UI blocks.
+
+Primary helper files are consolidated into:
+
+- `visualizer_demo/TagHelpers/BootstrapUiTagHelpers.cs`
+- `visualizer_demo/TagHelpers/FormTagHelpers.cs`
+
+These helpers can be used in both MVC Views and Razor Pages via:
+
+```cshtml
+@addTagHelper *, visualizer_demo
+```
+
+Available helper tags include:
+
+- `bs-alert`
+- `bs-card`
+- `form-group`
+- `select-group`
+- `checkbox-group`
+- `checkbox-list-group`
+- `validation-summary-alert`
+
+Full usage guide:
+
+- `docs/tag-helpers.md`
 
 ## Local Development
 

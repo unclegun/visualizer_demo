@@ -1,0 +1,43 @@
+@model List<string>
+
+@{
+    ViewData["Title"] = "Partials Sandbox";
+}
+
+<div class="container mt-4">
+    <div class="sandbox-hero mb-4">
+        <span class="badge text-bg-light border">Sandbox</span>
+        <h1 class="h3 mt-3 mb-2">Partial Views Sandbox</h1>
+        <p class="mb-0 text-secondary">Build reusable UI fragments and keep larger views modular and easier to maintain.</p>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12">
+            <bs-card header="Example 1: Basic Partial" card-class="shadow-sm border-0">
+                <partial name="_ExamplePartial" />
+            </bs-card>
+        </div>
+
+        <div class="col-12">
+            <bs-card header="Example 2: Partial with Model (List of Items)" card-class="shadow-sm border-0">
+                <partial name="_ItemListPartial" model="Model" />
+            </bs-card>
+        </div>
+
+        <div class="col-12">
+            <bs-card header="Example 3: Reusable Alert Partial" card-class="shadow-sm border-0">
+                <partial name="_AlertPartial" model='new { Type = "info", Message = "This is an informational alert partial!" }' />
+                <partial name="_AlertPartial" model='new { Type = "success", Message = "This is a success alert partial!" }' />
+                <partial name="_AlertPartial" model='new { Type = "warning", Message = "This is a warning alert partial!" }' />
+            </bs-card>
+        </div>
+    </div>
+
+    <bs-alert type="info" title="About Partials">
+        Partial views are located in <code>Views/Shared/</code> or in the same folder as the view. They are great for reusable UI components.
+    </bs-alert>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-link ps-0">Back to Sandbox Home</a>
+    </div>
+</div>

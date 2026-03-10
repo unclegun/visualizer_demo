@@ -1,0 +1,34 @@
+@{
+    ViewData["Title"] = "View Components Sandbox";
+}
+
+<div class="container mt-4">
+    <div class="sandbox-hero mb-4">
+        <span class="badge text-bg-light border">Sandbox</span>
+        <h1 class="h3 mt-3 mb-2">View Components Sandbox</h1>
+        <p class="mb-0 text-secondary">Test componentized server-rendered UI blocks that bundle rendering with logic.</p>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12">
+            <bs-card header="Example 1: Alert View Component" card-class="shadow-sm border-0">
+                @await Component.InvokeAsync("Alert", new { message = "This is from a View Component!", type = "primary" })
+                @await Component.InvokeAsync("Alert", new { message = "View components can have their own logic!", type = "success" })
+            </bs-card>
+        </div>
+
+        <div class="col-12">
+            <bs-card header="Example 2: Priority List Component" card-class="shadow-sm border-0">
+                @await Component.InvokeAsync("PriorityList", new { maxItems = 5 })
+            </bs-card>
+        </div>
+    </div>
+
+    <bs-alert type="info" title="About View Components">
+        View components are like mini-controllers. They can contain logic, make database calls, and render their own views. Located in <code>ViewComponents/</code>.
+    </bs-alert>
+
+    <div class="mt-4">
+        <a asp-action="Index" class="btn btn-link ps-0">Back to Sandbox Home</a>
+    </div>
+</div>
