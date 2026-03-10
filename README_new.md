@@ -63,3 +63,16 @@ The demo uses Bootstrap's grid system:
 - Adapt DAL methods to your SQL queries.
 - Use the partial calls as shown above.
 - Everything is self-contained and responsive.
+
+## Deviation Comment Block Snippets
+
+Reusable XML snippets are available for documenting intentional deviations from template styles/conventions:
+
+- `docs/snippets/style-deviation-css.snippet`
+- `docs/snippets/style-deviation-js.snippet`
+- `docs/snippets/style-deviation-html.snippet`
+- `docs/snippets/style-deviation-csharp.snippet`
+
+Full setup instructions, usage examples, and guidance for creating new snippets are in:
+
+- `docs/snippets/README.md`

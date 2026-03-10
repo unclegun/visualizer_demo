@@ -172,6 +172,23 @@ Update in `index.html`:
 </a>
 ```
 
+### Use Deviation Comment Block Snippets
+
+If you intentionally diverge from shared template styles or conventions, use the reusable comment block snippets in:
+
+- `docs/snippets/`
+
+Included shortcuts:
+
+- `devcss` for CSS deviations
+- `devjs` for JavaScript deviations
+- `devhtml` for HTML/Razor markup deviations
+- `devcs` for C# convention deviations
+
+For full instructions on importing snippets, using placeholders, and creating new snippets, see:
+
+- `docs/snippets/README.md`
+
 ## Technologies Used
 
 - **HTML5** - Semantic markup

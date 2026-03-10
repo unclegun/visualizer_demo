@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Template Style Deviation (CSS)</Title>
+      <Shortcut>devcss</Shortcut>
+      <Description>Reusable comment block for intentional CSS deviations from template styles.</Description>
+      <Author>visualizer_demo</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Area</ID>
+          <ToolTip>Affected selector/section</ToolTip>
+          <Default>#component-name</Default>
+        </Literal>
+        <Literal>
+          <ID>Reason</ID>
+          <ToolTip>Why this differs from template defaults</ToolTip>
+          <Default>Meets product-specific visual requirement</Default>
+        </Literal>
+        <Literal>
+          <ID>Owner</ID>
+          <ToolTip>Decision owner/team</ToolTip>
+          <Default>UI Team</Default>
+        </Literal>
+        <Literal>
+          <ID>Date</ID>
+          <ToolTip>Decision date</ToolTip>
+          <Default>2026-03-10</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CSS"><![CDATA[/*
+ * TEMPLATE STYLE DEVIATION
+ * Area: $Area$
+ * Reason: $Reason$
+ * Owner: $Owner$
+ * Date: $Date$
+ * Revisit: When template tokens/layout are updated.
+ */]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Template Behavior Deviation (JavaScript)</Title>
+      <Shortcut>devjs</Shortcut>
+      <Description>Reusable comment block for intentional JS deviations from template behavior/style contracts.</Description>
+      <Author>visualizer_demo</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>Scope</ID>
+          <ToolTip>Feature/module scope</ToolTip>
+          <Default>chart rendering</Default>
+        </Literal>
+        <Literal>
+          <ID>Reason</ID>
+          <ToolTip>Why this differs from template logic</ToolTip>
+          <Default>Needed for project-specific interaction model</Default>
+        </Literal>
+        <Literal>
+          <ID>Ticket</ID>
+          <ToolTip>Tracking ticket or issue</ToolTip>
+          <Default>VIS-000</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="JavaScript"><![CDATA[/*
+ * TEMPLATE DEVIATION
+ * Scope: $Scope$
+ * Reason: $Reason$
+ * Tracking: $Ticket$
+ * Guardrail: Keep API shape and accessibility behavior consistent.
+ */]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
