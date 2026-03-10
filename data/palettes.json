@@ -1,0 +1,62 @@
+[
+  {
+    "id": "264653-2a9d8f-e9c46a-f4a261-e76f51",
+    "name": "Coolors Terra",
+    "colors": ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"],
+    "sourceUrl": "https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51"
+  },
+  {
+    "id": "0f4c5c-2c7da0-468faf-89c2d9-e0fbfc",
+    "name": "Coolors Harbor",
+    "colors": ["#0F4C5C", "#2C7DA0", "#468FAF", "#89C2D9", "#E0FBFC"],
+    "sourceUrl": "https://coolors.co/palette/0f4c5c-2c7da0-468faf-89c2d9-e0fbfc"
+  },
+  {
+    "id": "2b2d42-8d99ae-edf2f4-ef233c-d90429",
+    "name": "Coolors Signal",
+    "colors": ["#2B2D42", "#8D99AE", "#EDF2F4", "#EF233C", "#D90429"],
+    "sourceUrl": "https://coolors.co/palette/2b2d42-8d99ae-edf2f4-ef233c-d90429"
+  },
+  {
+    "id": "03045e-0077b6-00b4d8-90e0ef-caf0f8",
+    "name": "Coolors Oceanic",
+    "colors": ["#03045E", "#0077B6", "#00B4D8", "#90E0EF", "#CAF0F8"],
+    "sourceUrl": "https://coolors.co/palette/03045e-0077b6-00b4d8-90e0ef-caf0f8"
+  },
+  {
+    "id": "22223b-4a4e69-9a8c98-c9ada7-f2e9e4",
+    "name": "Coolors Slate Rose",
+    "colors": ["#22223B", "#4A4E69", "#9A8C98", "#C9ADA7", "#F2E9E4"],
+    "sourceUrl": "https://coolors.co/palette/22223b-4a4e69-9a8c98-c9ada7-f2e9e4"
+  },
+  {
+    "id": "ffbe0b-fb5607-ff006e-8338ec-3a86ff",
+    "name": "Coolors Neon Pop",
+    "colors": ["#FFBE0B", "#FB5607", "#FF006E", "#8338EC", "#3A86FF"],
+    "sourceUrl": "https://coolors.co/palette/ffbe0b-fb5607-ff006e-8338ec-3a86ff"
+  },
+  {
+    "id": "0b132b-1c2541-3a506b-5bc0be-6fffe9",
+    "name": "Coolors Depth",
+    "colors": ["#0B132B", "#1C2541", "#3A506B", "#5BC0BE", "#6FFFE9"],
+    "sourceUrl": "https://coolors.co/palette/0b132b-1c2541-3a506b-5bc0be-6fffe9"
+  },
+  {
+    "id": "f72585-b5179e-7209b7-560bad-3a0ca3",
+    "name": "Coolors Vivid Bloom",
+    "colors": ["#F72585", "#B5179E", "#7209B7", "#560BAD", "#3A0CA3"],
+    "sourceUrl": "https://coolors.co/palette/f72585-b5179e-7209b7-560bad-3a0ca3"
+  },
+  {
+    "id": "335c67-fff3b0-e09f3e-9e2a2b-540b0e",
+    "name": "Coolors Autumn Ink",
+    "colors": ["#335C67", "#FFF3B0", "#E09F3E", "#9E2A2B", "#540B0E"],
+    "sourceUrl": "https://coolors.co/palette/335c67-fff3b0-e09f3e-9e2a2b-540b0e"
+  },
+  {
+    "id": "588b8b-ffffff-ffd5c2-f28f3b-c8553d",
+    "name": "Coolors Warm Minimal",
+    "colors": ["#588B8B", "#FFFFFF", "#FFD5C2", "#F28F3B", "#C8553D"],
+    "sourceUrl": "https://coolors.co/palette/588b8b-ffffff-ffd5c2-f28f3b-c8553d"
+  }
+]

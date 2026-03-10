@@ -1,0 +1,139 @@
+{
+  "barChart": {
+    "type": "bar",
+    "title": "Sales by Category",
+    "labels": ["Electronics", "Clothing", "Home", "Sports", "Books"],
+    "datasets": [
+      {
+        "label": "Q1 Sales",
+        "data": [12000, 19000, 3000, 5000, 2000],
+        "backgroundColor": "rgba(13, 110, 253, 0.7)",
+        "borderColor": "rgba(13, 110, 253, 1)",
+        "borderWidth": 1
+      },
+      {
+        "label": "Q2 Sales",
+        "data": [15000, 23000, 4500, 6200, 2800],
+        "backgroundColor": "rgba(108, 117, 125, 0.7)",
+        "borderColor": "rgba(108, 117, 125, 1)",
+        "borderWidth": 1
+      }
+    ]
+  },
+  "lineChart": {
+    "type": "line",
+    "title": "Monthly Sales Trend",
+    "labels": ["January", "February", "March", "April", "May", "June"],
+    "datasets": [
+      {
+        "label": "2023",
+        "data": [65000, 75000, 72000, 80000, 85000, 90000],
+        "borderColor": "rgba(13, 110, 253, 1)",
+        "backgroundColor": "rgba(13, 110, 253, 0.1)",
+        "borderWidth": 2,
+        "tension": 0.3,
+        "fill": true
+      },
+      {
+        "label": "2024",
+        "data": [70000, 85000, 88000, 92000, 96000, 100000],
+        "borderColor": "rgba(40, 167, 69, 1)",
+        "backgroundColor": "rgba(40, 167, 69, 0.1)",
+        "borderWidth": 2,
+        "tension": 0.3,
+        "fill": true
+      }
+    ]
+  },
+  "pieChart": {
+    "type": "pie",
+    "title": "Sales Distribution",
+    "labels": ["Product A", "Product B", "Product C", "Product D"],
+    "datasets": [
+      {
+        "label": "Revenue Share",
+        "data": [30, 25, 20, 25],
+        "backgroundColor": [
+          "rgba(255, 193, 7, 0.8)",
+          "rgba(244, 67, 54, 0.8)",
+          "rgba(33, 150, 243, 0.8)",
+          "rgba(76, 175, 80, 0.8)"
+        ],
+        "borderColor": [
+          "rgba(255, 193, 7, 1)",
+          "rgba(244, 67, 54, 1)",
+          "rgba(33, 150, 243, 1)",
+          "rgba(76, 175, 80, 1)"
+        ],
+        "borderWidth": 2
+      }
+    ]
+  },
+  "doughnutChart": {
+    "type": "doughnut",
+    "title": "Category Breakdown",
+    "labels": ["New", "Returning", "VIP"],
+    "datasets": [
+      {
+        "label": "Customer Segments",
+        "data": [45, 35, 20],
+        "backgroundColor": [
+          "rgba(52, 168, 224, 0.8)",
+          "rgba(244, 208, 63, 0.8)",
+          "rgba(244, 67, 54, 0.8)"
+        ],
+        "borderColor": [
+          "rgba(52, 168, 224, 1)",
+          "rgba(244, 208, 63, 1)",
+          "rgba(244, 67, 54, 1)"
+        ],
+        "borderWidth": 2
+      }
+    ]
+  },
+  "radarChart": {
+    "type": "radar",
+    "title": "Project Evaluation Metrics",
+    "labels": ["Quality", "Performance", "Usability", "Budget", "Security"],
+    "datasets": [
+      {
+        "label": "Project A",
+        "data": [80, 75, 85, 70, 90],
+        "borderColor": "rgba(13, 110, 253, 1)",
+        "backgroundColor": "rgba(13, 110, 253, 0.2)",
+        "borderWidth": 2
+      },
+      {
+        "label": "Project B",
+        "data": [85, 88, 78, 85, 88],
+        "borderColor": "rgba(40, 167, 69, 1)",
+        "backgroundColor": "rgba(40, 167, 69, 0.2)",
+        "borderWidth": 2
+      }
+    ]
+  },
+  "polarChart": {
+    "type": "polarArea",
+    "title": "Quarterly Performance",
+    "labels": ["Q1", "Q2", "Q3", "Q4"],
+    "datasets": [
+      {
+        "label": "Revenue",
+        "data": [85, 92, 78, 88],
+        "backgroundColor": [
+          "rgba(255, 99, 132, 0.5)",
+          "rgba(75, 192, 192, 0.5)",
+          "rgba(255, 206, 86, 0.5)",
+          "rgba(153, 102, 255, 0.5)"
+        ],
+        "borderColor": [
+          "rgba(255, 99, 132, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(153, 102, 255, 1)"
+        ],
+        "borderWidth": 2
+      }
+    ]
+  }
+}

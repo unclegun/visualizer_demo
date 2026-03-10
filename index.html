@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chart.js Visualizer - Static Demo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/site.css" />
+</head>
+<body>
+    <!-- Modern Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="#dashboard" onclick="showSection('dashboard', this); return false;">
+                <i class="fas fa-chart-line me-2"></i>
+                <span class="fw-bold">Chart.js Visualizer</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#dashboard" onclick="showSection('dashboard', this); return false;">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#documentation" onclick="showSection('documentation', this); return false;">
+                            <i class="fas fa-book me-1"></i>Documentation
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#examples" onclick="showSection('examples', this); return false;">
+                            <i class="fas fa-code me-1"></i>Code Examples
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#api" onclick="showSection('api', this); return false;">
+                            <i class="fas fa-cogs me-1"></i>API Reference
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2 flex-wrap justify-content-end">
+                    <button id="resetLayout" class="btn btn-outline-light btn-sm me-2" title="Reset Dashboard Layout">
+                        <i class="fas fa-undo me-1"></i>Reset Layout
+                    </button>
+                    <div class="dropdown">
+                        <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-swatchbook me-1"></i>Palette
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end p-3 palette-dropdown-menu">
+                            <label for="paletteSearchInput" class="form-label small mb-1">Search Palettes</label>
+                            <input id="paletteSearchInput" class="form-control form-control-sm mb-2" type="search" placeholder="Type to filter palettes..." autocomplete="off" />
+
+                            <label for="paletteSelect" class="form-label small mb-1">Palette</label>
+                            <select id="paletteSelect" class="form-select form-select-sm mb-2" size="8"></select>
+
+                            <div class="d-flex justify-content-between align-items-center gap-2">
+                                <button id="applyPaletteBtn" type="button" class="btn btn-primary btn-sm">Apply</button>
+                                <a id="paletteSourceLink" class="small" href="https://coolors.co/palettes/trending" target="_blank" rel="noopener noreferrer">View on Coolors</a>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button" title="Toggle light/dark mode">
+                        <i class="fas fa-moon me-1"></i>Dark
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-lg-3 col-xl-2 px-0 bg-light border-end" id="sidebar">
+                <div class="sidebar-sticky">
+                    <div class="p-3">
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Chart Types</span>
+                        </h6>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#all" onclick="filterCharts('all')">
+                                    <i class="fas fa-th me-2 text-secondary"></i>All Charts
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#bar-charts" onclick="filterCharts('bar')">
+                                    <i class="fas fa-chart-bar me-2 text-primary"></i>Bar Charts
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#line-charts" onclick="filterCharts('line')">
+                                    <i class="fas fa-chart-line me-2 text-success"></i>Line Charts
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#pie-charts" onclick="filterCharts('pie')">
+                                    <i class="fas fa-chart-pie me-2 text-warning"></i>Pie Charts
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#advanced-charts" onclick="filterCharts('advanced')">
+                                    <i class="fas fa-chart-area me-2 text-info"></i>Advanced Charts
+                                </a>
+                            </li>
+                        </ul>
+
+                        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                            <span>Features</span>
+                        </h6>
+                        <ul class="nav flex-column mb-2">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#drag-drop" onclick="return navigateToFeature('drag-drop', this)">
+                                    <i class="fas fa-arrows-alt me-2"></i>Drag & Drop
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#responsive" onclick="return navigateToFeature('responsive', this)">
+                                    <i class="fas fa-mobile-alt me-2"></i>Responsive Design
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#animations" onclick="return navigateToFeature('animations', this)">
+                                    <i class="fas fa-play-circle me-2"></i>Animations
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <main class="col-lg-9 col-xl-10 px-4 py-4" id="main-content">
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="content-section">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <div>
+                            <h1 class="h2 mb-1">Interactive Dashboard</h1>
+                            <p class="text-muted mb-0">Drag, resize, and customize your data visualizations</p>
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-primary btn-sm" onclick="toggleGrid()">
+                                <i class="fas fa-th me-1"></i>Toggle Grid
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="exportLayout()">
+                                <i class="fas fa-download me-1"></i>Export Layout
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info alert-dismissible fade show" role="alert">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Tip:</strong> Try the palette picker in the navbar to change the theme colors. Use the light/dark toggle to see how the design adapts.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+
+                    <div id="dashboardContainer" class="dashboard-container">
+                        <div class="draggable-card chart-type-bar" id="card1">
+                            <div class="card-header fw-bold">Sales by Category</div>
+                            <div class="card-body">
+                                <canvas id="chart-barChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="draggable-card chart-type-line" id="card2">
+                            <div class="card-header fw-bold">Monthly Sales Trend</div>
+                            <div class="card-body">
+                                <canvas id="chart-lineChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="draggable-card chart-type-pie" id="card3">
+                            <div class="card-header fw-bold">Sales Distribution</div>
+                            <div class="card-body">
+                                <canvas id="chart-pieChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="draggable-card chart-type-pie" id="card4">
+                            <div class="card-header fw-bold">Category Breakdown</div>
+                            <div class="card-body">
+                                <canvas id="chart-doughnutChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="draggable-card chart-type-advanced" id="card5">
+                            <div class="card-header fw-bold">Project Evaluation Metrics</div>
+                            <div class="card-body">
+                                <canvas id="chart-radarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="draggable-card chart-type-advanced" id="card6">
+                            <div class="card-header fw-bold">Quarterly Performance</div>
+                            <div class="card-body">
+                                <canvas id="chart-polarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Documentation Section -->
+                <section id="documentation-section" class="content-section d-none">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="h2 mb-4">Documentation</h1>
+
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>Overview</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="lead">This is a static HTML demonstration of a Chart.js visualizer. It showcases how to build an interactive dashboard with dynamic theming, responsive design, and draggable components using vanilla JavaScript.</p>
+
+                                    <h6>Key Features:</h6>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check text-success me-2"></i>6 Chart.js chart types</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Dynamic palette picker with search</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Light/dark theme toggle</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Responsive Bootstrap 5 design</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Local storage for theme persistence</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Static HTML with no backend required</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="row g-3 mb-4">
+                                <div class="col-md-4">
+                                    <div class="card h-100" id="drag-drop">
+                                        <div class="card-header"><strong>Drag &amp; Drop</strong></div>
+                                        <div class="card-body">
+                                            <p class="mb-0">Cards are draggable and their order can be persisted in local storage using the layout export feature.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100" id="responsive">
+                                        <div class="card-header"><strong>Responsive Design</strong></div>
+                                        <div class="card-body">
+                                            <p class="mb-0">Bootstrap grid + responsive media queries ensure layout adapts from desktop to mobile breakpoints.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card h-100" id="animations">
+                                        <div class="card-header"><strong>Animations</strong></div>
+                                        <div class="card-body">
+                                            <p class="mb-0">UI transitions and entry animations are implemented with native CSS keyframes and transitions.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mb-4 border-primary-subtle">
+                                <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                                    <div>
+                                        <h5 class="mb-1"><i class="fas fa-github me-2 text-primary"></i>Source Code</h5>
+                                        <p class="mb-0 text-muted">View the .NET reference implementation and static HTML version on GitHub.</p>
+                                    </div>
+                                    <div class="d-flex gap-2 flex-wrap">
+                                        <a href="https://github.com/unclegun/visualizer_demo" class="btn btn-outline-primary btn-sm" target="_blank">View on GitHub</a>
+                                        <a href="./DOTNET_REFERENCE.md" class="btn btn-primary btn-sm">.NET Implementation Docs</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="mb-0"><i class="fas fa-swatchbook me-2"></i>Theme System Implementation</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p class="mb-3">The navbar palette dropdown applies live theme colors by setting CSS variables on <code>:root</code>. The tone toggle switches between light and dark surface styles without changing the selected palette identity.</p>
+
+                                    <h6>How It Works</h6>
+                                    <ul>
+                                        <li><strong>Palette source:</strong> <code>./data/palettes.json</code> contains JSON records with <code>id</code>, <code>name</code>, <code>colors</code>, and <code>sourceUrl</code>.</li>
+                                        <li><strong>Palette UI:</strong> Search input filters available palettes; selecting one maps color tokens to CSS variables.</li>
+                                        <li><strong>Tone mode:</strong> Light/Dark toggle adds or removes <code>theme-dark</code> class on <code>body</code>.</li>
+                                        <li><strong>Persistence:</strong> Selected palette and tone are saved in <code>localStorage</code> and restored on load.</li>
+                                    </ul>
+
+                                    <h6 class="mt-3">CSS Variable Mapping</h6>
+                                    <pre><code class="language-css">:root {
+    --theme-primary: #0d6efd;
+    --theme-secondary: #0b5ed7;
+    --theme-accent: #6ea8fe;
+    --theme-surface: #f8f9fa;
+    --theme-text-on-primary: #ffffff;
+}
+
+.navbar.bg-primary {
+    background: linear-gradient(135deg, var(--theme-primary), var(--theme-secondary));
+}</code></pre>
+
+                                    <h6 class="mt-3">Client Integration Pattern</h6>
+                                    <pre><code class="language-javascript">const palettes = await fetch('./data/palettes.json').then(r => r.json());
+
+function applyPalette(palette) {
+    document.documentElement.style.setProperty('--theme-primary', palette.colors[0]);
+    document.documentElement.style.setProperty('--theme-secondary', palette.colors[1] ?? palette.colors[0]);
+    document.documentElement.style.setProperty('--theme-accent', palette.colors[2] ?? palette.colors[0]);
+    localStorage.setItem('selectedThemePalette', palette.id);
+}
+
+function applyTone(mode) {
+    document.body.classList.toggle('theme-dark', mode === 'dark');
+    localStorage.setItem('toneMode', mode);
+}</code></pre>
+
+                                    <h6 class="mt-3">Implementation Steps</h6>
+                                    <ol class="mb-0">
+                                        <li>Create a <code>palettes.json</code> file with palette definitions.</li>
+                                        <li>Add palette picker UI to your navbar with search input and apply button.</li>
+                                        <li>Define theme CSS variables and consume them in key UI components.</li>
+                                        <li>Initialize picker and toggle logic on <code>DOMContentLoaded</code>.</li>
+                                        <li>Persist selected palette and tone in <code>localStorage</code>.</li>
+                                    </ol>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <h6 class="mb-0"><i class="fas fa-structure me-2"></i>Architecture</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>This static site is organized as:</p>
+                                            <ul>
+                                                <li><strong>index.html:</strong> Main page shell</li>
+                                                <li><strong>css/site.css:</strong> Styling and theme variables</li>
+                                                <li><strong>js/site.js:</strong> Palette picker and UI logic</li>
+                                                <li><strong>data/palettes.json:</strong> Palette definitions</li>
+                                                <li><strong>data/charts.json:</strong> Chart.js configuration</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card h-100">
+                                        <div class="card-header">
+                                            <h6 class="mb-0"><i class="fas fa-chart-line me-2"></i>Chart.js Integration</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <p>All charts use Chart.js v4.x with:</p>
+                                            <ul>
+                                                <li>Responsive Canvas rendering</li>
+                                                <li>Smooth animations</li>
+                                                <li>Interactive tooltips</li>
+                                                <li>Custom color schemes</li>
+                                                <li>CSS variable-driven theming</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Code Examples Section -->
+                <section id="examples-section" class="content-section d-none">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="h2 mb-4">Code Examples</h1>
+
+                            <div class="accordion" id="examplesAccordion">
+                                <!-- Basic Setup -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#setup">
+                                            <i class="fas fa-code me-2"></i>Basic Setup
+                                        </button>
+                                    </h2>
+                                    <div id="setup" class="accordion-collapse collapse show" data-bs-parent="#examplesAccordion">
+                                        <div class="accordion-body">
+                                            <h6>HTML Structure</h6>
+                                            <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;link rel="stylesheet" href="css/site.css"&gt;
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;canvas id="myChart"&gt;&lt;/canvas&gt;
+    &lt;script src="js/site.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+                                            <h6 class="mt-3">CSS Variables</h6>
+                                            <pre><code class="language-css">:root {
+    --theme-primary: #0d6efd;
+    --theme-secondary: #0b5ed7;
+    --theme-accent: #6ea8fe;
+    --theme-surface: #f8f9fa;
+    --theme-text-on-primary: #ffffff;
+}
+
+body.theme-dark {
+    --theme-surface: #1a1a1a;
+    --theme-text: #e0e0e0;
+}</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- JavaScript Functions -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#functions">
+                                            <i class="fas fa-function me-2"></i>JavaScript Functions
+                                        </button>
+                                    </h2>
+                                    <div id="functions" class="accordion-collapse collapse" data-bs-parent="#examplesAccordion">
+                                        <div class="accordion-body">
+                                            <h6>Apply Palette Function</h6>
+                                            <pre><code class="language-javascript">function applyPalette(palette) {
+    if (!palette || !Array.isArray(palette.colors)) return;
+
+    const primary = palette.colors[0];
+    const secondary = palette.colors[1] ?? palette.colors[0];
+    const accent = palette.colors[2] ?? palette.colors[0];
+
+    document.documentElement.style.setProperty('--theme-primary', primary);
+    document.documentElement.style.setProperty('--theme-secondary', secondary);
+    document.documentElement.style.setProperty('--theme-accent', accent);
+
+    localStorage.setItem('selectedThemePalette', palette.id);
+}</code></pre>
+
+                                            <h6 class="mt-3">Tone Toggle Function</h6>
+                                            <pre><code class="language-javascript">function applyTone(mode) {
+    const normalized = mode === "dark" ? "dark" : "light";
+    document.body.classList.toggle("theme-dark", normalized === "dark");
+    localStorage.setItem("toneMode", normalized);
+}</code></pre>
+
+                                            <h6 class="mt-3">Initialize on Page Load</h6>
+                                            <pre><code class="language-javascript">document.addEventListener("DOMContentLoaded", () => {
+    initializePalettePicker();
+    initializeToneToggle();
+    loadCharts();
+});</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Palette Data Format -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#palettes">
+                                            <i class="fas fa-database me-2"></i>Palette Data Format
+                                        </button>
+                                    </h2>
+                                    <div id="palettes" class="accordion-collapse collapse" data-bs-parent="#examplesAccordion">
+                                        <div class="accordion-body">
+                                            <h6>palettes.json Structure</h6>
+                                            <pre><code class="language-json">[
+  {
+    "id": "264653-2a9d8f-e9c46a-f4a261-e76f51",
+    "name": "Coolors Terra",
+    "colors": ["#264653", "#2A9D8F", "#E9C46A", "#F4A261", "#E76F51"],
+    "sourceUrl": "https://coolors.co/palette/264653-2a9d8f-e9c46a-f4a261-e76f51"
+  }
+]</code></pre>
+
+                                            <h6 class="mt-3">Minimum Required Fields</h6>
+                                            <ul>
+                                                <li><code>id</code> - unique identifier</li>
+                                                <li><code>name</code> - display name</li>
+                                                <li><code>colors</code> - array of hex colors (min 4)</li>
+                                                <li><code>sourceUrl</code> - link to palette source (optional)</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Chart.js Config -->
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#chartjs">
+                                            <i class="fas fa-chart-bar me-2"></i>Chart.js Configuration
+                                        </button>
+                                    </h2>
+                                    <div id="chartjs" class="accordion-collapse collapse" data-bs-parent="#examplesAccordion">
+                                        <div class="accordion-body">
+                                            <h6>Basic Chart Setup</h6>
+                                            <pre><code class="language-javascript">const ctx = document.getElementById('myChart').getContext('2d');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+            label: 'Sales',
+            data: [12, 19, 3, 5, 2],
+            backgroundColor: 'var(--theme-primary)',
+            borderColor: 'var(--theme-primary)',
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+            legend: { display: true, position: 'top' }
+        }
+    }
+});</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- API Reference Section -->
+                <section id="api-section" class="content-section d-none">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="h2 mb-4">API Reference</h1>
+
+                            <div class="table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Function</th>
+                                            <th>Parameters</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><code>applyPalette(palette)</code></td>
+                                            <td><code>palette: Object</code></td>
+                                            <td>Applies a palette to the page by setting CSS variables</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>applyTone(mode)</code></td>
+                                            <td><code>mode: 'light' | 'dark'</code></td>
+                                            <td>Toggles between light and dark theme modes</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>filterPalettes(searchText)</code></td>
+                                            <td><code>searchText: string</code></td>
+                                            <td>Filters palettes by name, id, or color codes</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>loadPalettes()</code></td>
+                                            <td>None</td>
+                                            <td>Loads palettes from <code>./data/palettes.json</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>showSection(name, element)</code></td>
+                                            <td><code>name: string, element: HTMLElement</code></td>
+                                            <td>Shows a content section and updates navigation</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>filterCharts(type)</code></td>
+                                            <td><code>type: string</code></td>
+                                            <td>Filters dashboard cards by chart type</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>exportLayout()</code></td>
+                                            <td>None</td>
+                                            <td>Exports current dashboard layout as JSON</td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>toggleGrid()</code></td>
+                                            <td>None</td>
+                                            <td>Shows/hides grid lines on dashboard</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row mt-5">
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0"><i class="fas fa-file-alt me-2"></i>File Structure</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <pre style="font-size: 0.85rem;"><code class="language-text">visualizer_demo/
+├── index.html
+├── css/
+│   └── site.css
+├── js/
+│   └── site.js
+├── data/
+│   ├── palettes.json
+│   └── charts.json
+├── DOTNET_REFERENCE.md
+└── README.md</code></pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h6 class="mb-0"><i class="fas fa-external-link-alt me-2"></i>External Dependencies</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <ul class="mb-0">
+                                                <li><strong>Bootstrap 5.3:</strong> CSS/JS framework</li>
+                                                <li><strong>Chart.js 4.x:</strong> Charting library</li>
+                                                <li><strong>Font Awesome 6:</strong> Icons</li>
+                                                <li><strong>Prism 1.29:</strong> Syntax highlighting</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="./js/site.js"></script>
+</body>
+</html>
