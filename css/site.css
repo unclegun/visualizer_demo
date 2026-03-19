@@ -540,3 +540,301 @@ body.bg-dark code {
 .markdown-docs th {
   background-color: #f8f9fa;
 }
+
+.pattern-docs-page {
+  background:
+    radial-gradient(circle at top left, rgba(13, 110, 253, 0.08), transparent 32%),
+    radial-gradient(circle at top right, rgba(14, 165, 233, 0.08), transparent 28%),
+    linear-gradient(180deg, #f8fbff 0%, #f4f7fb 100%);
+}
+
+.pattern-shell {
+  min-height: calc(100vh - 72px);
+}
+
+.pattern-hero {
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 1.5rem;
+  padding: 2.25rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(244, 248, 255, 0.96)),
+    linear-gradient(135deg, rgba(13, 110, 253, 0.06), rgba(14, 165, 233, 0.04));
+  box-shadow: 0 24px 55px rgba(15, 23, 42, 0.08);
+}
+
+.pattern-eyebrow,
+.pattern-kicker {
+  color: #0d6efd;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.pattern-summary-card {
+  border-radius: 1.25rem;
+  background: linear-gradient(180deg, #0f172a 0%, #16213b 100%);
+  color: #e2e8f0;
+}
+
+.pattern-summary-card h2,
+.pattern-summary-card li {
+  color: #f8fafc;
+}
+
+.pattern-file-list li {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.12);
+  font-family: Consolas, "Lucida Console", "Courier New", monospace;
+  font-size: 0.94rem;
+}
+
+.pattern-file-list li:last-child {
+  border-bottom: 0;
+}
+
+.pattern-chip-row .badge {
+  padding: 0.7rem 0.95rem;
+  color: #0f172a;
+  border: 1px solid #dbe4ef;
+}
+
+.pattern-toc .card,
+.pattern-benefit-card,
+.pattern-arch-card,
+.pattern-note-card,
+.pattern-code-card,
+.pattern-demo-card,
+.pattern-future-card,
+.pattern-flow-card {
+  border-radius: 1.25rem;
+}
+
+.pattern-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.9rem;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.12), rgba(14, 165, 233, 0.12));
+  color: #0d6efd;
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.pattern-benefit-card,
+.pattern-note-card,
+.pattern-future-card,
+.pattern-arch-card {
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.pattern-benefit-card:hover,
+.pattern-note-card:hover,
+.pattern-future-card:hover,
+.pattern-arch-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.1) !important;
+}
+
+.pattern-section-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1.5rem;
+}
+
+.pattern-section-header h2 {
+  margin-bottom: 0;
+}
+
+.pattern-arch-step {
+  width: 2.2rem;
+  height: 2.2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #0d6efd;
+  color: #fff;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.pattern-flow-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.pattern-flow-node {
+  border: 1px solid #dbe4ef;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #fff, #f8fbff);
+  padding: 1rem;
+}
+
+.pattern-flow-node span {
+  display: block;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.4rem;
+}
+
+.pattern-flow-node small {
+  display: block;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.pattern-flow-arrow {
+  color: #94a3b8;
+}
+
+.pattern-demo-card {
+  overflow: hidden;
+}
+
+.pattern-demo-toolbar {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e5edf5;
+}
+
+.pattern-demo-search-wrap,
+.pattern-demo-length-wrap {
+  min-width: 13rem;
+}
+
+.pattern-demo-table-wrap {
+  border: 1px solid #dbe4ef;
+  border-radius: 1rem;
+}
+
+.pattern-demo-table {
+  min-width: 760px;
+}
+
+.pattern-demo-table thead th {
+  background: #f8fbff;
+  color: #0f172a;
+  font-weight: 700;
+  border-bottom: 1px solid #dbe4ef;
+  white-space: nowrap;
+}
+
+.pattern-demo-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.16s ease, transform 0.16s ease;
+}
+
+.pattern-demo-table tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.pattern-filter-row th {
+  background: #fcfdff !important;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+}
+
+.pattern-demo-pagination .page-link {
+  border-radius: 0.7rem;
+  margin-inline: 0.1rem;
+}
+
+.pattern-modal-content {
+  border: 0;
+  border-radius: 1.25rem;
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.16);
+}
+
+.pattern-code-card .card-header {
+  background: linear-gradient(180deg, #f8fbff 0%, #f1f6fc 100%);
+  border-bottom: 1px solid #dbe4ef;
+}
+
+.pattern-setup-list li + li {
+  margin-top: 0.8rem;
+}
+
+.pattern-docs-page .navbar .nav-link.active {
+  background-color: rgba(255, 255, 255, 0.18);
+}
+
+body.theme-dark.pattern-docs-page {
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 32%),
+    linear-gradient(180deg, #0f172a 0%, #111827 100%);
+}
+
+body.theme-dark .pattern-hero,
+body.theme-dark .pattern-toc .card,
+body.theme-dark .pattern-benefit-card,
+body.theme-dark .pattern-note-card,
+body.theme-dark .pattern-code-card,
+body.theme-dark .pattern-demo-card,
+body.theme-dark .pattern-future-card,
+body.theme-dark .pattern-flow-card,
+body.theme-dark .pattern-arch-card {
+  background: #111827;
+  border-color: #334155;
+}
+
+body.theme-dark .pattern-demo-toolbar,
+body.theme-dark .pattern-code-card .card-header,
+body.theme-dark .pattern-demo-table thead th,
+body.theme-dark .pattern-filter-row th,
+body.theme-dark .pattern-demo-table-wrap {
+  border-color: #334155;
+  background: #0f172a !important;
+}
+
+body.theme-dark .pattern-flow-node {
+  background: #0f172a;
+  border-color: #334155;
+}
+
+body.theme-dark .pattern-flow-node span,
+body.theme-dark .pattern-summary-card h2,
+body.theme-dark .pattern-section-header h2,
+body.theme-dark .pattern-benefit-card h2,
+body.theme-dark .pattern-note-card h3,
+body.theme-dark .pattern-future-card h3,
+body.theme-dark .pattern-arch-card h3 {
+  color: #f8fafc;
+}
+
+body.theme-dark .pattern-file-list li,
+body.theme-dark .pattern-flow-node small,
+body.theme-dark .pattern-docs-page .text-muted,
+body.theme-dark .pattern-demo-summary {
+  color: #94a3b8 !important;
+}
+
+@media (max-width: 991.98px) {
+  .pattern-section-header {
+    flex-direction: column;
+    align-items: start;
+  }
+
+  .pattern-flow-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pattern-flow-arrow {
+    justify-self: center;
+    transform: rotate(90deg);
+  }
+}
+
+@media (max-width: 767.98px) {
+  .pattern-hero {
+    padding: 1.4rem;
+  }
+
+  .pattern-demo-search-wrap,
+  .pattern-demo-length-wrap {
+    min-width: 100%;
+  }
+}

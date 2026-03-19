@@ -393,11 +393,172 @@ function createChartCanvas(chartId, chartType, chartTitle) {
 	return canvasHtml;
 }
 
+function initializePatternDocsPage() {
+	if (!document.body.classList.contains("pattern-docs-page")) {
+		return;
+	}
+
+	initializePatternDocsNavigation();
+	initializePatternDocsDemo();
+}
+
+function initializePatternDocsNavigation() {
+	const navLinks = Array.from(document.querySelectorAll(".pattern-docs-page .navbar .nav-link[href^='#']"));
+	if (navLinks.length === 0) {
+		return;
+	}
+
+	const sections = navLinks
+		.map((link) => document.querySelector(link.getAttribute("href")))
+		.filter(Boolean);
+
+	const setActiveLink = (activeId) => {
+		navLinks.forEach((link) => {
+			const targetId = link.getAttribute("href").replace("#", "");
+			link.classList.toggle("active", targetId === activeId);
+		});
+	};
+
+	navLinks.forEach((link) => {
+		link.addEventListener("click", () => {
+			const targetId = link.getAttribute("href").replace("#", "");
+			setActiveLink(targetId);
+		});
+	});
+
+	const observer = new IntersectionObserver((entries) => {
+		const visibleSection = entries
+			.filter((entry) => entry.isIntersecting)
+			.sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+
+		if (visibleSection?.target?.id) {
+			setActiveLink(visibleSection.target.id);
+		}
+	}, {
+		rootMargin: "-30% 0px -55% 0px",
+		threshold: [0.1, 0.3, 0.6]
+	});
+
+	sections.forEach((section) => observer.observe(section));
+}
+
+function initializePatternDocsDemo() {
+	const table = document.getElementById("patternUsersTable");
+	const modalElement = document.getElementById("patternDemoModal");
+	const searchInput = document.getElementById("patternGlobalSearch");
+	const pageSizeSelect = document.getElementById("patternPageSize");
+	const summary = document.getElementById("patternDemoSummary");
+	const saveButton = document.getElementById("patternDemoSaveButton");
+
+	if (!table || !modalElement || !searchInput || !pageSizeSelect || !summary || !saveButton) {
+		return;
+	}
+
+	const modal = typeof bootstrap !== "undefined"
+		? bootstrap.Modal.getOrCreateInstance(modalElement)
+		: null;
+	const rows = Array.from(table.querySelectorAll("tbody tr"));
+	const filters = Array.from(document.querySelectorAll(".pattern-filter"));
+	const modalFields = {
+		title: document.getElementById("patternDemoModalTitle"),
+		username: document.getElementById("patternModalUsername"),
+		email: document.getElementById("patternModalEmail"),
+		role: document.getElementById("patternModalRole"),
+		active: document.getElementById("patternModalActive"),
+		created: document.getElementById("patternModalCreated")
+	};
+
+	function getRowValues(row) {
+		return [
+			row.dataset.username || "",
+			row.dataset.email || "",
+			row.dataset.role || "",
+			row.dataset.active || "",
+			row.dataset.created || ""
+		];
+	}
+
+	function applyDemoFilters() {
+		const globalTerm = searchInput.value.trim().toLowerCase();
+		const pageSize = Number.parseInt(pageSizeSelect.value, 10) || 10;
+		let visibleCount = 0;
+
+		rows.forEach((row) => {
+			const values = getRowValues(row);
+			const matchesGlobal = !globalTerm || values.some((value) => value.toLowerCase().includes(globalTerm));
+			const matchesColumns = filters.every((filter) => {
+				const value = filter.value.trim().toLowerCase();
+				if (!value) {
+					return true;
+				}
+
+				const columnIndex = Number.parseInt(filter.dataset.column || "0", 10);
+				return (values[columnIndex] || "").toLowerCase().includes(value);
+			});
+
+			const isVisible = matchesGlobal && matchesColumns;
+			row.dataset.matches = isVisible ? "true" : "false";
+			row.classList.toggle("d-none", !isVisible);
+		});
+
+		rows
+			.filter((row) => row.dataset.matches === "true")
+			.forEach((row, index) => {
+				const withinPage = index < pageSize;
+				row.classList.toggle("d-none", !withinPage);
+				if (withinPage) {
+					visibleCount += 1;
+				}
+			});
+
+		const totalMatches = rows.filter((row) => row.dataset.matches === "true").length;
+		const start = totalMatches === 0 ? 0 : 1;
+		const end = visibleCount;
+		summary.textContent = `Showing ${start} to ${end} of ${totalMatches} entries`;
+	}
+
+	rows.forEach((row) => {
+		row.addEventListener("click", () => {
+			modalFields.title.textContent = `Edit ${row.dataset.username}`;
+			modalFields.username.value = row.dataset.username || "";
+			modalFields.email.value = row.dataset.email || "";
+			modalFields.role.value = row.dataset.role || "Admin";
+			modalFields.active.value = row.dataset.active || "Yes";
+			modalFields.created.value = row.dataset.created || "";
+			modal?.show();
+		});
+	});
+
+	searchInput.addEventListener("input", applyDemoFilters);
+	pageSizeSelect.addEventListener("change", applyDemoFilters);
+	filters.forEach((filter) => {
+		const eventName = filter.tagName === "SELECT" ? "change" : "input";
+		filter.addEventListener(eventName, applyDemoFilters);
+	});
+
+	saveButton.addEventListener("click", () => {
+		saveButton.textContent = "Saved";
+		saveButton.disabled = true;
+		window.setTimeout(() => {
+			saveButton.textContent = "Save changes";
+			saveButton.disabled = false;
+			modal?.hide();
+		}, 650);
+	});
+
+	applyDemoFilters();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 	console.log("Document loaded, initializing...");
-	initializePalettePicker();
 	initializeToneToggle();
-	initDashboard();
-	loadCharts().catch((error) => console.error("Chart loading error:", error));
+	initializePatternDocsPage();
+
+	if (!document.body.classList.contains("pattern-docs-page")) {
+		initializePalettePicker();
+		initDashboard();
+		loadCharts().catch((error) => console.error("Chart loading error:", error));
+	}
+
 	console.log("Initialization complete");
 });

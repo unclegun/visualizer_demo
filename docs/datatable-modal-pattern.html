@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Razor Pages DataTable + Modal Pattern</title>
+    <link rel="stylesheet" href="../lib/bootstrap/bootstrap.min.css" />
+    <link href="../lib/fontawesome/all.min.css" rel="stylesheet" />
+    <link href="../lib/prism/prism.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/site.css" />
+</head>
+<body class="pattern-docs-page">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand d-flex align-items-center" href="../index.html#documentation">
+                <i class="fas fa-table-columns me-2"></i>
+                <span class="fw-bold">Razor DataTable Pattern</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#patternNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="patternNavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#top">Overview</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#architecture">Architecture</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#demo">Static Demo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#snippets">Code Snippets</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#setup">Setup</a></li>
+                </ul>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-outline-light btn-sm" href="../index.html#documentation">
+                        <i class="fas fa-arrow-left me-1"></i>Back to Site
+                    </a>
+                    <a class="btn btn-light btn-sm" href="#snippets">
+                        <i class="fas fa-copy me-1"></i>Jump to Code
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pattern-shell" id="top">
+        <div class="container-xxl py-5">
+            <section class="pattern-hero mb-4">
+                <div class="row g-4 align-items-center">
+                    <div class="col-xl-8">
+                        <div class="pattern-eyebrow">ASP.NET Core Razor Pages</div>
+                        <h1 class="display-5 fw-bold mb-3">Reusable v1 client-side DataTable + modal tag helper pattern</h1>
+                        <p class="lead text-muted mb-4">This page documents a lightweight, maintainable pattern for rendering model-driven tables with DataTables.js, row-click modal editing, shared styling, and minimal Razor markup. It is intentionally scoped for v1: client-side only, explicit edit partials, and a single reusable modal shell.</p>
+                        <div class="d-flex flex-wrap gap-2 pattern-chip-row">
+                            <span class="badge rounded-pill text-bg-light">Minimal Razor markup</span>
+                            <span class="badge rounded-pill text-bg-light">Model-driven columns</span>
+                            <span class="badge rounded-pill text-bg-light">Shared modal shell</span>
+                            <span class="badge rounded-pill text-bg-light">Custom CSS ownership</span>
+                            <span class="badge rounded-pill text-bg-light">Client-side v1 simplicity</span>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="card shadow-sm border-0 pattern-summary-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h2 class="h5 mb-0">Final v1 file set</h2>
+                                    <span class="badge text-bg-primary">Reference</span>
+                                </div>
+                                <ul class="list-unstyled mb-0 pattern-file-list">
+                                    <li>/TagHelpers/DataTableColumnAttribute.cs</li>
+                                    <li>/TagHelpers/DataTableTagHelper.cs</li>
+                                    <li>/TagHelpers/ModalTagHelpers.cs</li>
+                                    <li>/wwwroot/js/app-ui.js</li>
+                                    <li>/wwwroot/css/custom-bootstrap.css</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pattern-toc mb-5">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body d-flex flex-column flex-lg-row gap-4 justify-content-between align-items-lg-center">
+                        <div>
+                            <h2 class="h5 mb-2">What this pattern solves</h2>
+                            <p class="text-muted mb-0">Use this as a template when you want repeatable, styled, low-boilerplate table pages in Razor Pages without prematurely building server-side processing or generic edit-form generation.</p>
+                        </div>
+                        <div class="pattern-toc-links d-flex flex-wrap gap-2">
+                            <a class="btn btn-outline-primary btn-sm" href="#architecture">Architecture</a>
+                            <a class="btn btn-outline-primary btn-sm" href="#demo">UI Demo</a>
+                            <a class="btn btn-outline-primary btn-sm" href="#notes">Design Notes</a>
+                            <a class="btn btn-outline-primary btn-sm" href="#snippets">Copy-Paste Snippets</a>
+                            <a class="btn btn-outline-primary btn-sm" href="#future-scope">Future Scope</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="benefits">
+                <div class="row g-4">
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card h-100 shadow-sm border-0 pattern-benefit-card">
+                            <div class="card-body">
+                                <div class="pattern-icon"><i class="fas fa-layer-group"></i></div>
+                                <h2 class="h5">Minimal Razor markup</h2>
+                                <p class="text-muted mb-0">A page can render a full searchable, pageable, clickable table with one tag helper call and one shared modal in layout.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card h-100 shadow-sm border-0 pattern-benefit-card">
+                            <div class="card-body">
+                                <div class="pattern-icon"><i class="fas fa-diagram-project"></i></div>
+                                <h2 class="h5">Centralized behavior</h2>
+                                <p class="text-muted mb-0">Tag helpers own semantic markup, JavaScript owns interaction, and custom-bootstrap.css owns the visual language.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card h-100 shadow-sm border-0 pattern-benefit-card">
+                            <div class="card-body">
+                                <div class="pattern-icon"><i class="fas fa-pen-to-square"></i></div>
+                                <h2 class="h5">Explicit modal editing</h2>
+                                <p class="text-muted mb-0">The edit UI stays intentional and maintainable by using a real partial instead of reflective form generation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="architecture">
+                <div class="pattern-section-header">
+                    <div>
+                        <div class="pattern-kicker">Section 1</div>
+                        <h2>Architecture overview</h2>
+                    </div>
+                    <p class="text-muted mb-0">The v1 design stays deliberately small. Only the model attribute, two tag helper files, one JavaScript module, and one CSS file are needed.</p>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-lg-4">
+                        <div class="card shadow-sm border-0 h-100 pattern-arch-card">
+                            <div class="card-body">
+                                <div class="pattern-arch-step">1</div>
+                                <h3 class="h5">Model attribute</h3>
+                                <p class="text-muted">DataTableColumnAttribute is the single source of table metadata. Only decorated properties are rendered. Everything else is ignored by default.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow-sm border-0 h-100 pattern-arch-card">
+                            <div class="card-body">
+                                <div class="pattern-arch-step">2</div>
+                                <h3 class="h5">Rendering layer</h3>
+                                <p class="text-muted">DataTableTagHelper converts IEnumerable&lt;T&gt; into semantic table markup, emits column filter controls, row keys, and JSON configuration for the client module.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="card shadow-sm border-0 h-100 pattern-arch-card">
+                            <div class="card-body">
+                                <div class="pattern-arch-step">3</div>
+                                <h3 class="h5">Interaction layer</h3>
+                                <p class="text-muted">app-ui.js initializes DataTables, wires filter inputs, maps row clicks to edit URLs, and handles AJAX modal form submit/refresh behavior.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm border-0 h-100 pattern-arch-card">
+                            <div class="card-body">
+                                <div class="pattern-arch-step">4</div>
+                                <h3 class="h5">Edit partial</h3>
+                                <p class="text-muted mb-0">The modal body is still an explicit partial. That keeps layout, validation, field grouping, and permission-sensitive UI under normal Razor control.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card shadow-sm border-0 h-100 pattern-arch-card">
+                            <div class="card-body">
+                                <div class="pattern-arch-step">5</div>
+                                <h3 class="h5">Styling ownership</h3>
+                                <p class="text-muted mb-0">custom-bootstrap.css holds all table and modal presentation. That avoids spreading component styling across generated markup, partials, and inline scripts.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card border-0 shadow-sm pattern-flow-card">
+                    <div class="card-body">
+                        <h3 class="h5 mb-3">Responsibility flow</h3>
+                        <div class="pattern-flow-grid">
+                            <div class="pattern-flow-node">
+                                <span>DataTableColumnAttribute</span>
+                                <small>Defines included columns, order, filters, formatting, key column</small>
+                            </div>
+                            <div class="pattern-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pattern-flow-node">
+                                <span>DataTableTagHelper</span>
+                                <small>Renders semantic table markup and JSON config</small>
+                            </div>
+                            <div class="pattern-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pattern-flow-node">
+                                <span>app-ui.js</span>
+                                <small>Initializes DataTables, filters, row click, modal load, form submit</small>
+                            </div>
+                            <div class="pattern-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+                            <div class="pattern-flow-node">
+                                <span>Edit partial + custom CSS</span>
+                                <small>Explicit form markup and shared visual styling</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="demo">
+                <div class="pattern-section-header">
+                    <div>
+                        <div class="pattern-kicker">Section 2</div>
+                        <h2>Static UI example</h2>
+                    </div>
+                    <p class="text-muted mb-0">This is a front-end-only mock of the intended final result. It visually demonstrates the v1 interaction model without depending on ASP.NET Core or DataTables runtime.</p>
+                </div>
+
+                <div class="card border-0 shadow-sm pattern-demo-card">
+                    <div class="card-body p-4">
+                        <div class="pattern-demo-toolbar d-flex flex-column flex-lg-row justify-content-between gap-3 mb-3">
+                            <div>
+                                <h3 class="h5 mb-1">Users table preview</h3>
+                                <p class="text-muted mb-0">Search, per-column filters, pagination defaults, and clickable rows that load an edit modal.</p>
+                            </div>
+                            <div class="d-flex flex-column flex-sm-row gap-2 align-items-sm-center">
+                                <div class="pattern-demo-search-wrap">
+                                    <label class="form-label small text-muted mb-1" for="patternGlobalSearch">Search</label>
+                                    <input class="form-control" id="patternGlobalSearch" type="search" placeholder="Search users" />
+                                </div>
+                                <div class="pattern-demo-length-wrap">
+                                    <label class="form-label small text-muted mb-1" for="patternPageSize">Rows</label>
+                                    <select class="form-select" id="patternPageSize">
+                                        <option selected>10</option>
+                                        <option>25</option>
+                                        <option>50</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive pattern-demo-table-wrap">
+                            <table class="table align-middle mb-0 pattern-demo-table" id="patternUsersTable">
+                                <thead>
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th>Active</th>
+                                        <th>Created</th>
+                                    </tr>
+                                    <tr class="pattern-filter-row">
+                                        <th><input class="form-control form-control-sm pattern-filter" data-column="0" placeholder="Filter username" /></th>
+                                        <th><input class="form-control form-control-sm pattern-filter" data-column="1" placeholder="Filter email" /></th>
+                                        <th>
+                                            <select class="form-select form-select-sm pattern-filter" data-column="2">
+                                                <option value="">All roles</option>
+                                                <option>Admin</option>
+                                                <option>Analyst</option>
+                                                <option>Editor</option>
+                                                <option>Support</option>
+                                            </select>
+                                        </th>
+                                        <th>
+                                            <select class="form-select form-select-sm pattern-filter" data-column="3">
+                                                <option value="">All</option>
+                                                <option>Yes</option>
+                                                <option>No</option>
+                                            </select>
+                                        </th>
+                                        <th><input class="form-control form-control-sm pattern-filter" data-column="4" placeholder="Filter date" /></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-demo-key="USR-001" data-username="jwalsh" data-email="jwalsh@acme.test" data-role="Admin" data-active="Yes" data-created="2024-01-15">
+                                        <td>jwalsh</td>
+                                        <td>jwalsh@acme.test</td>
+                                        <td><span class="badge text-bg-primary-subtle">Admin</span></td>
+                                        <td><span class="badge text-bg-success">Yes</span></td>
+                                        <td>2024-01-15</td>
+                                    </tr>
+                                    <tr data-demo-key="USR-002" data-username="mnguyen" data-email="mnguyen@acme.test" data-role="Analyst" data-active="Yes" data-created="2024-02-03">
+                                        <td>mnguyen</td>
+                                        <td>mnguyen@acme.test</td>
+                                        <td><span class="badge text-bg-info-subtle">Analyst</span></td>
+                                        <td><span class="badge text-bg-success">Yes</span></td>
+                                        <td>2024-02-03</td>
+                                    </tr>
+                                    <tr data-demo-key="USR-003" data-username="rbrooks" data-email="rbrooks@acme.test" data-role="Editor" data-active="No" data-created="2024-02-18">
+                                        <td>rbrooks</td>
+                                        <td>rbrooks@acme.test</td>
+                                        <td><span class="badge text-bg-warning-subtle">Editor</span></td>
+                                        <td><span class="badge text-bg-secondary">No</span></td>
+                                        <td>2024-02-18</td>
+                                    </tr>
+                                    <tr data-demo-key="USR-004" data-username="slopez" data-email="slopez@acme.test" data-role="Support" data-active="Yes" data-created="2024-03-01">
+                                        <td>slopez</td>
+                                        <td>slopez@acme.test</td>
+                                        <td><span class="badge text-bg-dark-subtle">Support</span></td>
+                                        <td><span class="badge text-bg-success">Yes</span></td>
+                                        <td>2024-03-01</td>
+                                    </tr>
+                                    <tr data-demo-key="USR-005" data-username="akim" data-email="akim@acme.test" data-role="Admin" data-active="Yes" data-created="2024-03-12">
+                                        <td>akim</td>
+                                        <td>akim@acme.test</td>
+                                        <td><span class="badge text-bg-primary-subtle">Admin</span></td>
+                                        <td><span class="badge text-bg-success">Yes</span></td>
+                                        <td>2024-03-12</td>
+                                    </tr>
+                                    <tr data-demo-key="USR-006" data-username="pdiaz" data-email="pdiaz@acme.test" data-role="Analyst" data-active="No" data-created="2024-03-26">
+                                        <td>pdiaz</td>
+                                        <td>pdiaz@acme.test</td>
+                                        <td><span class="badge text-bg-info-subtle">Analyst</span></td>
+                                        <td><span class="badge text-bg-secondary">No</span></td>
+                                        <td>2024-03-26</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="pattern-demo-footer d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mt-3">
+                            <div class="text-muted small" id="patternDemoSummary">Showing 1 to 6 of 6 entries</div>
+                            <nav aria-label="Static demo pagination">
+                                <ul class="pagination pagination-sm mb-0 pattern-demo-pagination">
+                                    <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                                    <li class="page-item active"><span class="page-link">1</span></li>
+                                    <li class="page-item disabled"><span class="page-link">Next</span></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="patternDemoModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content pattern-modal-content">
+                            <div class="modal-header">
+                                <div>
+                                    <div class="small text-muted text-uppercase">Edit user</div>
+                                    <h3 class="modal-title h5 mb-0" id="patternDemoModalTitle">User details</h3>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Username</label>
+                                        <input class="form-control" id="patternModalUsername" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Email</label>
+                                        <input class="form-control" id="patternModalEmail" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Role</label>
+                                        <select class="form-select" id="patternModalRole">
+                                            <option>Admin</option>
+                                            <option>Analyst</option>
+                                            <option>Editor</option>
+                                            <option>Support</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Active</label>
+                                        <select class="form-select" id="patternModalActive">
+                                            <option>Yes</option>
+                                            <option>No</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label">Created</label>
+                                        <input class="form-control" id="patternModalCreated" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" id="patternDemoSaveButton">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="notes">
+                <div class="pattern-section-header">
+                    <div>
+                        <div class="pattern-kicker">Section 3</div>
+                        <h2>Best practices and design notes</h2>
+                    </div>
+                    <p class="text-muted mb-0">The tradeoffs are intentional. This v1 pattern favors clarity, repeatability, and low friction over maximal abstraction.</p>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100 pattern-note-card">
+                            <div class="card-body">
+                                <h3 class="h5">Why opt-in columns</h3>
+                                <p class="mb-0 text-muted">Opt-in is safer than opt-out. Properties added later to the view model are ignored until someone explicitly marks them with DataTableColumn. That prevents accidental leakage of IDs, internal notes, permission flags, or audit fields.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100 pattern-note-card">
+                            <div class="card-body">
+                                <h3 class="h5">Why explicit edit partials</h3>
+                                <p class="mb-0 text-muted">Generated forms look attractive early but quickly become brittle. Explicit partials preserve field order, help text, grouping, validation, and custom widgets without turning the tag helper into a form builder framework.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100 pattern-note-card">
+                            <div class="card-body">
+                                <h3 class="h5">Why client-side only is fine for v1</h3>
+                                <p class="mb-0 text-muted">For admin pages, dashboard tables, and moderate list sizes, client-side DataTables keeps the first version simple. You get sorting, searching, paging, and filters immediately while deferring server-side processing until data volume actually requires it.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100 pattern-note-card">
+                            <div class="card-body">
+                                <h3 class="h5">Why CSS belongs in custom-bootstrap.css</h3>
+                                <p class="mb-0 text-muted">The tag helper should emit stable, semantic classes. Visual tuning belongs in one stylesheet so a front-end developer can restyle the component without editing C# rendering logic or rewriting markup generation.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100 pattern-note-card">
+                            <div class="card-body">
+                                <h3 class="h5">Why one shared modal</h3>
+                                <p class="mb-0 text-muted">One shared modal reduces DOM weight, avoids duplicated IDs, and keeps lifecycle logic consistent. The table row only supplies a key. The modal content is loaded on demand and replaced each time.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="card border-0 shadow-sm h-100 pattern-note-card">
+                            <div class="card-body">
+                                <h3 class="h5">Why JavaScript stays in one file</h3>
+                                <p class="mb-0 text-muted">Inline scripts do not scale across multiple pages. A single reusable module gives you one place to debug table behavior, modal flow, AJAX submission, and future enhancements.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="snippets">
+                <div class="pattern-section-header">
+                    <div>
+                        <div class="pattern-kicker">Section 4</div>
+                        <h2>Copy-paste-ready v1 code snippets</h2>
+                    </div>
+                    <p class="text-muted mb-0">These snippets are intentionally modular and realistic for a Razor Pages application. They are designed to be copied into a future .NET project with minimal adaptation.</p>
+                </div>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-attribute">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">A. DataTableColumnAttribute.cs</h3>
+                        <span class="badge text-bg-light">C#</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-csharp">using System;
+
+namespace MyApp.TagHelpers;
+
+[AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+public sealed class DataTableColumnAttribute : Attribute
+{
+    public string? Header { get; init; }
+    public int Order { get; init; }
+    public bool Searchable { get; init; } = true;
+    public bool Hidden { get; init; }
+    public bool Sortable { get; init; } = true;
+    public string? Format { get; init; }
+    public string? Width { get; init; }
+    public string? CssClass { get; init; }
+    public bool IsKey { get; init; }
+    public string FilterType { get; init; } = "text";
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-taghelper">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">B. DataTableTagHelper.cs</h3>
+                        <span class="badge text-bg-light">C#</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-csharp">using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+
+namespace MyApp.TagHelpers;
+
+[HtmlTargetElement("data-table", Attributes = ForAttributeName)]
+public sealed class DataTableTagHelper : TagHelper
+{
+    private const string ForAttributeName = "asp-for";
+    private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
+    private readonly HtmlEncoder _htmlEncoder;
+
+    public DataTableTagHelper(HtmlEncoder htmlEncoder)
+    {
+        _htmlEncoder = htmlEncoder;
+    }
+
+    [HtmlAttributeName(ForAttributeName)]
+    public ModelExpression For { get; set; } = default!;
+
+    [HtmlAttributeName("table-id")]
+    public string? TableId { get; set; }
+
+    [HtmlAttributeName("page-size")]
+    public int PageSize { get; set; } = 10;
+
+    [HtmlAttributeName("edit-url-template")]
+    public string? EditUrlTemplate { get; set; }
+
+    [HtmlAttributeName("table-class")]
+    public string TableClass { get; set; } = "table table-striped table-hover align-middle mb-0";
+
+    [ViewContext]
+    [HtmlAttributeNotBound]
+    public ViewContext ViewContext { get; set; } = default!;
+
+    public override void Process(TagHelperContext context, TagHelperOutput output)
+    {
+        var tableId = string.IsNullOrWhiteSpace(TableId)
+            ? $"dt-{Guid.NewGuid():N}"
+            : TableId;
+
+        var modelType = For.ModelExplorer.ModelType;
+        var elementType = GetElementType(modelType)
+            ?? throw new InvalidOperationException($"{nameof(DataTableTagHelper)} requires IEnumerable&lt;T&gt;.");
+
+        var rows = For.ModelExplorer.Model as IEnumerable
+            ?? Array.Empty&lt;object&gt;();
+
+        var columns = GetColumns(elementType);
+        if (columns.Count == 0)
+        {
+            throw new InvalidOperationException(
+                $"No properties on {elementType.Name} were decorated with {nameof(DataTableColumnAttribute)}.");
+        }
+
+        var keyColumn = columns.FirstOrDefault(column =&gt; column.Attribute.IsKey);
+        var config = new
+        {
+            tableId,
+            pageSize = NormalizePageSize(PageSize),
+            editUrlTemplate = EditUrlTemplate,
+            columns = columns.Select((column, index) =&gt; new
+            {
+                index,
+                name = column.Property.Name,
+                header = column.Attribute.Header ?? column.Property.Name,
+                searchable = column.Attribute.Searchable,
+                hidden = column.Attribute.Hidden,
+                sortable = column.Attribute.Sortable,
+                filterType = column.Attribute.FilterType
+            })
+        };
+
+        output.TagName = "div";
+        output.Attributes.SetAttribute("class", "app-datatable-wrapper");
+
+        var builder = new StringBuilder();
+        builder.AppendLine($"&lt;table id=\"{_htmlEncoder.Encode(tableId)}\" class=\"{_htmlEncoder.Encode(TableClass)} app-datatable\"&gt;");
+        builder.AppendLine("  &lt;thead&gt;");
+        builder.AppendLine("    &lt;tr&gt;");
+
+        foreach (var column in columns)
+        {
+            builder.Append("      &lt;th");
+            AppendHeaderAttributes(builder, column.Attribute);
+            builder.Append('&gt;');
+            builder.Append(_htmlEncoder.Encode(column.Attribute.Header ?? column.Property.Name));
+            builder.AppendLine("&lt;/th&gt;");
+        }
+
+        builder.AppendLine("    &lt;/tr&gt;");
+        builder.AppendLine("    &lt;tr class=\"app-datatable-filters\"&gt;");
+
+        foreach (var column in columns)
+        {
+            builder.AppendLine("      &lt;th&gt;");
+            builder.Append(BuildFilterMarkup(column.Attribute));
+            builder.AppendLine("      &lt;/th&gt;");
+        }
+
+        builder.AppendLine("    &lt;/tr&gt;");
+        builder.AppendLine("  &lt;/thead&gt;");
+        builder.AppendLine("  &lt;tbody&gt;");
+
+        foreach (var row in rows)
+        {
+            var rowKey = keyColumn is null ? null : keyColumn.Property.GetValue(row)?.ToString();
+            builder.Append("    &lt;tr class=\"app-datatable-row\"");
+
+            if (!string.IsNullOrWhiteSpace(rowKey))
+            {
+                builder.Append($" data-row-key=\"{_htmlEncoder.Encode(rowKey)}\"");
+            }
+
+            builder.AppendLine("&gt;");
+
+            foreach (var column in columns)
+            {
+                var rawValue = column.Property.GetValue(row);
+                var textValue = FormatValue(rawValue, column.Attribute.Format);
+                builder.Append("      &lt;td");
+                AppendCellAttributes(builder, column.Attribute);
+                builder.Append('&gt;');
+                builder.Append(_htmlEncoder.Encode(textValue));
+                builder.AppendLine("&lt;/td&gt;");
+            }
+
+            builder.AppendLine("    &lt;/tr&gt;");
+        }
+
+        builder.AppendLine("  &lt;/tbody&gt;");
+        builder.AppendLine("&lt;/table&gt;");
+        builder.AppendLine($"&lt;script type=\"application/json\" class=\"app-datatable-config\" data-for=\"{_htmlEncoder.Encode(tableId)}\"&gt;{_htmlEncoder.Encode(JsonSerializer.Serialize(config, JsonOptions))}&lt;/script&gt;");
+
+        output.Content.SetHtmlContent(builder.ToString());
+    }
+
+    private static Type? GetElementType(Type modelType)
+    {
+        if (modelType.IsArray)
+        {
+            return modelType.GetElementType();
+        }
+
+        var enumerableType = modelType
+            .GetInterfaces()
+            .Append(modelType)
+            .FirstOrDefault(type =&gt; type.IsGenericType &amp;&amp; type.GetGenericTypeDefinition() == typeof(IEnumerable&lt;&gt;));
+
+        return enumerableType?.GetGenericArguments()[0];
+    }
+
+    private static List&lt;ColumnDefinition&gt; GetColumns(Type elementType)
+    {
+        return elementType
+            .GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            .Select(property =&gt; new ColumnDefinition(property, property.GetCustomAttribute&lt;DataTableColumnAttribute&gt;()))
+            .Where(column =&gt; column.Attribute is not null)
+            .Select(column =&gt; new ColumnDefinition(column.Property, column.Attribute!))
+            .OrderBy(column =&gt; column.Attribute.Order)
+            .ThenBy(column =&gt; column.Attribute.Header ?? column.Property.Name)
+            .ToList();
+    }
+
+    private static int NormalizePageSize(int pageSize)
+        =&gt; pageSize is 10 or 25 or 50 ? pageSize : 10;
+
+    private static string BuildFilterMarkup(DataTableColumnAttribute attribute)
+    {
+        if (!attribute.Searchable)
+        {
+            return "&lt;span class=\"app-datatable-filter-placeholder\"&gt;&amp;nbsp;&lt;/span&gt;";
+        }
+
+        if (string.Equals(attribute.FilterType, "select", StringComparison.OrdinalIgnoreCase))
+        {
+            return "&lt;select class=\"form-select form-select-sm app-column-filter\"&gt;&lt;option value=\"\"&gt;All&lt;/option&gt;&lt;/select&gt;";
+        }
+
+        return "&lt;input type=\"search\" class=\"form-control form-control-sm app-column-filter\" placeholder=\"Filter...\" /&gt;";
+    }
+
+    private static void AppendHeaderAttributes(StringBuilder builder, DataTableColumnAttribute attribute)
+    {
+        var classes = new List&lt;string&gt;();
+        if (attribute.Hidden)
+        {
+            classes.Add("d-none");
+        }
+        if (!string.IsNullOrWhiteSpace(attribute.CssClass))
+        {
+            classes.Add(attribute.CssClass);
+        }
+
+        if (classes.Count &gt; 0)
+        {
+            builder.Append($" class=\"{string.Join(" ", classes)}\"");
+        }
+
+        if (!string.IsNullOrWhiteSpace(attribute.Width))
+        {
+            builder.Append($" style=\"width:{attribute.Width}\"");
+        }
+    }
+
+    private static void AppendCellAttributes(StringBuilder builder, DataTableColumnAttribute attribute)
+    {
+        var classes = new List&lt;string&gt;();
+        if (attribute.Hidden)
+        {
+            classes.Add("d-none");
+        }
+        if (!string.IsNullOrWhiteSpace(attribute.CssClass))
+        {
+            classes.Add(attribute.CssClass);
+        }
+
+        if (classes.Count &gt; 0)
+        {
+            builder.Append($" class=\"{string.Join(" ", classes)}\"");
+        }
+    }
+
+    private static string FormatValue(object? rawValue, string? format)
+    {
+        if (rawValue is null)
+        {
+            return string.Empty;
+        }
+
+        if (rawValue is bool boolValue)
+        {
+            return boolValue ? "Yes" : "No";
+        }
+
+        if (!string.IsNullOrWhiteSpace(format) &amp;&amp; rawValue is IFormattable formattable)
+        {
+            return formattable.ToString(format, CultureInfo.InvariantCulture);
+        }
+
+        return Convert.ToString(rawValue, CultureInfo.InvariantCulture) ?? string.Empty;
+    }
+
+    private sealed record ColumnDefinition(PropertyInfo Property, DataTableColumnAttribute Attribute);
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-modal-helpers">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">C. ModalTagHelpers.cs</h3>
+                        <span class="badge text-bg-light">C#</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-csharp">using System.Threading.Tasks;
+using Microsoft.AspNetCore.Razor.TagHelpers;
+
+namespace MyApp.TagHelpers;
+
+[HtmlTargetElement("app-modal")]
+public sealed class AppModalTagHelper : TagHelper
+{
+    [HtmlAttributeName("id")]
+    public string Id { get; set; } = "sharedModal";
+
+    [HtmlAttributeName("size")]
+    public string Size { get; set; } = "lg";
+
+    [HtmlAttributeName("dialog-class")]
+    public string? DialogClass { get; set; }
+
+    public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+    {
+        var childContent = await output.GetChildContentAsync();
+        var dialogSizeClass = Size switch
+        {
+            "sm" =&gt; "modal-sm",
+            "xl" =&gt; "modal-xl",
+            _ =&gt; "modal-lg"
+        };
+
+        output.TagName = "div";
+        output.Attributes.SetAttribute("id", Id);
+        output.Attributes.SetAttribute("class", "modal fade app-modal-wrapper");
+        output.Attributes.SetAttribute("tabindex", "-1");
+        output.Attributes.SetAttribute("aria-hidden", "true");
+        output.Content.SetHtmlContent($@"
+&lt;div class=\"modal-dialog modal-dialog-centered {dialogSizeClass} {DialogClass}\"&gt;
+    &lt;div class=\"modal-content app-modal-content\"&gt;
+        {childContent.GetContent()}
+    &lt;/div&gt;
+&lt;/div&gt;");
+    }
+}
+
+[HtmlTargetElement("modal-header", ParentTag = "app-modal")]
+public sealed class ModalHeaderTagHelper : TagHelper
+{
+    public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+    {
+        var content = await output.GetChildContentAsync();
+        output.TagName = "div";
+        output.Attributes.SetAttribute("class", "modal-header app-modal-header");
+        output.Content.SetHtmlContent(content);
+    }
+}
+
+[HtmlTargetElement("modal-title", ParentTag = "modal-header")]
+public sealed class ModalTitleTagHelper : TagHelper
+{
+    public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+    {
+        var content = await output.GetChildContentAsync();
+        output.TagName = "h2";
+        output.Attributes.SetAttribute("class", "modal-title fs-5");
+        output.Content.SetHtmlContent(content);
+    }
+}
+
+[HtmlTargetElement("modal-body", ParentTag = "app-modal")]
+public sealed class ModalBodyTagHelper : TagHelper
+{
+    public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+    {
+        var content = await output.GetChildContentAsync();
+        output.TagName = "div";
+        output.Attributes.SetAttribute("class", "modal-body app-modal-body");
+        output.Content.SetHtmlContent(content);
+    }
+}
+
+[HtmlTargetElement("modal-footer", ParentTag = "app-modal")]
+public sealed class ModalFooterTagHelper : TagHelper
+{
+    public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
+    {
+        var content = await output.GetChildContentAsync();
+        output.TagName = "div";
+        output.Attributes.SetAttribute("class", "modal-footer app-modal-footer");
+        output.Content.SetHtmlContent(content);
+    }
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-js">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">D. app-ui.js</h3>
+                        <span class="badge text-bg-light">JavaScript</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-javascript">window.AppUi = (function ($) {
+    "use strict";
+
+    const selectors = {
+        table: ".app-datatable",
+        config: ".app-datatable-config",
+        filter: ".app-column-filter",
+        modal: "#entityEditModal",
+        modalBody: "[data-modal-body]"
+    };
+
+    function initialize() {
+        initializeDataTables();
+        initializeModalForms(document);
+    }
+
+    function initializeDataTables() {
+        document.querySelectorAll(selectors.table).forEach((table) =&gt; {
+            const config = readConfig(table.id);
+            if (!config || typeof $.fn.DataTable !== "function") {
+                return;
+            }
+
+            const dataTable = $(table).DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                info: true,
+                responsive: false,
+                pageLength: config.pageSize || 10,
+                lengthMenu: [[10, 25, 50], [10, 25, 50]],
+                orderCellsTop: true,
+                columnDefs: config.columns.map((column) =&gt; ({
+                    targets: column.index,
+                    searchable: column.searchable,
+                    visible: !column.hidden,
+                    orderable: column.sortable
+                })),
+                dom: "<'row align-items-center g-3 mb-3'<'col-md-6'f><'col-md-6 text-md-end'l>>t<'row align-items-center g-3 mt-3'<'col-md-5'i><'col-md-7 d-flex justify-content-md-end'p>>"
+            });
+
+            wireColumnFilters(table, dataTable, config);
+            wireClickableRows(table, config);
+        });
+    }
+
+    function readConfig(tableId) {
+        const node = document.querySelector(`${selectors.config}[data-for='${tableId}']`);
+        return node ? JSON.parse(node.textContent) : null;
+    }
+
+    function wireColumnFilters(table, dataTable, config) {
+        const filterInputs = table.querySelectorAll(selectors.filter);
+        filterInputs.forEach((input, index) =&gt; {
+            const columnConfig = config.columns[index];
+            if (!columnConfig || !columnConfig.searchable) {
+                input.disabled = true;
+                return;
+            }
+
+            if (columnConfig.filterType === "select") {
+                populateSelectFilter(input, dataTable.column(index).data().toArray());
+                input.addEventListener("change", () =&gt; {
+                    const value = input.value;
+                    dataTable.column(index).search(value ? `^${escapeRegex(value)}$` : "", true, false).draw();
+                });
+                return;
+            }
+
+            input.addEventListener("input", () =&gt; {
+                dataTable.column(index).search(input.value).draw();
+            });
+        });
+    }
+
+    function populateSelectFilter(select, values) {
+        const uniqueValues = [...new Set(values
+            .map((value) =&gt; String(value).replace(/<[^>]+>/g, "").trim())
+            .filter(Boolean))].sort();
+
+        uniqueValues.forEach((value) =&gt; {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = value;
+            select.appendChild(option);
+        });
+    }
+
+    function wireClickableRows(table, config) {
+        if (!config.editUrlTemplate) {
+            return;
+        }
+
+        table.querySelectorAll("tbody tr[data-row-key]").forEach((row) =&gt; {
+            row.classList.add("app-clickable-row");
+            row.addEventListener("click", (event) =&gt; {
+                if (event.target.closest("a, button, input, select, textarea, label")) {
+                    return;
+                }
+
+                const rowKey = row.dataset.rowKey;
+                if (!rowKey) {
+                    return;
+                }
+
+                const url = config.editUrlTemplate.replace("__id__", encodeURIComponent(rowKey));
+                openEditModal(url);
+            });
+        });
+    }
+
+    async function openEditModal(url) {
+        const modalElement = document.querySelector(selectors.modal);
+        if (!modalElement) {
+            return;
+        }
+
+        const modalBody = modalElement.querySelector(selectors.modalBody);
+        modalBody.innerHTML = `<div class="app-modal-loading">Loading...</div>`;
+
+        const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+        modal.show();
+
+        const response = await fetch(url, {
+            headers: {
+                "X-Requested-With": "XMLHttpRequest"
+            }
+        });
+
+        modalBody.innerHTML = await response.text();
+        initializeModalForms(modalElement);
+    }
+
+    function initializeModalForms(root) {
+        root.querySelectorAll("form[data-modal-form]").forEach((form) =&gt; {
+            if (form.dataset.bound === "true") {
+                return;
+            }
+
+            form.dataset.bound = "true";
+            form.addEventListener("submit", async (event) =&gt; {
+                event.preventDefault();
+
+                const submitButton = form.querySelector("button[type='submit']");
+                if (submitButton) {
+                    submitButton.disabled = true;
+                }
+
+                const response = await fetch(form.action, {
+                    method: form.method || "POST",
+                    body: new FormData(form),
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest"
+                    }
+                });
+
+                if (submitButton) {
+                    submitButton.disabled = false;
+                }
+
+                const modalElement = form.closest(".modal");
+                const modalBody = modalElement.querySelector(selectors.modalBody);
+                const contentType = response.headers.get("content-type") || "";
+
+                if (response.ok &amp;&amp; contentType.includes("application/json")) {
+                    const result = await response.json();
+                    if (result.success) {
+                        bootstrap.Modal.getInstance(modalElement)?.hide();
+                        window.location.reload();
+                        return;
+                    }
+                }
+
+                modalBody.innerHTML = await response.text();
+                initializeModalForms(modalElement);
+            });
+        });
+    }
+
+    function escapeRegex(value) {
+        return String(value).replace(/[.*+?^${}()|[\]\\]/g, "\\$&amp;");
+    }
+
+    document.addEventListener("DOMContentLoaded", initialize);
+
+    return {
+        initialize,
+        openEditModal
+    };
+})(window.jQuery);</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-css">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">E. custom-bootstrap.css</h3>
+                        <span class="badge text-bg-light">CSS</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-css">:root {
+    --app-table-accent: #0d6efd;
+    --app-table-accent-soft: rgba(13, 110, 253, 0.08);
+    --app-table-border: #d9e2ec;
+    --app-table-surface: #ffffff;
+    --app-table-muted: #64748b;
+    --app-table-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.app-datatable-wrapper {
+    border: 1px solid var(--app-table-border);
+    border-radius: 1rem;
+    background: var(--app-table-surface);
+    box-shadow: var(--app-table-shadow);
+    padding: 1rem;
+}
+
+.app-datatable-wrapper .dataTables_filter input,
+.app-datatable-wrapper .dataTables_length select,
+.app-datatable-filters .form-control,
+.app-datatable-filters .form-select {
+    border-radius: 0.75rem;
+    border-color: var(--app-table-border);
+}
+
+.app-datatable-filters th {
+    background: #f8fbff;
+    border-bottom: 1px solid var(--app-table-border);
+    padding: 0.75rem 0.5rem;
+}
+
+.app-clickable-row {
+    cursor: pointer;
+    transition: background-color 0.16s ease, transform 0.16s ease;
+}
+
+.app-clickable-row:hover {
+    background: var(--app-table-accent-soft);
+}
+
+.app-datatable-wrapper .page-link {
+    border-radius: 0.65rem;
+    margin-inline: 0.15rem;
+    border-color: var(--app-table-border);
+    color: var(--app-table-accent);
+}
+
+.app-datatable-wrapper .page-item.active .page-link {
+    background: var(--app-table-accent);
+    border-color: var(--app-table-accent);
+}
+
+.app-modal-wrapper .modal-content,
+.app-modal-content {
+    border: 0;
+    border-radius: 1.1rem;
+    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18);
+}
+
+.app-modal-loading {
+    min-height: 220px;
+    display: grid;
+    place-items: center;
+    color: var(--app-table-muted);
+    font-weight: 600;
+}
+
+.app-modal-header,
+.app-modal-footer {
+    border-color: var(--app-table-border);
+}
+
+@media (max-width: 767.98px) {
+    .app-datatable-wrapper {
+        padding: 0.75rem;
+    }
+
+    .app-datatable-wrapper .dataTables_filter,
+    .app-datatable-wrapper .dataTables_length {
+        text-align: left !important;
+    }
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-model">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">F. Example model</h3>
+                        <span class="badge text-bg-light">C#</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-csharp">using System;
+using MyApp.TagHelpers;
+
+namespace MyApp.Pages.Users;
+
+public sealed class UserTableRowViewModel
+{
+    [DataTableColumn(Order = 0, Hidden = true, IsKey = true, Searchable = false)]
+    public Guid Id { get; init; }
+
+    [DataTableColumn(Header = "Username", Order = 1, Width = "16rem")]
+    public string Username { get; init; } = string.Empty;
+
+    [DataTableColumn(Header = "Email", Order = 2, Width = "20rem")]
+    public string Email { get; init; } = string.Empty;
+
+    [DataTableColumn(Header = "Role", Order = 3, FilterType = "select", CssClass = "text-nowrap")]
+    public string Role { get; init; } = string.Empty;
+
+    [DataTableColumn(Header = "Active", Order = 4, FilterType = "select", CssClass = "text-center")]
+    public bool Active { get; init; }
+
+    [DataTableColumn(Header = "Created", Order = 5, Format = "yyyy-MM-dd", Width = "12rem")]
+    public DateTime CreatedUtc { get; init; }
+
+    public string InternalNotes { get; init; } = string.Empty;
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-pagemodel">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">G. Example Razor PageModel</h3>
+                        <span class="badge text-bg-light">C#</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-csharp">using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+
+namespace MyApp.Pages.Users;
+
+public sealed class UsersModel : PageModel
+{
+    private readonly IUserService _userService;
+
+    public UsersModel(IUserService userService)
+    {
+        _userService = userService;
+    }
+
+    public IReadOnlyList&lt;UserTableRowViewModel&gt; Users { get; private set; } = Array.Empty&lt;UserTableRowViewModel&gt;();
+
+    [BindProperty]
+    public EditUserInputModel Input { get; set; } = new();
+
+    public async Task OnGetAsync()
+    {
+        Users = await LoadUsersAsync();
+    }
+
+    public async Task&lt;PartialViewResult&gt; OnGetEditModalAsync(Guid id)
+    {
+        var user = await _userService.GetForEditAsync(id);
+        Input = new EditUserInputModel
+        {
+            Id = user.Id,
+            Username = user.Username,
+            Email = user.Email,
+            Role = user.Role,
+            Active = user.Active
+        };
+
+        return new PartialViewResult
+        {
+            ViewName = "_EditUserForm",
+            ViewData = new ViewDataDictionary&lt;EditUserInputModel&gt;(ViewData, Input)
+        };
+    }
+
+    public async Task&lt;IActionResult&gt; OnPostEditAsync()
+    {
+        if (!ModelState.IsValid)
+        {
+            return new PartialViewResult
+            {
+                ViewName = "_EditUserForm",
+                ViewData = new ViewDataDictionary&lt;EditUserInputModel&gt;(ViewData, Input)
+            };
+        }
+
+        await _userService.UpdateAsync(new UpdateUserRequest
+        {
+            Id = Input.Id,
+            Username = Input.Username,
+            Email = Input.Email,
+            Role = Input.Role,
+            Active = Input.Active
+        });
+
+        return new JsonResult(new { success = true });
+    }
+
+    private async Task&lt;IReadOnlyList&lt;UserTableRowViewModel&gt;&gt; LoadUsersAsync()
+    {
+        var users = await _userService.GetTableRowsAsync();
+        return users
+            .Select(user =&gt; new UserTableRowViewModel
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Email = user.Email,
+                Role = user.Role,
+                Active = user.Active,
+                CreatedUtc = user.CreatedUtc,
+                InternalNotes = user.InternalNotes
+            })
+            .ToList();
+    }
+}
+
+public sealed class EditUserInputModel
+{
+    public Guid Id { get; set; }
+    public string Username { get; set; } = string.Empty;
+    public string Email { get; set; } = string.Empty;
+    public string Role { get; set; } = string.Empty;
+    public bool Active { get; set; }
+}</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-page">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">H. Example Razor page</h3>
+                        <span class="badge text-bg-light">Razor</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-html">@page
+@model MyApp.Pages.Users.UsersModel
+
+&lt;div class="d-flex justify-content-between align-items-center mb-4"&gt;
+    &lt;div&gt;
+        &lt;h1 class="h3 mb-1"&gt;Users&lt;/h1&gt;
+        &lt;p class="text-muted mb-0"&gt;Client-side DataTables example with shared modal editing.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;data-table
+    asp-for="Users"
+    table-id="usersTable"
+    page-size="10"
+    edit-url-template="@Url.Page(\"./Users\", \"EditModal\", new { id = \"__id__\" })"&gt;
+&lt;/data-table&gt;</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-layout-modal">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">I. Example shared layout modal</h3>
+                        <span class="badge text-bg-light">Razor</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-html">&lt;app-modal id="entityEditModal" size="lg"&gt;
+    &lt;modal-header&gt;
+        &lt;modal-title&gt;Edit record&lt;/modal-title&gt;
+        &lt;button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"&gt;&lt;/button&gt;
+    &lt;/modal-header&gt;
+    &lt;modal-body&gt;
+        &lt;div data-modal-body class="app-modal-loading"&gt;Loading...&lt;/div&gt;
+    &lt;/modal-body&gt;
+    &lt;modal-footer&gt;
+        &lt;button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"&gt;Close&lt;/button&gt;
+    &lt;/modal-footer&gt;
+&lt;/app-modal&gt;</code></pre>
+                    </div>
+                </article>
+
+                <article class="card border-0 shadow-sm pattern-code-card mb-4" id="snippet-partial">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h3 class="h5 mb-0">J. Example partial</h3>
+                        <span class="badge text-bg-light">Razor</span>
+                    </div>
+                    <div class="card-body">
+<pre><code class="language-html">@model MyApp.Pages.Users.EditUserInputModel
+
+&lt;form method="post"
+      asp-page-handler="Edit"
+      data-modal-form="true"
+      class="row g-3"&gt;
+    &lt;input asp-for="Id" type="hidden" /&gt;
+
+    &lt;div asp-validation-summary="ModelOnly" class="alert alert-danger mb-0"&gt;&lt;/div&gt;
+
+    &lt;div class="col-md-6"&gt;
+        &lt;label asp-for="Username" class="form-label"&gt;&lt;/label&gt;
+        &lt;input asp-for="Username" class="form-control" /&gt;
+        &lt;span asp-validation-for="Username" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class="col-md-6"&gt;
+        &lt;label asp-for="Email" class="form-label"&gt;&lt;/label&gt;
+        &lt;input asp-for="Email" class="form-control" /&gt;
+        &lt;span asp-validation-for="Email" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class="col-md-6"&gt;
+        &lt;label asp-for="Role" class="form-label"&gt;&lt;/label&gt;
+        &lt;select asp-for="Role" class="form-select"&gt;
+            &lt;option&gt;Admin&lt;/option&gt;
+            &lt;option&gt;Analyst&lt;/option&gt;
+            &lt;option&gt;Editor&lt;/option&gt;
+            &lt;option&gt;Support&lt;/option&gt;
+        &lt;/select&gt;
+        &lt;span asp-validation-for="Role" class="text-danger"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+
+    &lt;div class="col-md-6 d-flex align-items-end"&gt;
+        &lt;div class="form-check"&gt;
+            &lt;input asp-for="Active" class="form-check-input" /&gt;
+            &lt;label asp-for="Active" class="form-check-label"&gt;&lt;/label&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="col-12 d-flex justify-content-end gap-2"&gt;
+        &lt;button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"&gt;Cancel&lt;/button&gt;
+        &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+                    </div>
+                </article>
+            </section>
+
+            <section class="mb-5" id="setup">
+                <div class="pattern-section-header">
+                    <div>
+                        <div class="pattern-kicker">Section 5</div>
+                        <h2>Setup in a real ASP.NET Core app</h2>
+                    </div>
+                    <p class="text-muted mb-0">The v1 wiring is intentionally small. You do not need extra infrastructure beyond the standard Razor Pages application shell.</p>
+                </div>
+
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <ol class="pattern-setup-list mb-0">
+                            <li>Add your tag helper namespace in <code>Pages/_ViewImports.cshtml</code> and <code>Views/_ViewImports.cshtml</code> with <code>@addTagHelper *, MyApp</code>.</li>
+                            <li>Place DataTableColumnAttribute.cs, DataTableTagHelper.cs, and ModalTagHelpers.cs under your project TagHelpers folder.</li>
+                            <li>Include DataTables CSS and JavaScript in your layout after Bootstrap and jQuery.</li>
+                            <li>Include <code>wwwroot/js/app-ui.js</code> after jQuery, Bootstrap, and DataTables.</li>
+                            <li>Include <code>wwwroot/css/custom-bootstrap.css</code> after Bootstrap so your component overrides win cleanly.</li>
+                            <li>Add one shared modal to layout using the modal tag helpers.</li>
+                            <li>Return the edit partial from an OnGetEditModalAsync handler and return JSON success from OnPostEditAsync.</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5" id="future-scope">
+                <div class="pattern-section-header">
+                    <div>
+                        <div class="pattern-kicker">Section 6</div>
+                        <h2>What this v1 intentionally does not solve yet</h2>
+                    </div>
+                    <p class="text-muted mb-0">Keeping these out of v1 prevents premature abstraction and keeps the implementation small enough to understand at a glance.</p>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6 col-xl-4"><div class="card border-0 shadow-sm h-100 pattern-future-card"><div class="card-body"><h3 class="h6">Server-side DataTables processing</h3><p class="text-muted mb-0">Deferred until row counts justify more complex query, sort, and paging coordination.</p></div></div></div>
+                    <div class="col-md-6 col-xl-4"><div class="card border-0 shadow-sm h-100 pattern-future-card"><div class="card-body"><h3 class="h6">Permission-driven row actions</h3><p class="text-muted mb-0">Row-level buttons and conditional commands are application-specific and should evolve outside the core v1 helper.</p></div></div></div>
+                    <div class="col-md-6 col-xl-4"><div class="card border-0 shadow-sm h-100 pattern-future-card"><div class="card-body"><h3 class="h6">Reflection-based edit form generation</h3><p class="text-muted mb-0">Explicit partials remain clearer and safer for production editing workflows.</p></div></div></div>
+                    <div class="col-md-6 col-xl-4"><div class="card border-0 shadow-sm h-100 pattern-future-card"><div class="card-body"><h3 class="h6">AJAX row patching without refresh</h3><p class="text-muted mb-0">A full in-place update model can be added later once the save contract stabilizes.</p></div></div></div>
+                    <div class="col-md-6 col-xl-4"><div class="card border-0 shadow-sm h-100 pattern-future-card"><div class="card-body"><h3 class="h6">Nested property path support</h3><p class="text-muted mb-0">Flattening view models is simpler for v1 and reduces reflection edge cases.</p></div></div></div>
+                    <div class="col-md-6 col-xl-4"><div class="card border-0 shadow-sm h-100 pattern-future-card"><div class="card-body"><h3 class="h6">Export buttons and plugin extras</h3><p class="text-muted mb-0">Advanced DataTables extensions should be layered on only after the base interaction pattern is stable.</p></div></div></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="../lib/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="../lib/prism/prism.min.js"></script>
+    <script src="../lib/prism/prism-csharp.min.js"></script>
+    <script src="../lib/prism/prism-css.min.js"></script>
+    <script src="../lib/prism/prism-javascript.min.js"></script>
+    <script src="../lib/prism/prism-bash.min.js"></script>
+    <script src="../js/site.js"></script>
+</body>
+</html>
