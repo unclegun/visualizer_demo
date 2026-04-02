@@ -1,0 +1,74 @@
+.premium-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--surface-panel) 90%, var(--bg-elevated)), var(--bg-elevated));
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--dur-med) var(--ease-standard), box-shadow var(--dur-med) var(--ease-standard),
+    border-color var(--dur-med) var(--ease-standard);
+}
+
+.premium-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
+  border-color: color-mix(in srgb, var(--theme-primary) 36%, var(--line-soft));
+}
+
+.premium-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(220px circle at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+    color-mix(in srgb, var(--theme-accent) 20%, transparent), transparent 70%);
+  opacity: 0;
+  transition: opacity var(--dur-fast) linear;
+  pointer-events: none;
+}
+
+.premium-card[data-spotlight-card]:hover::before,
+.premium-card[data-spotlight-card]:focus-within::before {
+  opacity: 1;
+}
+
+.card-accent-top {
+  border-top: 3px solid color-mix(in srgb, var(--theme-accent) 60%, var(--theme-primary));
+}
+
+.metric-value {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  font-weight: 700;
+  font-family: var(--font-heading);
+  margin-bottom: 0;
+}
+
+.metric-trend {
+  color: color-mix(in srgb, #059669 76%, var(--text-main));
+  font-weight: 600;
+}
+
+.expand-card .expand-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height var(--dur-med) var(--ease-standard), opacity var(--dur-med) var(--ease-standard);
+  opacity: 0;
+}
+
+.expand-card.is-open .expand-body {
+  max-height: 18rem;
+  opacity: 1;
+}
+
+.timeline-card {
+  border-left: 2px solid color-mix(in srgb, var(--theme-accent) 34%, var(--line-soft));
+  padding-left: 1rem;
+}
+
+.comparison-card {
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 16%, var(--line-soft));
+}
+
+.comparison-card.is-emphasis {
+  border-color: color-mix(in srgb, var(--theme-primary) 54%, var(--line-soft));
+  box-shadow: var(--accent-glow);
+}

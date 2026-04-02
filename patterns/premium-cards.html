@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Premium Cards and Panels | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards-premium.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: Advanced Cards / Panels</p>
+      <h1 class="display-6 fw-bold mb-3">C. Spotlight Metric Cards + D. Executive Summary Panel</h1>
+      <p class="text-muted mb-0">What it is: layered KPI cards and summary rows with subtle motion. Problem solved: flat dashboards that fail to convey priority and status.</p>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-md-6 col-xl-3" data-reveal data-reveal-delay="40">
+        <article class="premium-card card-accent-top p-3" data-spotlight-card>
+          <p class="text-subtle mb-1">Active Pipelines</p>
+          <p class="metric-value" data-counter-target="128">0</p>
+          <p class="metric-trend mb-0">+8.2% this week</p>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-3" data-reveal data-reveal-delay="80">
+        <article class="premium-card card-accent-top p-3" data-spotlight-card>
+          <p class="text-subtle mb-1">Validation Pass</p>
+          <p class="metric-value" data-counter-target="97">0</p>
+          <p class="metric-trend mb-0">97% quality score</p>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-3" data-reveal data-reveal-delay="120">
+        <article class="premium-card card-accent-top p-3" data-spotlight-card>
+          <p class="text-subtle mb-1">Queued Jobs</p>
+          <p class="metric-value" data-counter-target="342">0</p>
+          <p class="metric-trend mb-0">Stable throughput</p>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-3" data-reveal data-reveal-delay="160">
+        <article class="premium-card card-accent-top p-3" data-spotlight-card>
+          <p class="text-subtle mb-1">SLA Health</p>
+          <p class="metric-value" data-counter-target="99">0</p>
+          <p class="metric-trend mb-0">99.4% uptime</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section-shell mb-4" data-reveal>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <h2 class="h4 mb-0">Executive Summary Panel</h2>
+        <span class="status-badge status-ok status-pulse">System nominal</span>
+      </div>
+      <div class="row g-3 mb-3">
+        <div class="col-md-4"><div class="premium-card p-3"><p class="text-subtle mb-1">Budget utilization</p><div class="progress"><div class="progress-bar bg-success" data-progress-value="74"></div></div></div></div>
+        <div class="col-md-4"><div class="premium-card p-3"><p class="text-subtle mb-1">Data freshness</p><div class="progress"><div class="progress-bar bg-info" data-progress-value="91"></div></div></div></div>
+        <div class="col-md-4"><div class="premium-card p-3"><p class="text-subtle mb-1">Incident closure</p><div class="progress"><div class="progress-bar bg-primary" data-progress-value="63"></div></div></div></div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <article id="detailCardOne" class="premium-card expand-card p-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <h3 class="h6 mb-0">Experiment Cluster A</h3>
+              <button class="btn btn-sm btn-outline-primary" data-expand-toggle="detailCardOne" aria-expanded="false" type="button">Details</button>
+            </div>
+            <div class="expand-body text-subtle">Sustained latency improvements after queue tuning. Next review in 48h.</div>
+          </article>
+        </div>
+        <div class="col-md-6">
+          <article class="premium-card comparison-card is-emphasis p-3">
+            <h3 class="h6">Comparison Card (Emphasis)</h3>
+            <p class="mb-0 text-subtle">Use emphasis only for one primary card per row to avoid visual competition.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6" data-reveal>
+        <div class="section-shell h-100">
+          <h2 class="h5">Razor Pages placement</h2>
+          <ul class="mb-0">
+            <li>Shared KPI cards are ideal as reusable partials.</li>
+            <li>Executive rows fit dashboard index pages with server-driven metric models.</li>
+            <li>Expandable notes can be page-scoped where domain detail varies.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6" data-reveal>
+        <div class="section-shell h-100">
+          <h2 class="h5">Accessibility and tradeoffs</h2>
+          <ul class="mb-0">
+            <li>Spotlight effect is purely decorative and should never carry meaning.</li>
+            <li>Expandable cards must expose clear button labels and aria-expanded state.</li>
+            <li>Avoid stacking too many animated metrics in data-dense rows.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="code-shell" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">Razor Partial</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#cardSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="cardSnippet" class="language-csharp">@* Views/Shared/_MetricCard.cshtml *@
+&lt;article class="premium-card card-accent-top p-3" data-spotlight-card&gt;
+  &lt;p class="text-subtle mb-1"&gt;@Model.Label&lt;/p&gt;
+  &lt;p class="metric-value" data-counter-target="@Model.Value"&gt;0&lt;/p&gt;
+  &lt;p class="metric-trend mb-0"&gt;@Model.TrendText&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

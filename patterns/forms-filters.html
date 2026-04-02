@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Forms and Filters | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: Form / Input Experience</p>
+      <h1 class="display-6 fw-bold mb-3">H. Settings Section Cards and Smart Filters</h1>
+      <p class="text-muted mb-0">What it is: enterprise-grade form shells with clear grouping and summary context. Problem solved: long forms that are hard to scan and easy to misconfigure.</p>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-8" data-reveal>
+        <article class="setting-card mb-3">
+          <h2 class="h5">Account security</h2>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Service account name</label>
+              <input class="form-control" value="svc.ops.automation" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Rotation interval</label>
+              <select class="form-select"><option>30 days</option><option>45 days</option></select>
+            </div>
+          </div>
+          <label class="form-label mt-3">New password policy</label>
+          <input class="form-control" type="password" data-password-strength placeholder="Enter policy example" />
+          <div class="password-meter mt-2"><span data-password-meter></span></div>
+        </article>
+
+        <article class="setting-card mb-3">
+          <h2 class="h5">Environment profile</h2>
+          <div class="choice-grid">
+            <div class="choice-card is-selected" data-choice-card><strong>Balanced</strong><p class="mb-0 text-subtle">Recommended for mixed workloads.</p></div>
+            <div class="choice-card" data-choice-card><strong>Throughput</strong><p class="mb-0 text-subtle">Max processing speed.</p></div>
+            <div class="choice-card" data-choice-card><strong>Compliance</strong><p class="mb-0 text-subtle">Extra validation controls.</p></div>
+          </div>
+        </article>
+
+        <article class="setting-card">
+          <h2 class="h5">Search and filter presets</h2>
+          <div class="chip-row">
+            <button class="chip-toggle" data-chip-toggle type="button">Recent updates</button>
+            <button class="chip-toggle" data-chip-toggle type="button">My ownership</button>
+            <button class="chip-toggle is-active" data-chip-toggle type="button">High risk</button>
+          </div>
+        </article>
+      </div>
+
+      <div class="col-lg-4" data-reveal>
+        <aside class="section-shell sticky-top" style="top: 5rem;">
+          <h2 class="h6">Sticky progress summary</h2>
+          <ul class="list-unstyled mb-3">
+            <li class="mb-2">1. Identity settings complete</li>
+            <li class="mb-2">2. Profile selection in progress</li>
+            <li>3. Validation pending</li>
+          </ul>
+          <div class="progress mb-2"><div class="progress-bar" data-progress-value="66"></div></div>
+          <p class="text-subtle mb-0">Useful for long settings and onboarding forms.</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6" data-reveal>
+        <div class="section-shell h-100">
+          <h2 class="h5">Razor implementation notes</h2>
+          <ul class="mb-0">
+            <li>Render each form section as a partial for maintainable validation boundaries.</li>
+            <li>Keep summary sidebar in page markup and update progress from model state.</li>
+            <li>Use ModelState summary callouts near the form header.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6" data-reveal>
+        <div class="section-shell h-100">
+          <h2 class="h5">When to avoid these patterns</h2>
+          <ul class="mb-0">
+            <li>Avoid sticky sidebars on narrow mobile workflows.</li>
+            <li>Reduce chip/toggle count where business rules are simple.</li>
+            <li>Do not hide critical options only behind advanced filter toggles.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="code-shell" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">Razor Page Composition</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#formSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="formSnippet" class="language-csharp">@await Html.PartialAsync("_SettingsIdentity", Model)
+@await Html.PartialAsync("_SettingsProfile", Model)
+@await Html.PartialAsync("_SettingsFilters", Model)
+
+&lt;partial name="_ValidationSummaryCallout" /&gt;</code></pre>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

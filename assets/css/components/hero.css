@@ -1,0 +1,95 @@
+.hero-shell {
+  position: relative;
+  overflow: clip;
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 20%, var(--line-soft));
+  border-radius: var(--radius-xl);
+  background: linear-gradient(165deg, color-mix(in srgb, var(--theme-primary) 8%, var(--bg-elevated)), var(--bg-elevated));
+  box-shadow: var(--shadow-md);
+  padding: clamp(1.4rem, 2.4vw, 2.4rem);
+  min-height: 20rem;
+}
+
+.hero-mesh,
+.hero-grid,
+.hero-orbit {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hero-mesh {
+  background:
+    radial-gradient(circle at 20% 25%, color-mix(in srgb, var(--theme-accent) 28%, transparent), transparent 40%),
+    radial-gradient(circle at 76% 15%, color-mix(in srgb, var(--theme-primary) 30%, transparent), transparent 44%),
+    radial-gradient(circle at 56% 78%, color-mix(in srgb, #10b981 20%, transparent), transparent 48%);
+  filter: blur(6px);
+  opacity: 0.85;
+  animation: mesh-drift 14s ease-in-out infinite alternate;
+}
+
+.hero-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--line-soft) 58%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line-soft) 58%, transparent) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.86), transparent 82%);
+  opacity: 0.45;
+}
+
+.hero-orbit::before,
+.hero-orbit::after {
+  content: "";
+  position: absolute;
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 30%, var(--line-soft));
+  border-radius: 50%;
+}
+
+.hero-orbit::before {
+  width: 16rem;
+  height: 16rem;
+  right: -4rem;
+  top: -4rem;
+}
+
+.hero-orbit::after {
+  width: 10rem;
+  height: 10rem;
+  right: 2rem;
+  top: 2rem;
+}
+
+.hero-band {
+  position: absolute;
+  width: 140%;
+  height: 42%;
+  left: -20%;
+  top: 38%;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--theme-accent) 16%, white), transparent);
+  transform: rotate(-9deg);
+  opacity: 0.6;
+  animation: band-drift 10s linear infinite;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 42rem;
+}
+
+@keyframes mesh-drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(2.5%, -2.5%, 0) scale(1.04);
+  }
+}
+
+@keyframes band-drift {
+  from {
+    transform: translateX(-14%) rotate(-9deg);
+  }
+  to {
+    transform: translateX(14%) rotate(-9deg);
+  }
+}

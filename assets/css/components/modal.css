@@ -1,0 +1,5 @@
+.modal-content {
+  border: 1px solid var(--line-soft);
+  border-radius: 1rem;
+  box-shadow: var(--shadow-md);
+}

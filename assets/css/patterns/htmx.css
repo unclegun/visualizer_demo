@@ -1,0 +1,16 @@
+.htmx-demo-box {
+  border: 1px dashed color-mix(in srgb, var(--theme-primary) 46%, var(--line-soft));
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: color-mix(in srgb, var(--theme-primary) 6%, var(--bg-elevated));
+}
+
+.htmx-indicator {
+  display: none;
+  color: var(--theme-secondary);
+  font-weight: 600;
+}
+
+.loading .htmx-indicator {
+  display: inline-block;
+}

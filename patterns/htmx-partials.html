@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTMX Partials Pattern | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/code-blocks.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/htmx.css" />
+</head>
+<body data-site-root="..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top"><div class="container-xl"><a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto gap-lg-1"><li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav href="./htmx-partials.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li></ul><div class="d-flex align-items-center gap-2"><button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button></div></div></div></nav>
+  <main class="container-xl page-shell" id="htmxPartialsDemo">
+    <section class="site-hero mb-4"><h1 class="display-6 fw-bold mb-2">Pattern: HTMX Partials</h1><p class="text-muted mb-0">Search/filter input updates a target fragment with <code>hx-get</code> and minimal client JavaScript.</p></section>
+    <section class="mb-4"><h2 class="h4">Why use this in ASP.NET Core Razor Pages</h2><p class="text-muted">Handlers return fragment HTML cleanly, preserving Razor validation and view composition without SPA overhead.</p></section>
+    <section class="mb-4"><h2 class="h4">Live static demo</h2><div class="htmx-demo-box"><label class="form-label" for="htmxSearchInput">Search users</label><input id="htmxSearchInput" class="form-control mb-2" placeholder="Start typing" /><span class="htmx-indicator">Loading fragment...</span><ul id="htmxSearchResults" class="mt-3 mb-0"><li>Maya Nguyen - Admin</li><li>Jordan Walsh - Editor</li><li>Sofia Lopez - Support</li><li>Eric Brown - Analyst</li></ul></div></section>
+    <section class="mb-4"><h2 class="h4">How it works</h2><p class="text-muted mb-0">Input events trigger a handler endpoint, the response partial replaces a target region, and loading states are driven by HTMX lifecycle classes.</p></section>
+    <section class="mb-4"><h2 class="h4">Copy-paste markup snippet</h2><pre><code class="language-html">&lt;input name="q"
+       hx-get="/Users?handler=Search"
+       hx-target="#results"
+       hx-trigger="keyup changed delay:300ms"
+       hx-indicator="#loadingIndicator" /&gt;
+&lt;div id="loadingIndicator" class="htmx-indicator"&gt;Loading...&lt;/div&gt;
+&lt;div id="results"&gt;&lt;partial name="_UserRows" model="Model.Users" /&gt;&lt;/div&gt;</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Razor Pages handler example</h2><pre><code class="language-csharp">public async Task&lt;PartialViewResult&gt; OnGetSearchAsync(string? q)
+{
+    var results = await _users.SearchAsync(q);
+    return Partial("_UserRows", results);
+}</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Partial view example</h2><pre><code class="language-html">@model IReadOnlyList&lt;UserListItemVm&gt;
+@foreach (var user in Model)
+{
+    &lt;div class="list-group-item"&gt;@user.DisplayName - @user.Role&lt;/div&gt;
+}</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Notes, tradeoffs, and best uses</h2><ul><li>Best for list filtering, search results, and compact dashboard panels.</li><li>Avoid for high-frequency stateful interactions requiring client reconciliation.</li><li>Pair with pagination handlers for large datasets.</li></ul></section>
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Implementation flow</strong></div>
+          <div class="card-body">
+            <ol class="mb-0">
+              <li>Page renders initial list and search input.</li>
+              <li>Input keyup triggers <code>hx-get</code> to the page handler.</li>
+              <li>Handler returns only list fragment partial.</li>
+              <li>HTMX swaps target region and preserves rest of page state.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Handler with paging</strong></div>
+          <div class="card-body">
+<pre><code class="language-csharp">public async Task&lt;PartialViewResult&gt; OnGetSearchAsync(string? q, int page = 1)
+{
+    var vm = await _users.SearchAsync(q, page, pageSize: 20);
+    return Partial("_UserSearchResults", vm);
+}</code></pre>
+            <p class="copy-note mb-0">Add paging early so the same pattern scales without redesign.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>No results partial</strong></div>
+          <div class="card-body">
+<pre><code class="language-html">@if (!Model.Items.Any())
+{
+  &lt;div class="alert alert-light border"&gt;No matches. Try a broader search.&lt;/div&gt;
+}
+else
+{
+  @foreach (var user in Model.Items)
+  {
+    &lt;div class="list-group-item"&gt;@user.DisplayName&lt;/div&gt;
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Progressive enhancement fallback</strong></div>
+          <div class="card-body">
+<pre><code class="language-html">&lt;form method="get"&gt;
+  &lt;input name="q" class="form-control" /&gt;
+  &lt;button type="submit" class="btn btn-primary mt-2"&gt;Search&lt;/button&gt;
+&lt;/form&gt;
+
+&lt;!-- HTMX enhances the same endpoint, but form still works without JS --&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section><h2 class="h4">Related patterns</h2><p class="mb-0"><a href="./htmx-modal-form.html">HTMX Modal Form</a> · <a href="./htmx-table-refresh.html">HTMX Table Refresh</a> · <a href="./htmx-cascading-selects.html">HTMX Cascading Selects</a></p></section>
+  </main>
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script><script src="../assets/vendor/prism/prism.min.js"></script><script src="../assets/vendor/prism/prism-csharp.min.js"></script><script src="../assets/vendor/prism/prism-html.min.js"></script><script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

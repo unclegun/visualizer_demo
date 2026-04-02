@@ -1,0 +1,65 @@
+.table-shell {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.table-shell .table {
+  margin-bottom: 0;
+}
+
+.table-shell thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--theme-primary) 10%, var(--bg-elevated)), var(--bg-elevated));
+  border-bottom-color: color-mix(in srgb, var(--theme-primary) 24%, var(--line-soft));
+}
+
+.table-shell tbody tr {
+  transition: background-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard);
+}
+
+.table-shell tbody tr:hover {
+  background: color-mix(in srgb, var(--theme-accent) 10%, var(--bg-elevated));
+}
+
+.row-actions {
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity var(--dur-fast) linear, transform var(--dur-fast) var(--ease-standard);
+}
+
+.table-shell tbody tr:hover .row-actions,
+.table-shell tbody tr:focus-within .row-actions {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.table-state {
+  border: 1px dashed color-mix(in srgb, var(--theme-primary) 34%, var(--line-soft));
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  text-align: center;
+  color: var(--text-subtle);
+}
+
+.detail-row {
+  display: none;
+}
+
+.detail-row.is-open {
+  display: table-row;
+  animation: fade-in var(--dur-med) var(--ease-standard);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

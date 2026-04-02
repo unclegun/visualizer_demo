@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dashboard Motion Patterns | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards-premium.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/dashboard-motion.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: Professional Dashboard Motion</p>
+      <h1 class="display-6 fw-bold mb-3">Subtle sequencing for enterprise dashboard clarity</h1>
+      <p class="text-muted mb-0">What it is: restrained motion rhythm for metric hierarchy. Problem solved: dashboards that dump all information at once without visual pacing.</p>
+    </section>
+
+    <section class="status-strip mb-4" data-reveal>
+      <span class="status-item is-active" data-status-item>Ingest stream healthy</span>
+      <span class="status-item" data-status-item>Validation queue normal</span>
+      <span class="status-item" data-status-item>Archive sync lag: 2m</span>
+      <span class="status-item" data-status-item>Policy scan complete</span>
+    </section>
+
+    <section class="dashboard-summary mb-4">
+      <article class="summary-card" data-reveal data-reveal-delay="30">
+        <p class="text-subtle mb-1">Requests today</p>
+        <p class="metric-value mb-2" data-counter-target="28440">0</p>
+        <div class="progress"><div class="progress-bar bg-primary" data-progress-value="76"></div></div>
+      </article>
+      <article class="summary-card" data-reveal data-reveal-delay="60">
+        <p class="text-subtle mb-1">Error budget</p>
+        <p class="metric-value mb-2" data-counter-target="92">0</p>
+        <div class="progress"><div class="progress-bar bg-success" data-progress-value="92"></div></div>
+      </article>
+      <article class="summary-card" data-reveal data-reveal-delay="90">
+        <p class="text-subtle mb-1">Throughput</p>
+        <p class="metric-value mb-2" data-counter-target="618">0</p>
+        <div class="progress"><div class="progress-bar bg-info" data-progress-value="68"></div></div>
+      </article>
+      <article class="summary-card" data-reveal data-reveal-delay="120">
+        <p class="text-subtle mb-1">Incidents closed</p>
+        <p class="metric-value mb-2" data-counter-target="17">0</p>
+        <div class="progress"><div class="progress-bar bg-warning" data-progress-value="54"></div></div>
+      </article>
+    </section>
+
+    <section class="section-shell mb-4" data-reveal>
+      <h2 class="h4">Use in Razor Pages</h2>
+      <ul class="mb-0">
+        <li>Place motion orchestration in shared JS modules loaded from _Layout.cshtml.</li>
+        <li>Keep per-page metric definitions in strongly typed models and data attributes.</li>
+        <li>Use lower animation intensity for operations consoles with rapid live updates.</li>
+      </ul>
+    </section>
+
+    <section class="code-shell" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">Vanilla JS Pattern</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#motionSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="motionSnippet" class="language-javascript">document.querySelectorAll('[data-progress-value]').forEach((bar) =&gt; {
+  const value = Number(bar.dataset.progressValue || 0);
+  requestAnimationFrame(() =&gt; {
+    bar.style.width = `${value}%`;
+  });
+});</code></pre>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-javascript.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

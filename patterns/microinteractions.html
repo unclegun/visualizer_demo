@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Microinteraction Gallery | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/badges.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/microinteractions.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: Professional Microinteractions</p>
+      <h1 class="display-6 fw-bold mb-3">I. Microinteraction Gallery + J. Section Reveal System + L. Interactive Code Block Shell</h1>
+      <p class="text-muted mb-0">What it is: subtle interactions that clarify status and control feedback. Problem solved: ambiguous action response and low visual rhythm.</p>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6" data-reveal="left">
+        <div class="section-shell h-100">
+          <h2 class="h5 mb-3">Button, badge, and feedback interactions</h2>
+          <div class="d-flex flex-wrap gap-2 mb-3">
+            <button class="btn btn-primary motion-btn" type="button">Run Sync <i class="fas fa-arrow-right ms-1 icon-shift"></i></button>
+            <button class="btn btn-outline-primary motion-btn" data-toast-demo type="button">Show Toast</button>
+            <span class="status-badge status-ok">Healthy</span>
+            <span class="status-badge status-warn">Pending</span>
+          </div>
+          <div class="skeleton rounded mb-2" style="height: 0.9rem;"></div>
+          <div class="skeleton rounded mb-2" style="height: 0.9rem; width: 88%;"></div>
+          <div class="skeleton rounded" style="height: 0.9rem; width: 74%;"></div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-reveal="right">
+        <div class="section-shell h-100">
+          <h2 class="h5 mb-3">Inline validation helper transition</h2>
+          <label class="form-label" for="shortCode">Project short code</label>
+          <input id="shortCode" class="form-control" type="text" maxlength="12" data-inline-validate="#shortCodeHint" />
+          <p id="shortCodeHint" class="validation-hint text-danger mt-2 mb-0">Use at least 4 characters for stable search and reporting.</p>
+          <p class="text-subtle mt-3 mb-0">Use this for enterprise form guidance where immediate but calm feedback reduces submit errors.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="code-shell mb-4" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">Code Shell with Copy</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#microSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="microSnippet" class="language-javascript">document.querySelector('[data-toast-demo]').addEventListener('click', () =&gt; {
+  spawnToast('Saved changes.');
+});
+
+new IntersectionObserver((entries, observer) =&gt; {
+  entries.forEach((entry) =&gt; {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.14 });</code></pre>
+    </section>
+
+    <section class="row g-3">
+      <div class="col-lg-4" data-reveal data-reveal-delay="50"><div class="section-shell h-100"><h2 class="h6">Where it fits</h2><p class="mb-0 text-subtle">Use in partials and page-level components that need action confirmation and progressive loading cues.</p></div></div>
+      <div class="col-lg-4" data-reveal data-reveal-delay="100"><div class="section-shell h-100"><h2 class="h6">Accessibility note</h2><p class="mb-0 text-subtle">Do not rely on animation alone. Include text labels, ARIA live updates, and focus-visible states.</p></div></div>
+      <div class="col-lg-4" data-reveal data-reveal-delay="150"><div class="section-shell h-100"><h2 class="h6">When not to use</h2><p class="mb-0 text-subtle">Skip decorative motion in mission-critical, high-density incident consoles where static clarity is preferred.</p></div></div>
+    </section>
+  </main>
+
+  <div class="toast-stack" data-toast-stack aria-live="polite" aria-atomic="true"></div>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-javascript.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

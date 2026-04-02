@@ -6,8 +6,8 @@ This repository includes a reusable Bootstrap-focused Tag Helper library designe
 
 Core helper implementations are consolidated into two main files:
 
-- `visualizer_demo/TagHelpers/BootstrapUiTagHelpers.cs`
-- `visualizer_demo/TagHelpers/FormTagHelpers.cs`
+- `examples/razor-reference/visualizer_demo/TagHelpers/BootstrapUiTagHelpers.cs`
+- `examples/razor-reference/visualizer_demo/TagHelpers/FormTagHelpers.cs`
 
 This keeps helper behavior centralized and easy to maintain.
 
@@ -15,8 +15,8 @@ This keeps helper behavior centralized and easy to maintain.
 
 The helpers are enabled globally for both MVC Views and Razor Pages:
 
-- `visualizer_demo/Views/_ViewImports.cshtml`
-- `visualizer_demo/Pages/_ViewImports.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/_ViewImports.cshtml`
+- `examples/razor-reference/visualizer_demo/Pages/_ViewImports.cshtml`
 
 Directive used:
 
@@ -170,13 +170,13 @@ Attributes:
 
 Refactored pages currently using the helper library:
 
-- `visualizer_demo/Views/Sandbox/Index.cshtml`
-- `visualizer_demo/Views/Sandbox/Forms.cshtml`
-- `visualizer_demo/Views/Sandbox/AgentSelector.cshtml`
-- `visualizer_demo/Views/Sandbox/Partials.cshtml`
-- `visualizer_demo/Views/Sandbox/Components.cshtml`
-- `visualizer_demo/Views/Sandbox/AjaxExample.cshtml`
-- `visualizer_demo/Views/Shared/_AlertPartial.cshtml`
-- `visualizer_demo/Views/Shared/_ExamplePartial.cshtml`
-- `visualizer_demo/Views/Shared/Components/Alert/Default.cshtml`
-- `visualizer_demo/Views/Shared/Components/PriorityList/Default.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Sandbox/Index.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Sandbox/Forms.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Sandbox/AgentSelector.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Sandbox/Partials.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Sandbox/Components.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Sandbox/AjaxExample.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Shared/_AlertPartial.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Shared/_ExamplePartial.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Shared/Components/Alert/Default.cshtml`
+- `examples/razor-reference/visualizer_demo/Views/Shared/Components/PriorityList/Default.cshtml`

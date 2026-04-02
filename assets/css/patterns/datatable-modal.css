@@ -1,0 +1,7 @@
+.demo-table-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: space-between;
+  align-items: end;
+}

@@ -1,0 +1,17 @@
+.table-wrap {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.table-wrap table {
+  margin-bottom: 0;
+}
+
+.table-wrap thead th {
+  background: color-mix(in srgb, var(--theme-primary) 8%, var(--bg-elevated));
+}
+
+.table-hover tbody tr:hover {
+  background: color-mix(in srgb, var(--theme-accent) 10%, var(--bg-elevated));
+}

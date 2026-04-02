@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTMX Cascading Selects Pattern | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" /><link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" /><link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" /><link rel="stylesheet" href="../assets/css/base.css" /><link rel="stylesheet" href="../assets/css/layout.css" /><link rel="stylesheet" href="../assets/css/components/navbar.css" /><link rel="stylesheet" href="../assets/css/components/code-blocks.css" /><link rel="stylesheet" href="../assets/css/patterns/htmx.css" />
+</head>
+<body data-site-root="..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top"><div class="container-xl"><a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto gap-lg-1"><li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav href="./htmx-cascading-selects.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li></ul><button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button></div></div></nav>
+  <main class="container-xl page-shell" id="htmxCascadingDemo">
+    <section class="site-hero mb-4"><h1 class="display-6 fw-bold mb-2">Pattern: HTMX Cascading Selects</h1><p class="text-muted mb-0">Parent selection fetches child options via server-rendered fragment swap.</p></section>
+    <section class="mb-4"><h2 class="h4">Why use this in ASP.NET Core Razor Pages</h2><p class="text-muted">Useful for admin forms where option validity is dynamic and should stay server-authoritative.</p></section>
+    <section class="mb-4"><h2 class="h4">Live static demo</h2><div class="htmx-demo-box"><div class="row g-2"><div class="col-md-6"><label class="form-label">Country</label><select id="countrySelect" class="form-select"><option value="">Choose</option><option value="US">United States</option><option value="CA">Canada</option><option value="DE">Germany</option></select></div><div class="col-md-6"><label class="form-label">City</label><select id="citySelect" class="form-select"><option value="">Select a country first</option></select></div></div><span class="htmx-indicator mt-2">Refreshing options...</span></div></section>
+    <section class="mb-4"><h2 class="h4">How it works</h2><p class="text-muted mb-0">The parent control posts its value; handler returns only child option markup or option partial to swap into target select.</p></section>
+    <section class="mb-4"><h2 class="h4">Copy-paste markup snippet</h2><pre><code class="language-html">&lt;select name="CountryId"
+        hx-get="/Orders?handler=Cities"
+        hx-target="#citySelect"
+        hx-include="[name='CountryId']"&gt;
+&lt;/select&gt;
+
+&lt;select id="citySelect" name="CityId"&gt;
+  &lt;option value=""&gt;Select a country first&lt;/option&gt;
+&lt;/select&gt;</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Razor Pages handler example</h2><pre><code class="language-csharp">public async Task&lt;PartialViewResult&gt; OnGetCitiesAsync(Guid countryId)
+{
+    var options = await _geo.GetCitiesAsync(countryId);
+    return Partial("_CityOptions", options);
+}</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Partial view example</h2><pre><code class="language-html">@model IReadOnlyList&lt;SelectOptionVm&gt;
+&lt;option value=""&gt;Choose a city&lt;/option&gt;
+@foreach (var city in Model)
+{
+  &lt;option value="@city.Value"&gt;@city.Text&lt;/option&gt;
+}</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Notes, tradeoffs, and best uses</h2><ul><li>Great for dependent controls and permissions-aware options.</li><li>Always validate selected child server-side on submit.</li><li>Return empty-state options intentionally.</li></ul></section>
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Implementation checklist</strong></div>
+          <div class="card-body">
+            <ol class="mb-0">
+              <li>Render both selects in initial GET.</li>
+              <li>Parent select sends current value via <code>hx-include</code>.</li>
+              <li>Child options fragment is returned by handler.</li>
+              <li>Server validates parent-child compatibility on final submit.</li>
+              <li>Empty and unauthorized states return explicit option text.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Robust handler example</strong></div>
+          <div class="card-body">
+<pre><code class="language-csharp">public async Task&lt;PartialViewResult&gt; OnGetCitiesAsync(Guid countryId)
+{
+    if (countryId == Guid.Empty)
+        return Partial("_CityOptions", Array.Empty&lt;SelectOptionVm&gt;());
+
+    var options = await _geo.GetCitiesAllowedForUserAsync(countryId, User);
+    return Partial("_CityOptions", options);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-4">
+      <h2 class="h4">Submit validation example</h2>
+<pre><code class="language-csharp">public async Task&lt;IActionResult&gt; OnPostAsync(EditOfficeVm input)
+{
+    var isValidPair = await _geo.IsCityInCountryAsync(input.CityId, input.CountryId);
+    if (!isValidPair)
+        ModelState.AddModelError(nameof(input.CityId), "Selected city is not valid for the chosen country.");
+
+    if (!ModelState.IsValid)
+        return Page();
+
+    await _offices.SaveAsync(input);
+    return RedirectToPage();
+}</code></pre>
+    </section>
+    <section><h2 class="h4">Related patterns</h2><p class="mb-0"><a href="./htmx-partials.html">HTMX Partials</a> · <a href="./htmx-modal-form.html">HTMX Modal Form</a></p></section>
+  </main>
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script><script src="../assets/vendor/prism/prism.min.js"></script><script src="../assets/vendor/prism/prism-csharp.min.js"></script><script src="../assets/vendor/prism/prism-html.min.js"></script><script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

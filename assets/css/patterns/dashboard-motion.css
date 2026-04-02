@@ -1,0 +1,49 @@
+.dashboard-summary {
+  display: grid;
+  gap: 0.9rem;
+}
+
+@media (min-width: 992px) {
+  .dashboard-summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.summary-card {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: 0.9rem;
+}
+
+.summary-card .progress {
+  height: 0.42rem;
+  background: color-mix(in srgb, var(--line-soft) 66%, transparent);
+}
+
+.summary-card .progress-bar {
+  width: 0;
+  transition: width 900ms var(--ease-decel);
+}
+
+.status-strip {
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--theme-accent) 8%, var(--bg-elevated));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.4rem 0.75rem;
+}
+
+.status-item {
+  font-size: 0.86rem;
+  color: var(--text-subtle);
+}
+
+.status-item.is-active {
+  color: var(--text-main);
+  font-weight: 600;
+}

@@ -1,0 +1,28 @@
+.site-navbar {
+  background:
+    linear-gradient(125deg, color-mix(in srgb, var(--theme-primary) 82%, #0b1220), color-mix(in srgb, var(--theme-accent) 72%, #0b1220));
+  border-bottom: 1px solid color-mix(in srgb, var(--theme-accent) 30%, transparent);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.18);
+}
+
+.site-navbar .navbar-brand,
+.site-navbar .nav-link,
+.site-navbar .btn-outline-light {
+  color: var(--theme-text-on-primary) !important;
+}
+
+.site-navbar .nav-link {
+  border-radius: 999px;
+  padding: 0.34rem 0.8rem;
+  transition: background-color 0.2s ease;
+}
+
+.site-navbar .nav-link:hover,
+.site-navbar .nav-link.active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.palette-dropdown-menu {
+  min-width: 23rem;
+  max-width: 94vw;
+}

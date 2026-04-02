@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Razor Pages Mapping | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" /><link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" /><link rel="stylesheet" href="../assets/css/theme.css" /><link rel="stylesheet" href="../assets/css/base.css" /><link rel="stylesheet" href="../assets/css/layout.css" /><link rel="stylesheet" href="../assets/css/components/navbar.css" /><link rel="stylesheet" href="../assets/css/components/code-blocks.css" />
+</head>
+<body data-site-root="..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top"><div class="container-xl"><a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto gap-lg-1"><li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav href="../patterns/chartjs-dashboard.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="../patterns/advanced-ui.html">Advanced UI</a></li><li class="nav-item"><a class="nav-link" data-nav href="./razor-pages-mapping.html">Razor Pages</a></li><li class="nav-item"><a class="nav-link" data-nav href="./snippets.html">Snippets</a></li><li class="nav-item"><a class="nav-link" data-nav href="./conventions.html">Conventions</a></li></ul><button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button></div></div></nav>
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4"><h1 class="display-6 fw-bold mb-2">HTMX + Razor Pages Mapping</h1><p class="text-muted mb-0">Use HTMX where it complements Razor Pages partial rendering, not as a replacement for full application state management.</p></section>
+    <section class="doc-section p-4 mb-3"><h2 class="h4">Core architecture to teach</h2><ul class="mb-0"><li>Razor Pages owns routes and handler structure.</li><li>Partials own fragment markup.</li><li>HTMX owns transport and swap behavior.</li><li>Bootstrap owns visual primitives.</li><li>Custom JavaScript fills only true interaction gaps.</li></ul></section>
+    <section class="doc-section p-4 mb-3"><h2 class="h4">When to use HTMX</h2><ul class="mb-0"><li>Search/filter partial updates</li><li>Forms inside modals</li><li>Dependent selects</li><li>Row actions and table refreshes</li><li>Lazy-loaded page fragments</li></ul></section>
+    <section class="doc-section p-4 mb-3"><h2 class="h4">When not to use HTMX as default</h2><ul class="mb-0"><li>Full SPA-style state orchestration</li><li>Complex drag/drop stateful interfaces</li><li>Heavy client-side visualization builders</li></ul></section>
+    <section class="doc-section p-4 mb-3"><h2 class="h4">Anti-forgery and forms</h2><p>Keep anti-forgery tokens in forms and include them in HTMX submissions. For server validation failures, return the same partial with validation summaries.</p><pre><code class="language-csharp">if (!ModelState.IsValid)
+{
+    return Partial("_EditUserForm", input);
+}</code></pre></section>
+    <section class="doc-section p-4 mb-3"><h2 class="h4">Pattern implementation playbooks</h2><ul class="mb-0"><li><strong>HTMX Partials:</strong> input event -> handler -> partial list fragment -> target swap.</li><li><strong>HTMX Modal Form:</strong> modal shell static -> body partial via GET -> POST same partial on errors.</li><li><strong>Cascading Selects:</strong> parent ID in request -> server-authoritative child options fragment.</li><li><strong>Table Refresh:</strong> post row action -> return row partial or tbody partial + OOB status.</li><li><strong>Chart Dashboard:</strong> JSON data endpoint + isolated chart renderer module.</li></ul></section>
+    <section class="doc-section p-4 mb-3"><h2 class="h4">Recommended file layout for Razor Pages</h2><pre><code class="language-bash">Pages/Users/Index.cshtml
+  Pages/Users/Index.cshtml.cs
+  Pages/Users/_UserRow.cshtml
+  Pages/Users/_UserEditForm.cshtml
+  Pages/Users/_UserSearchResults.cshtml
+  wwwroot/js/users-page.js</code></pre></section>
+    <section class="doc-section p-4 mb-3"><h2 class="h4">Shared handler conventions</h2><pre><code class="language-csharp">public PartialViewResult Partial(string name, object model)
+    =&gt; new PartialViewResult
+    {
+      ViewName = name,
+      ViewData = new ViewDataDictionary(ViewData, model)
+    };</code></pre><p class="mb-0">Use consistent naming such as <code>OnGetSearchAsync</code>, <code>OnGetEditFormAsync</code>, and <code>OnPostSaveAsync</code> so teams can scan patterns quickly.</p></section>
+    <section class="doc-section p-4 mb-3"><h2 class="h4">Operational guidance</h2><ul class="mb-0"><li>Log handler timings for fragment endpoints separately from full-page loads.</li><li>Add integration tests for validation failure and success return paths.</li><li>Return 204 for successful modal saves when no HTML replacement is required.</li><li>Use <code>HX-Trigger</code> for page-level events instead of custom global JS buses.</li></ul></section>
+    <section class="doc-section p-4"><h2 class="h4">Progressive enhancement mindset</h2><p class="mb-0">Base HTML and server handlers should still represent the canonical workflow. HTMX enhances network and interaction flow without removing server authority.</p></section>
+  </main>
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script><script src="../assets/vendor/prism/prism.min.js"></script><script src="../assets/vendor/prism/prism-csharp.min.js"></script><script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

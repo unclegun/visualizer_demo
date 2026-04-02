@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS Visual Elements | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: CSS-only Visual Elements</p>
+      <h1 class="display-6 fw-bold mb-3">High-end visual treatments that stay production-safe</h1>
+      <p class="text-muted mb-0">What it is: reusable decorative systems built only with CSS. Problem solved: flat interfaces with no visual hierarchy around priority sections.</p>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6" data-reveal>
+        <article class="section-shell sweep-accent h-100">
+          <h2 class="h5">Mesh / aurora panel</h2>
+          <p class="text-subtle">Use for hero intros, insight callouts, and key onboarding moments.</p>
+          <hr class="aurora-divider" />
+          <p class="mb-0">Includes soft glow, textured surface feel, and restrained gradient depth.</p>
+        </article>
+      </div>
+      <div class="col-lg-6" data-reveal>
+        <article class="section-shell h-100">
+          <h2 class="h5">Gradient divider + focus frame</h2>
+          <p class="text-subtle">Break up long docs or dashboard sections while preserving clean information density.</p>
+          <hr class="accent-divider" />
+          <div class="p-3 rounded focus-frame">Priority analysis block</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="code-shell mb-4" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">CSS Only</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#visualSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="visualSnippet" class="language-css">.accent-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--theme-primary), transparent);
+}
+
+.focus-frame {
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 26%, var(--line-soft));
+  box-shadow: var(--accent-glow);
+}</code></pre>
+    </section>
+
+    <section class="section-shell" data-reveal>
+      <h2 class="h5">Razor Pages adaptation</h2>
+      <ul class="mb-0">
+        <li>Best in shared section partials and dashboard modules.</li>
+        <li>Good for public landing headers and executive summary blocks.</li>
+        <li>Avoid overuse in dense internal grids where visual quiet is more important.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-css.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

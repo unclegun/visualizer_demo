@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTMX Table Refresh Pattern | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" /><link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" /><link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" /><link rel="stylesheet" href="../assets/css/base.css" /><link rel="stylesheet" href="../assets/css/layout.css" /><link rel="stylesheet" href="../assets/css/components/navbar.css" /><link rel="stylesheet" href="../assets/css/components/code-blocks.css" /><link rel="stylesheet" href="../assets/css/components/tables.css" /><link rel="stylesheet" href="../assets/css/patterns/htmx.css" />
+</head>
+<body data-site-root="..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top"><div class="container-xl"><a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto gap-lg-1"><li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav href="./htmx-table-refresh.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li></ul><button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button></div></div></nav>
+  <main class="container-xl page-shell" id="htmxTableRefreshDemo">
+    <section class="site-hero mb-4"><h1 class="display-6 fw-bold mb-2">Pattern: HTMX Table Refresh</h1><p class="text-muted mb-0">Row actions post with <code>hx-post</code> and refresh only a row or table region.</p></section>
+    <section class="mb-4"><h2 class="h4">Why use this in ASP.NET Core Razor Pages</h2><p class="text-muted">Avoid expensive full-page reloads while keeping update logic in normal Razor handlers.</p></section>
+    <section class="mb-4"><h2 class="h4">Live static demo</h2><div class="htmx-demo-box"><div class="table-wrap table-responsive"><table class="table table-hover"><thead><tr><th>User</th><th>Status</th><th></th></tr></thead><tbody><tr data-user="Maya Nguyen"><td>Maya Nguyen</td><td>Pending</td><td><button class="btn btn-sm btn-outline-primary" data-row-action type="button">Approve</button></td></tr><tr data-user="Jordan Walsh"><td>Jordan Walsh</td><td>Pending</td><td><button class="btn btn-sm btn-outline-primary" data-row-action type="button">Approve</button></td></tr></tbody></table></div><p id="rowActionStatus" class="mb-0 mt-2 text-muted"></p><span class="htmx-indicator">Posting row action...</span></div></section>
+    <section class="mb-4"><h2 class="h4">How it works</h2><p class="text-muted mb-0">Action buttons post identifiers, handler executes command, and returns either one row fragment or a refreshed tbody partial.</p></section>
+    <section class="mb-4"><h2 class="h4">Copy-paste markup snippet</h2><pre><code class="language-html">&lt;button hx-post="/Users?handler=Approve&amp;id=@row.Id"
+        hx-target="#row-@row.Id"
+        hx-swap="outerHTML"&gt;
+  Approve
+&lt;/button&gt;
+
+&lt;div id="status" hx-swap-oob="true"&gt;User approved&lt;/div&gt;</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Razor Pages handler example</h2><pre><code class="language-csharp">public async Task&lt;PartialViewResult&gt; OnPostApproveAsync(int id)
+{
+    await _users.ApproveAsync(id);
+    var row = await _users.GetRowVmAsync(id);
+    return Partial("_UserRow", row);
+}</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Partial view example</h2><pre><code class="language-html">@model UserRowVm
+&lt;tr id="row-@Model.Id"&gt;
+  &lt;td&gt;@Model.Name&lt;/td&gt;
+  &lt;td&gt;@Model.Status&lt;/td&gt;
+  &lt;td&gt;...&lt;/td&gt;
+&lt;/tr&gt;</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Notes, tradeoffs, and best uses</h2><ul><li>Refresh one row for idempotent row updates; refresh tbody for recalculated ordering.</li><li>Use <code>hx-swap-oob</code> for toast/status regions.</li><li>Keep action handlers explicit and auditable.</li></ul></section>
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Row refresh vs table refresh</strong></div>
+          <div class="card-body">
+            <ul class="mb-0">
+              <li><strong>Row refresh:</strong> use when only one row status changes.</li>
+              <li><strong>Tbody refresh:</strong> use when sort order, filters, or counts change.</li>
+              <li>Use out-of-band swaps for global notices and badge counters.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Tbody refresh snippet</strong></div>
+          <div class="card-body">
+<pre><code class="language-html">&lt;button hx-post="/Users?handler=BulkApprove"
+        hx-target="#usersTableBody"
+        hx-swap="outerHTML"&gt;
+  Approve Selected
+&lt;/button&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Handler with OOB status</strong></div>
+          <div class="card-body">
+<pre><code class="language-csharp">public async Task&lt;PartialViewResult&gt; OnPostApproveAsync(int id)
+{
+    await _users.ApproveAsync(id);
+    var vm = await _users.GetRowVmAsync(id);
+    Response.Headers["HX-Trigger"] = "status-updated";
+    return Partial("_UserRow", vm);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>OOB status fragment</strong></div>
+          <div class="card-body">
+<pre><code class="language-html">&lt;div id="globalStatus" hx-swap-oob="innerHTML"&gt;
+  User approved at @DateTime.UtcNow.ToString("HH:mm:ss")
+&lt;/div&gt;</code></pre>
+            <p class="copy-note mb-0">Keep global feedback outside table markup so layout remains stable.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section><h2 class="h4">Related patterns</h2><p class="mb-0"><a href="./datatable-modal.html">DataTable + Modal</a> · <a href="./htmx-partials.html">HTMX Partials</a></p></section>
+  </main>
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script><script src="../assets/vendor/prism/prism.min.js"></script><script src="../assets/vendor/prism/prism-csharp.min.js"></script><script src="../assets/vendor/prism/prism-html.min.js"></script><script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

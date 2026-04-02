@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chart.js Dashboard Pattern | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/code-blocks.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/chartjs-dashboard.css" />
+</head>
+<body data-site-root=".." data-chart-page="true">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top">
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://github.com/unclegun/visualizer_demo" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <div class="dropdown">
+            <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">Palette</button>
+            <div class="dropdown-menu dropdown-menu-end p-3 palette-dropdown-menu">
+              <input id="paletteSearchInput" class="form-control form-control-sm mb-2" type="search" placeholder="Search palettes" />
+              <select id="paletteSelect" class="form-select form-select-sm mb-2" size="8"></select>
+              <div class="d-flex justify-content-between"><button id="applyPaletteBtn" class="btn btn-primary btn-sm" type="button">Apply</button><a id="paletteSourceLink" href="https://coolors.co/palettes/trending" target="_blank" rel="noopener">Source</a></div>
+            </div>
+          </div>
+          <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4">
+      <h1 class="display-6 fw-bold mb-2">Pattern: Chart.js Dashboard</h1>
+      <p class="text-muted mb-0">Reusable dashboard shell where chart composition, responsive layout, and palette-aware styling are treated as a repeatable pattern rather than product identity.</p>
+    </section>
+
+    <section class="mb-4">
+      <h2 class="h4 section-title">Why this matters in Razor Pages</h2>
+      <p class="section-subtitle">It cleanly separates dashboard markup in Razor views, server-fed data in handlers or APIs, and lightweight client rendering in focused JavaScript modules.</p>
+      <div class="dashboard-grid">
+        <div class="dashboard-chart-card"><h3 class="h6">Sales by Category</h3><canvas id="chart-barChart"></canvas></div>
+        <div class="dashboard-chart-card"><h3 class="h6">Monthly Sales Trend</h3><canvas id="chart-lineChart"></canvas></div>
+        <div class="dashboard-chart-card"><h3 class="h6">Sales Distribution</h3><canvas id="chart-pieChart"></canvas></div>
+        <div class="dashboard-chart-card"><h3 class="h6">Category Breakdown</h3><canvas id="chart-doughnutChart"></canvas></div>
+        <div class="dashboard-chart-card"><h3 class="h6">Evaluation Metrics</h3><canvas id="chart-radarChart"></canvas></div>
+        <div class="dashboard-chart-card"><h3 class="h6">Quarterly Performance</h3><canvas id="chart-polarChart"></canvas></div>
+      </div>
+    </section>
+
+    <section class="mb-4">
+      <h2 class="h4 section-title">How it works</h2>
+      <ol class="mb-0">
+        <li>Razor Page loads shell cards and canvas placeholders.</li>
+        <li>A page handler returns chart datasets as JSON.</li>
+        <li>A focused chart renderer module initializes Chart.js instances once.</li>
+        <li>Palette variables style both the page and chart datasets so the theme feels unified.</li>
+        <li>Refresh is done by re-fetching JSON and replacing only chart instances, not the whole page.</li>
+      </ol>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>PageModel Endpoint</strong></div>
+          <div class="card-body">
+<pre><code class="language-csharp">public async Task&lt;JsonResult&gt; OnGetChartDataAsync(DateOnly from, DateOnly to)
+{
+    var vm = await _dashboardService.GetChartsAsync(from, to);
+    return new JsonResult(vm);
+}</code></pre>
+            <p class="copy-note mb-0">Use query parameters to support filters and date windows without adding controller complexity.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Dashboard Markup</strong></div>
+          <div class="card-body">
+<pre><code class="language-html">&lt;section class="dashboard-grid"&gt;
+  &lt;article class="dashboard-chart-card"&gt;
+    &lt;h3 class="h6"&gt;Revenue Trend&lt;/h3&gt;
+    &lt;canvas id="chart-revenueTrend"&gt;&lt;/canvas&gt;
+  &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+            <p class="copy-note mb-0">Keep chart card markup explicit; only rendering logic should be abstracted.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Client Refresh Example</strong></div>
+          <div class="card-body">
+<pre><code class="language-javascript">async function refreshDashboard(from, to) {
+  const res = await fetch(`/Dashboard?handler=ChartData&from=${from}&to=${to}`);
+  const data = await res.json();
+  renderCharts(data);
+}
+
+document.querySelector("#applyFilters").addEventListener("click", () => {
+  refreshDashboard("2026-01-01", "2026-03-31");
+});</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Best Practices</strong></div>
+          <div class="card-body">
+            <ul class="mb-0">
+              <li>Destroy existing chart instances before re-rendering.</li>
+              <li>Use stable aspect ratios for predictable card heights.</li>
+              <li>Keep query shape versioned if multiple clients consume dashboard JSON.</li>
+              <li>Cache aggregate series on the server for expensive calculations.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Razor Mapping</strong></div>
+          <div class="card-body">
+<pre><code class="language-csharp">public async Task&lt;IActionResult&gt; OnGetDashboardDataAsync()
+{
+    var summary = await _dashboardService.GetSummaryAsync();
+    return new JsonResult(summary);
+}</code></pre>
+            <p class="copy-note mb-0">Handlers own data contracts while chart rendering stays in assets/js/charts.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card h-100 p-3">
+          <h2 class="h5">Related patterns</h2>
+          <ul class="mb-0">
+            <li><a href="./datatable-modal.html">DataTable + Modal</a></li>
+            <li><a href="./htmx-table-refresh.html">HTMX Table Refresh</a></li>
+            <li><a href="./htmx-partials.html">HTMX Partials</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/chart.js/chart.umd.min.js"></script>
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

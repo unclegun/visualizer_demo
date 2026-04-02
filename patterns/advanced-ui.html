@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Advanced UI Patterns | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/callouts.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero section-frame mb-4" data-reveal="zoom">
+      <p class="pattern-hero-kicker mb-2">Advanced UI Section</p>
+      <h1 class="display-6 fw-bold mb-3">Premium CSS + Bootstrap + JavaScript patterns for real Razor Pages apps</h1>
+      <p class="text-muted mb-4">These demos prove Bootstrap is a foundation, not a ceiling. The patterns are polished, subtle, and production-ready for enterprise dashboards, scientific portals, admin pages, and public-facing professional sites.</p>
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-primary" href="./advanced-headers.html">Advanced Headers</a>
+        <a class="btn btn-outline-primary" href="./microinteractions.html">Microinteraction Gallery</a>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-md-6 col-xl-4" data-reveal data-reveal-delay="40">
+        <article class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">Headers</span>
+          <h2 class="h5">Technical Aurora + Scientific Grid</h2>
+          <p class="text-muted mb-3">Layered hero systems with subtle animated mesh, lines, orbital accents, and production-safe motion.</p>
+          <a class="pattern-link" href="./advanced-headers.html">Open page</a>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-4" data-reveal data-reveal-delay="80">
+        <article class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">Cards</span>
+          <h2 class="h5">Spotlight Metric Cards</h2>
+          <p class="text-muted mb-3">KPI cards with hover spotlight, expandable detail rows, emphasis states, and restrained edge accents.</p>
+          <a class="pattern-link" href="./premium-cards.html">Open page</a>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-4" data-reveal data-reveal-delay="120">
+        <article class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">Navigation</span>
+          <h2 class="h5">Adaptive Navbar + Utility Rail</h2>
+          <p class="text-muted mb-3">Scroll-aware nav compaction, section active states, sticky filter shell, and quick actions for wide screens.</p>
+          <a class="pattern-link" href="./navigation-layout.html">Open page</a>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-4" data-reveal data-reveal-delay="160">
+        <article class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">Data</span>
+          <h2 class="h5">Professional Data Table Shell</h2>
+          <p class="text-muted mb-3">Sticky headers, hover row actions, loading and empty states, and expandable detail rows.</p>
+          <a class="pattern-link" href="./data-display.html">Open page</a>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-4" data-reveal data-reveal-delay="200">
+        <article class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">Forms</span>
+          <h2 class="h5">Settings + Filter Experience</h2>
+          <p class="text-muted mb-3">Section cards, chip toggles, smart advanced filters, and sticky progress summary patterns.</p>
+          <a class="pattern-link" href="./forms-filters.html">Open page</a>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-4" data-reveal data-reveal-delay="240">
+        <article class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">Motion</span>
+          <h2 class="h5">Dashboard Motion System</h2>
+          <p class="text-muted mb-3">Staggered reveal, count-up metrics, progress fills, status strip transitions, and chart-shell entrances.</p>
+          <a class="pattern-link" href="./dashboard-motion.html">Open page</a>
+        </article>
+      </div>
+      <div class="col-md-6 col-xl-4" data-reveal data-reveal-delay="280">
+        <article class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">CSS-only</span>
+          <h2 class="h5">Visual Elements</h2>
+          <p class="text-muted mb-3">Aurora panels, glow dividers, focus framing, and polished surface treatments with no JS dependency.</p>
+          <a class="pattern-link" href="./css-visual-elements.html">Open page</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="demo-shell mb-4" data-reveal>
+      <h2 class="h4">Accent Divider + Section Framing System</h2>
+      <p class="text-muted mb-3">Use this in long landing pages and documentation-heavy screens to break content into calm, readable chunks.</p>
+      <hr class="aurora-divider" />
+      <div class="section-shell sweep-accent">
+        <h3 class="h5">Razor Placement Guidance</h3>
+        <ul class="mb-0">
+          <li>Layout-level visuals: gradient dividers, sticky navbar state, and scroll progress bar belong in _Layout.cshtml.</li>
+          <li>Feature-level visuals: hero variants and dashboard panels fit shared partials under Views/Shared or Pages/Shared.</li>
+          <li>Page-level visuals: table wrappers, form shells, and comparison cards are best in page-scoped markup.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="code-shell mb-4" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">HTML + JS</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#advancedSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="advancedSnippet" class="language-html">&lt;div class="scroll-progress"&gt;&lt;span data-scroll-progress&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;nav class="navbar site-navbar sticky-top"&gt;...&lt;/nav&gt;
+
+&lt;section class="section-shell" data-reveal data-reveal-delay="80"&gt;
+  &lt;h2&gt;Operations Summary&lt;/h2&gt;
+  &lt;p&gt;Subtle animation clarifies hierarchy without distracting users.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+    </section>
+
+    <section class="row g-3">
+      <div class="col-lg-6" data-reveal="left">
+        <div class="callout callout-note h-100">
+          <h2 class="h5">Accessibility + performance defaults</h2>
+          <p class="mb-0">All motion utilities use transform/opacity, include reduced-motion fallback, and avoid mandatory animation for core interaction paths.</p>
+        </div>
+      </div>
+      <div class="col-lg-6" data-reveal="right">
+        <div class="callout callout-warning h-100">
+          <h2 class="h5">When not to use premium effects</h2>
+          <p class="mb-0">Avoid dense effects in high-frequency CRUD screens where speed and scannability matter more than visual atmosphere.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

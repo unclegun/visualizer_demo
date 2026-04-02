@@ -1,0 +1,100 @@
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(10px) scale(0.99);
+  transition: opacity var(--dur-med) var(--ease-standard), transform var(--dur-med) var(--ease-standard);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+[data-reveal="left"] {
+  transform: translateX(-14px);
+}
+
+[data-reveal="right"] {
+  transform: translateX(14px);
+}
+
+[data-reveal="zoom"] {
+  transform: scale(0.97);
+}
+
+[data-reveal="left"].is-visible,
+[data-reveal="right"].is-visible,
+[data-reveal="zoom"].is-visible {
+  transform: none;
+}
+
+.sweep-accent {
+  position: relative;
+  overflow: hidden;
+}
+
+.sweep-accent::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 20%, color-mix(in srgb, var(--theme-accent) 18%, white) 50%, transparent 80%);
+  transform: translateX(-120%);
+  animation: accent-sweep 5.8s linear infinite;
+  pointer-events: none;
+}
+
+.soft-float {
+  animation: soft-float 5.2s ease-in-out infinite;
+}
+
+.status-pulse {
+  position: relative;
+}
+
+.status-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -0.22rem;
+  border-radius: inherit;
+  border: 1px solid color-mix(in srgb, var(--theme-accent) 42%, transparent);
+  animation: status-pulse 2.4s ease-out infinite;
+}
+
+.skeleton {
+  background: linear-gradient(100deg, color-mix(in srgb, var(--line-soft) 50%, transparent) 20%, color-mix(in srgb, var(--theme-accent) 14%, white) 40%, color-mix(in srgb, var(--line-soft) 50%, transparent) 60%);
+  background-size: 220% 100%;
+  animation: shimmer 1.7s linear infinite;
+}
+
+@keyframes accent-sweep {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes soft-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes status-pulse {
+  from {
+    opacity: 0.72;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.34);
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -120% 0;
+  }
+}

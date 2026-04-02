@@ -1,0 +1,42 @@
+.page-shell {
+  padding-top: 1.25rem;
+  padding-bottom: 2.5rem;
+}
+
+.site-hero {
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 18%, var(--line-soft));
+  border-radius: 1.3rem;
+  padding: 2rem;
+  background:
+    linear-gradient(128deg, color-mix(in srgb, var(--theme-primary) 18%, transparent), transparent 55%),
+    linear-gradient(180deg, color-mix(in srgb, white 92%, var(--bg-elevated)), var(--bg-elevated));
+  box-shadow: var(--shadow-md);
+}
+
+.section-title {
+  margin-bottom: 0.4rem;
+}
+
+.section-subtitle {
+  color: var(--text-muted);
+  margin-bottom: 1.3rem;
+}
+
+.site-footer {
+  margin-top: 2rem;
+  padding: 1.2rem 0;
+  color: var(--text-muted);
+  border-top: 1px solid var(--line-soft);
+}
+
+.page-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.1rem;
+}
+
+@media (min-width: 992px) {
+  .page-grid.two-col {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  }
+}

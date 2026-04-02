@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Data Display Patterns | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/premium-data.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: Advanced Table / Data Display</p>
+      <h1 class="display-6 fw-bold mb-3">G. Professional Data Table Shell</h1>
+      <p class="text-muted mb-0">What it is: upgraded Bootstrap table shell with robust state handling. Problem solved: inconsistent, low-signal CRUD tables without clear loading, empty, and row detail behaviors.</p>
+    </section>
+
+    <section class="section-shell mb-4" data-reveal>
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+        <h2 class="h5 mb-0">Data table shell</h2>
+        <button class="btn btn-sm btn-outline-primary" data-load-table type="button">Simulate reload</button>
+      </div>
+
+      <div class="table-state mb-3" data-table-state="loading" hidden>
+        Loading records with server-side filters...
+      </div>
+      <div class="table-state mb-3" data-table-state="empty" hidden>
+        No matching rows. Clear filters or broaden the date range.
+      </div>
+
+      <div class="table-shell" data-table-state="ready">
+        <div class="table-responsive" style="max-height: 24rem;">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th>Sample</th>
+                <th>Status</th>
+                <th>Owner</th>
+                <th>Updated</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>PX-1044</td>
+                <td><span class="badge text-bg-success">Validated</span></td>
+                <td>Ops Team</td>
+                <td>2 min ago</td>
+                <td class="text-end"><div class="row-actions d-inline-flex gap-1"><button class="btn btn-sm btn-outline-primary" type="button" data-toggle-row="rowDetail1">Details</button><button class="btn btn-sm btn-outline-secondary" type="button">Edit</button></div></td>
+              </tr>
+              <tr id="rowDetail1" class="detail-row">
+                <td colspan="5" class="bg-body-tertiary">Validation metadata: checksum match, anomaly score 0.12, reviewer signed.</td>
+              </tr>
+              <tr>
+                <td>PX-1045</td>
+                <td><span class="badge text-bg-warning">Review</span></td>
+                <td>Science Unit</td>
+                <td>9 min ago</td>
+                <td class="text-end"><div class="row-actions d-inline-flex gap-1"><button class="btn btn-sm btn-outline-primary" type="button" data-toggle-row="rowDetail2">Details</button><button class="btn btn-sm btn-outline-secondary" type="button">Edit</button></div></td>
+              </tr>
+              <tr id="rowDetail2" class="detail-row">
+                <td colspan="5" class="bg-body-tertiary">Pending peer review on outlier cluster resolution strategy.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6" data-reveal>
+        <div class="section-shell h-100">
+          <h2 class="h5">Razor Pages adaptation</h2>
+          <ul class="mb-0">
+            <li>Place shell and state regions in the page markup.</li>
+            <li>Drive data from handler-based endpoints or postbacks.</li>
+            <li>Use partial updates for tbody and detail fragments.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6" data-reveal>
+        <div class="section-shell h-100">
+          <h2 class="h5">Accessibility and performance</h2>
+          <ul class="mb-0">
+            <li>Keep row actions keyboard reachable, not hover-only.</li>
+            <li>Sticky headers should preserve contrast in all themes.</li>
+            <li>Batch updates to avoid row-level DOM churn on every filter keystroke.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="code-shell" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">PageModel Handler</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#tableSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="tableSnippet" class="language-csharp">public async Task&lt;PartialViewResult&gt; OnGetRowsAsync(FilterModel filter)
+{
+    var rows = await _service.QueryAsync(filter);
+    return Partial("_SampleRows", rows);
+}</code></pre>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

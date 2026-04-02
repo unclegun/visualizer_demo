@@ -1,0 +1,87 @@
+.filter-bar {
+  position: sticky;
+  top: 4.8rem;
+  z-index: 1015;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--surface-overlay);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+  padding: 0.8rem;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip-toggle {
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 28%, var(--line-soft));
+  background: color-mix(in srgb, var(--theme-primary) 10%, var(--bg-elevated));
+  color: color-mix(in srgb, var(--theme-primary) 74%, var(--text-main));
+  padding: 0.28rem 0.78rem;
+  font-size: 0.86rem;
+}
+
+.chip-toggle.is-active {
+  background: color-mix(in srgb, var(--theme-primary) 20%, var(--bg-elevated));
+  border-color: color-mix(in srgb, var(--theme-primary) 62%, var(--line-soft));
+}
+
+.setting-card {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+}
+
+.setting-card:focus-within {
+  border-color: color-mix(in srgb, var(--theme-accent) 56%, var(--line-soft));
+  box-shadow: var(--accent-glow);
+}
+
+.choice-grid {
+  display: grid;
+  gap: 0.7rem;
+}
+
+@media (min-width: 768px) {
+  .choice-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.choice-card {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  padding: 0.8rem;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-standard), transform var(--dur-fast) var(--ease-standard);
+}
+
+.choice-card:hover {
+  transform: translateY(-2px);
+}
+
+.choice-card.is-selected {
+  border-color: color-mix(in srgb, var(--theme-primary) 62%, var(--line-soft));
+  box-shadow: var(--accent-glow);
+}
+
+.password-meter {
+  height: 0.36rem;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--line-soft) 70%, transparent);
+}
+
+.password-meter > span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #f97316, #22c55e);
+  transition: width var(--dur-med) var(--ease-standard);
+}

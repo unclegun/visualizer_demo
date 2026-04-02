@@ -1,0 +1,9 @@
+.code-card .card-header {
+  border-bottom: 1px solid var(--line-soft);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--theme-accent) 10%, var(--bg-elevated)), var(--bg-elevated));
+}
+
+.copy-note {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+}

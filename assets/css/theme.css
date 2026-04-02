@@ -1,0 +1,63 @@
+:root {
+  --font-ui: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  --font-heading: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Consolas", monospace;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.75rem;
+  --space-8: 3.5rem;
+
+  --theme-primary: #2563eb;
+  --theme-secondary: #1d4ed8;
+  --theme-accent: #0ea5e9;
+  --theme-surface: #f8fafc;
+  --theme-text-on-primary: #ffffff;
+
+  --bg-page: #eef3fb;
+  --bg-elevated: #ffffff;
+  --bg-muted: #f3f7ff;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-subtle: #64748b;
+  --line-soft: #d8e2f0;
+  --line-strong: #c2d0e2;
+  --surface-panel: color-mix(in srgb, white 90%, var(--bg-elevated));
+  --surface-overlay: rgba(255, 255, 255, 0.56);
+  --shadow-sm: 0 10px 24px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 22px 48px rgba(15, 23, 42, 0.12);
+  --shadow-lg: 0 30px 70px rgba(15, 23, 42, 0.16);
+  --radius-lg: 1rem;
+  --radius-md: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-xl: 1.35rem;
+
+  --dur-fast: 160ms;
+  --dur-med: 280ms;
+  --dur-slow: 480ms;
+  --ease-standard: cubic-bezier(0.2, 0.72, 0.2, 1);
+  --ease-decel: cubic-bezier(0.1, 0.8, 0.2, 1);
+
+  --accent-glow: 0 0 0 1px color-mix(in srgb, var(--theme-accent) 34%, transparent),
+    0 8px 34px color-mix(in srgb, var(--theme-accent) 28%, transparent);
+}
+
+body.theme-dark {
+  --bg-page: #0b1220;
+  --bg-elevated: #111c2f;
+  --bg-muted: #162238;
+  --text-main: #e2e8f0;
+  --text-muted: #a3b4cc;
+  --text-subtle: #93a9c6;
+  --line-soft: #2a3954;
+  --line-strong: #3c5377;
+  --surface-panel: color-mix(in srgb, #1e2b42 88%, var(--bg-elevated));
+  --surface-overlay: rgba(17, 28, 47, 0.68);
+  --shadow-sm: 0 10px 24px rgba(2, 6, 23, 0.4);
+  --shadow-md: 0 22px 48px rgba(2, 6, 23, 0.52);
+  --shadow-lg: 0 32px 72px rgba(2, 6, 23, 0.64);
+}

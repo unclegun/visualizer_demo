@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Advanced Headers | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/hero.css" />
+  <link rel="stylesheet" href="../assets/css/components/callouts.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: Advanced Header / Hero</p>
+      <h1 class="display-6 fw-bold mb-3">Technical Aurora Hero + Scientific Grid Hero</h1>
+      <p class="text-muted mb-0">What it is: high-end section headers with layered motion. Problem solved: visually flat page starts that fail to communicate hierarchy and confidence.</p>
+    </section>
+
+    <section class="hero-shell mb-4" data-reveal="zoom">
+      <div class="hero-mesh" data-parallax-layer="0.03"></div>
+      <div class="hero-band" data-parallax-layer="0.06"></div>
+      <div class="hero-content">
+        <p class="pattern-hero-kicker mb-2">A. Technical Aurora Hero</p>
+        <h2 class="h2 mb-3">Mission-ready dashboard header with restrained motion</h2>
+        <p class="text-subtle mb-4">Fits internal dashboards and landing sections where clarity and trust matter more than visual noise.</p>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-primary" type="button">Open Operations</button>
+          <button class="btn btn-outline-primary" type="button">Read System Notes</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero-shell mb-4" data-reveal>
+      <div class="hero-grid" data-parallax-layer="0.04"></div>
+      <div class="hero-orbit" data-parallax-layer="0.08"></div>
+      <div class="hero-content">
+        <p class="pattern-hero-kicker mb-2">B. Scientific Grid Hero</p>
+        <h2 class="h3 mb-3">Technical framing for research and data-first applications</h2>
+        <p class="text-subtle mb-0">The line-grid + orbital motif supports scientific and analytical context without distracting from primary actions.</p>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6" data-reveal="left">
+        <article class="section-shell h-100">
+          <h2 class="h5">Where this fits in Razor Pages</h2>
+          <ul class="mb-0">
+            <li>Best for _Layout.cshtml and dashboard landing partials.</li>
+            <li>Use page-level variants for section intros in docs-heavy screens.</li>
+            <li>Keep animation intensity lower for dense admin tables.</li>
+          </ul>
+        </article>
+      </div>
+      <div class="col-lg-6" data-reveal="right">
+        <article class="section-shell h-100">
+          <h2 class="h5">Use vs avoid</h2>
+          <ul class="mb-0">
+            <li>Use when screen transitions need hierarchy and orientation cues.</li>
+            <li>Avoid in repetitive data-entry workflows where speed dominates.</li>
+            <li>Always keep core actions readable at 200% zoom and keyboard-only.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="code-shell mb-4" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">Razor + HTML</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#heroSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="heroSnippet" class="language-html">&lt;section class="hero-shell"&gt;
+  &lt;div class="hero-mesh" data-parallax-layer="0.03"&gt;&lt;/div&gt;
+  &lt;div class="hero-band" data-parallax-layer="0.06"&gt;&lt;/div&gt;
+  &lt;div class="hero-content"&gt;
+    &lt;h1&gt;Telemetry Center&lt;/h1&gt;
+    &lt;a class="btn btn-primary" asp-page="/Dashboard/Index"&gt;Open Dashboard&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+    </section>
+
+    <section class="row g-3">
+      <div class="col-lg-6" data-reveal>
+        <div class="callout callout-note h-100">
+          <h2 class="h6">Accessibility / performance</h2>
+          <p class="mb-0">Hero motion uses transform only, honors prefers-reduced-motion, and leaves content fully usable without animation.</p>
+        </div>
+      </div>
+      <div class="col-lg-6" data-reveal>
+        <div class="callout callout-success h-100">
+          <h2 class="h6">Implementation notes</h2>
+          <p class="mb-0">Keep the visual shell reusable in a shared partial and pass content through model properties for section-level reuse.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-javascript.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTMX Modal Form Pattern | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" /><link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" /><link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" /><link rel="stylesheet" href="../assets/css/base.css" /><link rel="stylesheet" href="../assets/css/layout.css" /><link rel="stylesheet" href="../assets/css/components/navbar.css" /><link rel="stylesheet" href="../assets/css/components/code-blocks.css" /><link rel="stylesheet" href="../assets/css/patterns/htmx.css" />
+</head>
+<body data-site-root="..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top"><div class="container-xl"><a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto gap-lg-1"><li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav href="./htmx-modal-form.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li></ul><button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button></div></div></nav>
+  <main class="container-xl page-shell" id="htmxModalDemo">
+    <section class="site-hero mb-4"><h1 class="display-6 fw-bold mb-2">Pattern: HTMX Modal Form</h1><p class="text-muted mb-0">Open a Bootstrap modal shell, load form partial with <code>hx-get</code>, and submit with <code>hx-post</code>.</p></section>
+    <section class="mb-4"><h2 class="h4">Why use this in ASP.NET Core Razor Pages</h2><p class="text-muted">Modal edits stay explicit and maintainable: handlers return partials for both initial load and validation failures.</p></section>
+    <section class="mb-4"><h2 class="h4">Live static demo</h2><div class="htmx-demo-box"><button id="openHtmxModal" class="btn btn-primary" type="button">Open edit modal</button><span class="htmx-indicator ms-2">Loading modal partial...</span></div></section>
+    <section class="mb-4"><h2 class="h4">How it works</h2><p class="text-muted mb-0">The outer modal is static. HTMX loads and submits only the modal body region, keeping flow local and testable.</p></section>
+    <section class="mb-4"><h2 class="h4">Copy-paste markup snippet</h2><pre><code class="language-html">&lt;button hx-get="/Users?handler=EditForm&amp;id=42"
+        hx-target="#modalBody"
+        data-bs-toggle="modal"
+        data-bs-target="#userModal"&gt;
+  Edit user
+&lt;/button&gt;
+
+&lt;form hx-post="/Users?handler=Save"
+      hx-target="#modalBody"
+      hx-swap="innerHTML"&gt;
+  ...
+&lt;/form&gt;</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Razor Pages handler example</h2><pre><code class="language-csharp">public async Task&lt;PartialViewResult&gt; OnGetEditFormAsync(int id)
+{
+    return Partial("_EditUserForm", await _users.GetEditVmAsync(id));
+}
+
+public async Task&lt;IActionResult&gt; OnPostSaveAsync(EditUserVm input)
+{
+    if (!ModelState.IsValid)
+        return Partial("_EditUserForm", input);
+
+    await _users.SaveAsync(input);
+    return new EmptyResult();
+}</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Partial view example</h2><pre><code class="language-html">@model EditUserVm
+&lt;div class="modal-body" id="modalBody"&gt;
+  &lt;label&gt;Display Name&lt;/label&gt;
+  &lt;input asp-for="DisplayName" class="form-control" /&gt;
+  &lt;span asp-validation-for="DisplayName" class="text-danger"&gt;&lt;/span&gt;
+&lt;/div&gt;</code></pre></section>
+    <section class="mb-4"><h2 class="h4">Notes, tradeoffs, and best uses</h2><ul><li>Great fit for edit-in-place without full-page navigation.</li><li>Validation remains server-authoritative.</li><li>Use explicit form partials over generic reflection forms.</li></ul></section>
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>End-to-end request flow</strong></div>
+          <div class="card-body">
+            <ol class="mb-0">
+              <li>User clicks Edit and HTMX requests modal partial via <code>hx-get</code>.</li>
+              <li>Server returns form HTML with validation spans and anti-forgery token.</li>
+              <li>User submits with <code>hx-post</code> to save handler.</li>
+              <li>On validation failure, server returns same partial with errors.</li>
+              <li>On success, return 204 and close modal, then refresh target row/region.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Anti-forgery + form partial</strong></div>
+          <div class="card-body">
+<pre><code class="language-html">@model EditUserVm
+&lt;form hx-post="/Users?handler=Save"
+      hx-target="#modalBody"
+      hx-swap="innerHTML"&gt;
+  @Html.AntiForgeryToken()
+  &lt;input asp-for="DisplayName" class="form-control" /&gt;
+  &lt;span asp-validation-for="DisplayName" class="text-danger"&gt;&lt;/span&gt;
+  &lt;button class="btn btn-primary mt-3" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Success signaling</strong></div>
+          <div class="card-body">
+<pre><code class="language-csharp">public async Task&lt;IActionResult&gt; OnPostSaveAsync(EditUserVm input)
+{
+    if (!ModelState.IsValid)
+        return Partial("_EditUserForm", input);
+
+    await _users.SaveAsync(input);
+    Response.Headers["HX-Trigger"] = "user-updated";
+    return NoContent();
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Client event hook</strong></div>
+          <div class="card-body">
+<pre><code class="language-javascript">document.body.addEventListener("user-updated", () => {
+  bootstrap.Modal.getInstance(document.getElementById("userModal"))?.hide();
+  htmx.trigger("#usersTableBody", "refresh-users");
+});</code></pre>
+            <p class="copy-note mb-0">This keeps modal lifecycle logic tiny and explicit.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section><h2 class="h4">Related patterns</h2><p class="mb-0"><a href="./datatable-modal.html">DataTable + Modal</a> · <a href="./htmx-partials.html">HTMX Partials</a></p></section>
+    <div class="modal fade" id="htmxDemoModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h2 class="h5 mb-0">Edit user</h2><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body" id="htmxModalBody"></div></div></div></div>
+  </main>
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script><script src="../assets/vendor/prism/prism.min.js"></script><script src="../assets/vendor/prism/prism-csharp.min.js"></script><script src="../assets/vendor/prism/prism-html.min.js"></script><script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

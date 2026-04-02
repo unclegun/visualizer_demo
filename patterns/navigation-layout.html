@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Navigation and Layout Interactions | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/forms.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <aside class="quick-action-rail is-hidden" data-floating-rail aria-label="Quick actions">
+    <button class="btn btn-sm btn-outline-primary" type="button"><i class="fas fa-plus"></i></button>
+    <button class="btn btn-sm btn-outline-primary" type="button"><i class="fas fa-filter"></i></button>
+    <button class="btn btn-sm btn-outline-primary" type="button"><i class="fas fa-bell"></i></button>
+  </aside>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: Navigation / Layout Interactions</p>
+      <h1 class="display-6 fw-bold mb-3">E. Adaptive Sticky Navbar + F. Premium Filter Bar</h1>
+      <p class="text-muted mb-0">What it is: state-aware navigation and sticky utility surfaces. Problem solved: orientation loss and filter fatigue in long data-heavy pages.</p>
+    </section>
+
+    <section class="filter-bar mb-4" data-reveal>
+      <div class="row g-2 align-items-end">
+        <div class="col-md-4">
+          <label class="form-label small">Search entities</label>
+          <input class="form-control" type="search" placeholder="Search teams, records, tags" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small">Environment</label>
+          <select class="form-select"><option>Production</option><option>Stage</option><option>Lab</option></select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label small">Owner</label>
+          <select class="form-select"><option>Any</option><option>Operations</option><option>Research</option></select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100" type="button">Apply</button>
+        </div>
+      </div>
+      <div class="chip-row mt-3">
+        <button class="chip-toggle is-active" data-chip-toggle type="button">Critical only</button>
+        <button class="chip-toggle" data-chip-toggle type="button">Needs review</button>
+        <button class="chip-toggle" data-chip-toggle type="button">Published</button>
+        <button class="chip-toggle" data-chip-toggle type="button">Pending sync</button>
+      </div>
+      <div class="mt-3">
+        <button class="btn btn-outline-primary btn-sm" data-advanced-filter-toggle="#advancedFilters" type="button">Toggle advanced filters</button>
+      </div>
+      <div id="advancedFilters" class="d-none mt-3">
+        <div class="row g-2">
+          <div class="col-md-4"><input class="form-control" placeholder="Region" /></div>
+          <div class="col-md-4"><input class="form-control" placeholder="Data source" /></div>
+          <div class="col-md-4"><input class="form-control" placeholder="SLA threshold" /></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-shell mb-4" data-reveal>
+      <h2 class="h4">Section-aware nav highlighting</h2>
+      <p class="text-subtle mb-3">This page demonstrates nav section grouping with data-nav-section, so every Advanced UI page lights the same top-level nav tab.</p>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="callout h-100">
+            <h3 class="h6">Best fit in Razor Pages</h3>
+            <p class="mb-0">Put adaptive navbar behavior in _Layout.cshtml and feed section metadata via ViewData so active state stays accurate.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="callout h-100">
+            <h3 class="h6">When not to use</h3>
+            <p class="mb-0">Avoid sticky filter bars on short forms or pages where sticky surfaces reduce usable viewport area.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="code-shell" data-reveal>
+      <div class="code-shell-toolbar">
+        <span class="language-tag">Layout Snippet</span>
+        <button class="btn btn-sm btn-outline-primary" data-copy-target="#navSnippet" type="button">Copy</button>
+      </div>
+<pre class="m-0"><code id="navSnippet" class="language-csharp">@* _Layout.cshtml *@
+&lt;body data-nav-section="@ViewData["NavSection"]"&gt;
+  &lt;nav class="navbar site-navbar sticky-top"&gt;...&lt;/nav&gt;
+  &lt;div class="scroll-progress"&gt;&lt;span data-scroll-progress&gt;&lt;/span&gt;&lt;/div&gt;
+  @RenderBody()
+&lt;/body&gt;</code></pre>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DataTable + Modal Pattern | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/tables.css" />
+  <link rel="stylesheet" href="../assets/css/components/modal.css" />
+  <link rel="stylesheet" href="../assets/css/components/code-blocks.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/datatable-modal.css" />
+</head>
+<body data-site-root="..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top"><div class="container-xl"><a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto gap-lg-1"><li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav href="./datatable-modal.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li></ul><div class="d-flex gap-2"><button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button></div></div></div></nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4">
+      <h1 class="display-6 fw-bold mb-2">Pattern: DataTable + Modal</h1>
+      <p class="text-muted mb-0">Searchable list and focused modal editing pattern that stays explicit in Razor Pages while minimizing repetitive markup and JavaScript.</p>
+    </section>
+
+    <section class="mb-4">
+      <h2 class="h4 section-title">Why this is useful in Razor Pages</h2>
+      <p class="section-subtitle">Razor handlers remain clear for list loading and update actions, while partial views keep modal forms concrete and maintainable.</p>
+      <div class="demo-panel p-3">
+        <div class="demo-table-toolbar mb-3"><div><label class="form-label small mb-1" for="patternGlobalSearch">Search</label><input id="patternGlobalSearch" class="form-control" placeholder="Filter users" /></div><div id="patternDemoSummary" class="text-muted small">Showing rows</div></div>
+        <div class="table-wrap table-responsive">
+          <table class="table table-hover align-middle" id="patternUsersTable">
+            <thead><tr><th>User</th><th>Email</th><th>Role</th></tr></thead>
+            <tbody>
+              <tr data-username="mnguyen" data-email="maya.nguyen@contoso.test" data-role="Admin"><td>mnguyen</td><td>maya.nguyen@contoso.test</td><td><span class="badge badge-soft">Admin</span></td></tr>
+              <tr data-username="jwalsh" data-email="jordan.walsh@contoso.test" data-role="Editor"><td>jwalsh</td><td>jordan.walsh@contoso.test</td><td><span class="badge badge-soft">Editor</span></td></tr>
+              <tr data-username="slopez" data-email="sofia.lopez@contoso.test" data-role="Support"><td>slopez</td><td>sofia.lopez@contoso.test</td><td><span class="badge badge-soft">Support</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6"><div class="card code-card h-100"><div class="card-header"><strong>Architecture</strong></div><div class="card-body"><p>Use one table partial, one modal partial, and thin handlers:</p><pre><code class="language-csharp">public async Task&lt;PartialViewResult&gt; OnGetEditUserAsync(int id)
+{
+    var vm = await _users.GetEditModelAsync(id);
+    return Partial("_EditUserModal", vm);
+}</code></pre></div></div></div>
+      <div class="col-lg-6"><div class="card code-card h-100"><div class="card-header"><strong>Tradeoffs and scope</strong></div><div class="card-body"><ul class="mb-0"><li>Client-side paging is simple for v1 and modest datasets.</li><li>Server-side processing can be added later without discarding the modal contract.</li><li>Keep edit forms explicit rather than reflection-generated.</li></ul></div></div></div>
+    </section>
+
+    <section>
+      <h2 class="h4 section-title">Razor Pages mapping</h2>
+      <p class="section-subtitle">Route and handler ownership stays with Razor Pages. Modals and table fragments remain regular partial views.</p>
+      <pre><code class="language-html">&lt;button class="btn btn-sm btn-outline-primary"
+        hx-get="/Users?handler=EditUser&amp;id=42"
+        hx-target="#modalBody"
+        hx-trigger="click"&gt;
+  Edit
+&lt;/button&gt;</code></pre>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>How it works in production</strong></div>
+          <div class="card-body">
+            <ol class="mb-0">
+              <li>Initial page load renders table data from PageModel.</li>
+              <li>Row action requests edit partial into a modal target.</li>
+              <li>Form posts to page handler with anti-forgery token.</li>
+              <li>Validation failures return the same partial with errors.</li>
+              <li>Successful save returns either 204 or refreshed row/table fragment.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>File map</strong></div>
+          <div class="card-body">
+<pre><code class="language-bash">Pages/Users/Index.cshtml
+Pages/Users/Index.cshtml.cs
+Pages/Users/_UserEditForm.cshtml
+wwwroot/js/users-table.js
+wwwroot/css/users-table.css</code></pre>
+            <p class="copy-note mb-0">This split keeps responsibilities obvious for future maintainers.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-4">
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Save Handler Example</strong></div>
+          <div class="card-body">
+<pre><code class="language-csharp">public async Task&lt;IActionResult&gt; OnPostSaveUserAsync(EditUserVm input)
+{
+    if (!ModelState.IsValid)
+        return Partial("_UserEditForm", input);
+
+    await _users.UpdateAsync(input);
+    var row = await _users.GetRowVmAsync(input.Id);
+    return Partial("_UserRow", row);
+}</code></pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card code-card h-100">
+          <div class="card-header"><strong>Modal Form Markup</strong></div>
+          <div class="card-body">
+<pre><code class="language-html">&lt;form hx-post="/Users?handler=SaveUser"
+      hx-target="#row-@Model.Id"
+      hx-swap="outerHTML"&gt;
+  @Html.AntiForgeryToken()
+  &lt;input asp-for="Email" class="form-control" /&gt;
+  &lt;span asp-validation-for="Email" class="text-danger"&gt;&lt;/span&gt;
+  &lt;button class="btn btn-primary" type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-4">
+      <h2 class="h4 section-title">Additional implementation notes</h2>
+      <ul class="mb-0">
+        <li>Use explicit DTO/view models for edit flows to avoid overposting.</li>
+        <li>Include concurrency tokens for multi-user admin screens.</li>
+        <li>Use a single shared modal shell in layout and load different bodies by handler.</li>
+        <li>Keep DataTable plugin setup in one JS module and call it once per page load.</li>
+      </ul>
+    </section>
+
+    <div class="modal fade" id="patternDemoModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h2 class="h5 mb-0">Edit User</h2><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="mb-2"><label class="form-label">Username</label><input id="patternModalUsername" class="form-control" /></div><div class="mb-2"><label class="form-label">Email</label><input id="patternModalEmail" class="form-control" /></div><div class="mb-2"><label class="form-label">Role</label><input id="patternModalRole" class="form-control" /></div><button id="patternDemoSaveButton" class="btn btn-primary" type="button">Save</button></div></div></div>
+    </div>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script src="../assets/vendor/prism/prism-html.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

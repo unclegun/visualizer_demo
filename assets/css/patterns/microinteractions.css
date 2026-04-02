@@ -1,0 +1,65 @@
+.motion-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+}
+
+.motion-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.motion-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.motion-btn .icon-shift {
+  transition: transform var(--dur-fast) var(--ease-standard);
+}
+
+.motion-btn:hover .icon-shift {
+  transform: translateX(4px);
+}
+
+.demo-toast {
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 26%, var(--line-soft));
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-md);
+}
+
+.toast-stack {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  gap: 0.6rem;
+  z-index: 1080;
+}
+
+.toast-enter {
+  animation: toast-enter var(--dur-med) var(--ease-decel);
+}
+
+.validation-hint {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height var(--dur-med) var(--ease-standard), opacity var(--dur-med) var(--ease-standard);
+}
+
+.validation-hint.is-visible {
+  max-height: 5rem;
+  opacity: 1;
+}
+
+@keyframes toast-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
