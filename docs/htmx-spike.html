@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HTMX Spike | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/code-blocks.css" />
+  <link rel="stylesheet" href="../assets/css/components/callouts.css" />
+</head>
+<body data-site-root=".." class="htmx-spike-page">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top"><div class="container-xl"><a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto gap-lg-1"><li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav href="../patterns/chartjs-dashboard.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="../patterns/advanced-ui.html">Advanced UI</a></li><li class="nav-item"><a class="nav-link" data-nav href="./razor-pages-mapping.html">Razor Pages</a></li><li class="nav-item"><a class="nav-link" data-nav href="./snippets.html">Snippets</a></li><li class="nav-item"><a class="nav-link" data-nav href="./conventions.html">Conventions</a></li><li class="nav-item"><a class="nav-link" data-nav href="./htmx-spike.html">HTMX Spike</a></li></ul><button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button></div></div></nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4">
+      <p class="text-uppercase small fw-semibold mb-2">Architecture Spike Reference</p>
+      <h1 class="display-6 fw-bold mb-2 spike-anchor" id="overview">HTMX Spike for .NET Core Razor Pages</h1>
+      <p class="text-muted mb-3">Architecture and implementation spike for server-rendered applications using Razor Pages, PageModel handlers, and a DAL-first data access structure without MVC controller dependency.</p>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <span class="badge badge-soft">HTML-first</span>
+        <span class="badge badge-soft">Razor Pages</span>
+        <span class="badge badge-soft">DAL-friendly</span>
+        <span class="badge badge-soft">No MVC required</span>
+        <span class="badge badge-soft">Incremental adoption</span>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-primary" href="#final-recommendation">Jump to Recommendation</a>
+        <a class="btn btn-outline-primary" href="../index.html">Back to Demo Home</a>
+      </div>
+    </section>
+
+    <section class="row g-4">
+      <aside class="col-lg-3">
+        <div class="spike-toc spike-toc-sticky p-3" aria-label="In-page table of contents">
+          <h2 class="h6 text-uppercase mb-3">On this page</h2>
+          <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action px-2" href="#executive-summary">Executive Summary</a>
+            <a class="list-group-item list-group-item-action px-2" href="#htmx-basics">How HTMX Works</a>
+            <a class="list-group-item list-group-item-action px-2" href="#architecture-fit">Architecture Fit</a>
+            <a class="list-group-item list-group-item-action px-2" href="#pros-cons">Pros / Cons</a>
+            <a class="list-group-item list-group-item-action px-2" href="#fit-uses">Best-fit / Poor-fit</a>
+            <a class="list-group-item list-group-item-action px-2" href="#example-implementation">Example Implementation</a>
+            <a class="list-group-item list-group-item-action px-2" href="#team-standards">Team Standards</a>
+            <a class="list-group-item list-group-item-action px-2" href="#spike-deliverables">Spike Deliverables</a>
+            <a class="list-group-item list-group-item-action px-2" href="#developer-explanation">Developer Explanation</a>
+            <a class="list-group-item list-group-item-action px-2" href="#adoption-plan">Adoption Plan</a>
+            <a class="list-group-item list-group-item-action px-2" href="#final-recommendation">Final Recommendation</a>
+          </div>
+        </div>
+      </aside>
+
+      <div class="col-lg-9">
+        <section class="doc-section p-4 mb-3 spike-anchor" id="executive-summary">
+          <h2 class="h4 mb-3">Executive summary</h2>
+          <p>HTMX is an HTML-centric interaction library where elements issue HTTP requests using attributes and update page fragments from server-returned HTML. It is a practical fit for Razor Pages because handlers already return partial markup and server-side validation/state remains authoritative.</p>
+          <div class="callout callout-success mt-3 mb-0">
+            <strong>Recommendation:</strong> Recommended for selective adoption in CRUD-heavy and form-heavy server-rendered screens.
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="htmx-basics">
+          <h2 class="h4 mb-3">How HTMX works</h2>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h6">hx-get + hx-target</h3>
+                <p class="text-muted">Fetch HTML from a handler and place it in a specific fragment container.</p>
+                <pre class="mb-0"><code class="language-html">&lt;button
+  hx-get="/Users?handler=Search&amp;term=ali"
+  hx-target="#results"
+  hx-swap="innerHTML"&gt;
+  Search
+&lt;/button&gt;
+
+&lt;div id="results"&gt;&lt;/div&gt;</code></pre>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h6">hx-post + hx-swap</h3>
+                <p class="text-muted">Submit form fragments to a handler and replace current markup with success/error partial output.</p>
+                <pre class="mb-0"><code class="language-html">&lt;form
+  hx-post="/Users?handler=Save"
+  hx-target="#editRow-42"
+  hx-swap="outerHTML"&gt;
+  ...
+&lt;/form&gt;</code></pre>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h6">hx-boost</h3>
+                <p class="text-muted">Upgrade regular links/forms in a section to HTMX-powered requests with minimal markup changes.</p>
+                <pre class="mb-0"><code class="language-html">&lt;section hx-boost="true" hx-target="#panel"&gt;
+  &lt;a href="/Users?handler=Page&amp;page=2"&gt;Next&lt;/a&gt;
+&lt;/section&gt;</code></pre>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h6">hx-push-url</h3>
+                <p class="text-muted">Keep history and shareable URLs synchronized during fragment navigation.</p>
+                <pre class="mb-0"><code class="language-html">&lt;input
+  name="term"
+  hx-get="/Users?handler=Search"
+  hx-target="#results"
+  hx-push-url="true" /&gt;</code></pre>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="architecture-fit">
+          <h2 class="h4 mb-3">How it fits our current architecture</h2>
+          <p>Use HTMX at the page edge while keeping orchestration in PageModel handlers and persistence in DAL services. This keeps boundaries clear and avoids leaking UI transport concerns into data access logic.</p>
+          <div class="section-shell mt-3">
+            <h3 class="h6 mb-3">Request flow</h3>
+            <ol class="list-unstyled d-grid gap-2 mb-0">
+              <li class="flow-step"><strong>1.</strong> User action on an element with hx-* attributes.</li>
+              <li class="flow-step"><strong>2.</strong> Request hits a Razor Page handler (OnGet/OnPost handler).</li>
+              <li class="flow-step"><strong>3.</strong> PageModel calls DAL and maps result to a view model.</li>
+              <li class="flow-step"><strong>4.</strong> Server returns HTML fragment from a partial Razor view.</li>
+              <li class="flow-step"><strong>5.</strong> HTMX swaps fragment into the target DOM element.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="pros-cons">
+          <h2 class="h4 mb-3">Pros / Cons comparison</h2>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h5 mb-3">Pros</h3>
+                <ul class="mb-0">
+                  <li>Fits Razor Pages handler model naturally.</li>
+                  <li>Less custom JavaScript for common interactions.</li>
+                  <li>No SPA framework required for most CRUD screens.</li>
+                  <li>Incremental adoption by page, panel, or control.</li>
+                  <li>Server remains source of truth for UI state.</li>
+                  <li>Strong fit for forms, modals, tables, and filters.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h5 mb-3">Cons</h3>
+                <ul class="mb-0">
+                  <li>Requires disciplined partial layout and naming.</li>
+                  <li>Can become hard to reason about if overused.</li>
+                  <li>Weak fit for rich client-state-heavy experiences.</li>
+                  <li>DOM swaps may require widget re-initialization hooks.</li>
+                  <li>Team conventions are mandatory to avoid drift.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="fit-uses">
+          <h2 class="h4 mb-3">Best-fit and poor-fit use cases</h2>
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h5 mb-3">Best-fit</h3>
+                <ul class="mb-0">
+                  <li>Inline edit of table rows.</li>
+                  <li>Modal content loading and post-submit refresh.</li>
+                  <li>Search, filter, and paging fragments.</li>
+                  <li>Dependent dropdowns and server-validated options.</li>
+                  <li>Partial form save workflows.</li>
+                  <li>Approval panels and status checkpoints.</li>
+                  <li>Status refresh and lightweight polling.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h5 mb-3">Poor-fit</h3>
+                <ul class="mb-0">
+                  <li>Complex drag/drop builders with deep transient state.</li>
+                  <li>Canvas-heavy interactive interfaces.</li>
+                  <li>Rich charting applications with deep client state.</li>
+                  <li>Full offline-first applications.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="example-implementation">
+          <h2 class="h4 mb-3">Example implementation (Razor Pages + DAL)</h2>
+          <p class="text-muted">The following snippets illustrate a table page with row display/edit partials and PageModel handlers that preserve DAL boundaries.</p>
+
+          <article class="card code-card">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">Index.cshtml</span><span class="badge badge-soft">Page</span></header>
+            <div class="card-body p-0">
+<pre class="mb-0"><code class="language-html">@page
+@model Users.IndexModel
+
+&lt;table class="table"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Email&lt;/th&gt;&lt;th class="text-end"&gt;Actions&lt;/th&gt;&lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody id="usersTableBody"&gt;
+    @foreach (var user in Model.Users)
+    {
+      @await Html.PartialAsync("_UserRow", user)
+    }
+  &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+            </div>
+          </article>
+
+          <article class="card code-card">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">_UserRow.cshtml</span><span class="badge badge-soft">Display Partial</span></header>
+            <div class="card-body p-0">
+<pre class="mb-0"><code class="language-html">@model UserRowVm
+
+&lt;tr id="row-@Model.Id"&gt;
+  &lt;td&gt;@Model.Name&lt;/td&gt;
+  &lt;td&gt;@Model.Email&lt;/td&gt;
+  &lt;td class="text-end"&gt;
+    &lt;button class="btn btn-sm btn-outline-primary"
+            hx-get="/Users?handler=EditRow&amp;id=@Model.Id"
+            hx-target="#row-@Model.Id"
+            hx-swap="outerHTML"&gt;
+      Edit
+    &lt;/button&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+            </div>
+          </article>
+
+          <article class="card code-card">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">_EditUserRow.cshtml</span><span class="badge badge-soft">Edit Partial</span></header>
+            <div class="card-body p-0">
+<pre class="mb-0"><code class="language-html">@model EditUserVm
+
+&lt;tr id="row-@Model.Id"&gt;
+  &lt;td colspan="3"&gt;
+    &lt;form hx-post="/Users?handler=SaveRow"
+          hx-target="#row-@Model.Id"
+          hx-swap="outerHTML" class="row g-2"&gt;
+      &lt;input type="hidden" asp-for="Id" /&gt;
+      &lt;div class="col-md-4"&gt;&lt;input class="form-control" asp-for="Name" /&gt;&lt;/div&gt;
+      &lt;div class="col-md-5"&gt;&lt;input class="form-control" asp-for="Email" /&gt;&lt;/div&gt;
+      &lt;div class="col-md-3 d-flex gap-2"&gt;
+        &lt;button class="btn btn-primary btn-sm" type="submit"&gt;Save&lt;/button&gt;
+        &lt;button class="btn btn-outline-secondary btn-sm" type="button"
+                hx-get="/Users?handler=Row&amp;id=@Model.Id"
+                hx-target="#row-@Model.Id"
+                hx-swap="outerHTML"&gt;Cancel&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  &lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+            </div>
+          </article>
+
+          <article class="card code-card">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">Index.cshtml.cs</span><span class="badge badge-soft">PageModel Handlers</span></header>
+            <div class="card-body p-0">
+<pre class="mb-0"><code class="language-csharp">public class IndexModel : PageModel
+{
+    private readonly IUserDal _userDal;
+
+    public IReadOnlyList&lt;UserRowVm&gt; Users { get; private set; } = [];
+
+    public IndexModel(IUserDal userDal) =&gt; _userDal = userDal;
+
+    public async Task OnGetAsync()
+    {
+        Users = await _userDal.GetUsersAsync();
+    }
+
+    public async Task&lt;PartialViewResult&gt; OnGetEditRowAsync(int id)
+    {
+        var user = await _userDal.GetUserAsync(id);
+        return Partial("_EditUserRow", new EditUserVm(user));
+    }
+
+    public async Task&lt;PartialViewResult&gt; OnPostSaveRowAsync(EditUserVm input)
+    {
+        if (!ModelState.IsValid)
+        {
+            return Partial("_EditUserRow", input);
+        }
+
+        await _userDal.UpdateUserAsync(input.ToCommand());
+        var updated = await _userDal.GetUserAsync(input.Id);
+        return Partial("_UserRow", new UserRowVm(updated));
+    }
+
+    public async Task&lt;PartialViewResult&gt; OnGetRowAsync(int id)
+    {
+        var user = await _userDal.GetUserAsync(id);
+        return Partial("_UserRow", new UserRowVm(user));
+    }
+
+    private PartialViewResult Partial(string name, object model)
+        =&gt; new()
+        {
+            ViewName = name,
+            ViewData = new ViewDataDictionary(ViewData, model)
+        };
+}</code></pre>
+            </div>
+          </article>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="team-standards">
+          <h2 class="h4 mb-3">Team conventions / recommended standards</h2>
+          <ul class="mb-0">
+            <li>Use HTMX for HTML fragment flows, not JSON-first UI orchestration.</li>
+            <li>Keep DAL contracts and service boundaries unchanged.</li>
+            <li>Keep interaction orchestration in PageModel handlers.</li>
+            <li>Use explicit partial names that match handler intent.</li>
+            <li>Prefer localized HTMX usage over page-wide blanket usage.</li>
+            <li>Maintain full-page fallback where practical.</li>
+          </ul>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="spike-deliverables">
+          <h2 class="h4 mb-3">Suggested spike deliverables</h2>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><div class="card p-3 h-100"><h3 class="h6">Technical summary</h3><p class="mb-0 text-muted">Document architecture mapping, request flow, and tradeoffs.</p></div></div>
+            <div class="col-md-6"><div class="card p-3 h-100"><h3 class="h6">Working POC</h3><p class="mb-0 text-muted">Implement one CRUD screen with row edit and modal flow.</p></div></div>
+            <div class="col-md-6"><div class="card p-3 h-100"><h3 class="h6">Team standards</h3><p class="mb-0 text-muted">Publish naming, handler, and partial conventions.</p></div></div>
+            <div class="col-md-6"><div class="card p-3 h-100"><h3 class="h6">Final recommendation</h3><p class="mb-0 text-muted">Decide selective rollout scope and governance owners.</p></div></div>
+          </div>
+          <div class="callout callout-note mb-0">
+            <h3 class="h6">Acceptance criteria</h3>
+            <ul class="mb-0">
+              <li>POC demonstrates at least three HTMX flows in Razor Pages.</li>
+              <li>Handlers call DAL without introducing controller abstractions.</li>
+              <li>Validation failures return partials with clear UX behavior.</li>
+              <li>Standards document approved by engineering leads.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="developer-explanation">
+          <h2 class="h4 mb-3">Copyable developer explanation</h2>
+          <div class="developer-brief p-3">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+              <h3 class="h6 mb-0">Meeting script</h3>
+              <button class="btn btn-sm btn-outline-primary" type="button" data-copy-target="#htmxLeadScript">Copy text</button>
+            </div>
+            <pre id="htmxLeadScript" class="mb-0"><code>HTMX is a strong selective fit for our Razor Pages stack because it lets us improve interaction speed without replacing our architecture. We keep routing and orchestration in PageModel handlers, keep DAL boundaries intact, and return partial Razor fragments as the UI contract. The result is less custom JavaScript for CRUD-heavy workflows, while still preserving server-side validation and maintainability. We should adopt HTMX where it clearly improves forms, tables, and modals, and avoid using it as a blanket solution for highly stateful client applications.</code></pre>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="adoption-plan">
+          <h2 class="h4 mb-3">Adoption plan</h2>
+          <div class="table-responsive">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Phase</th>
+                  <th scope="col">Objective</th>
+                  <th scope="col">Output</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Phase 1: Pilot</strong></td>
+                  <td>Apply HTMX to one high-value CRUD/form page.</td>
+                  <td>Measured latency and implementation notes.</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 2: Conventions</strong></td>
+                  <td>Codify partial/handler standards and review checklist.</td>
+                  <td>Shared internal standards reference.</td>
+                </tr>
+                <tr>
+                  <td><strong>Phase 3: Rollout</strong></td>
+                  <td>Expand to adjacent screens where HTMX is a clear fit.</td>
+                  <td>Controlled adoption with architecture guardrails.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 spike-anchor" id="final-recommendation">
+          <h2 class="h4 mb-3">Final recommendation</h2>
+          <p class="mb-3">HTMX is a strong selective fit for .NET Core Razor Pages applications that are server-rendered and DAL-driven. It should be adopted intentionally for fragment-oriented CRUD and form workflows, not applied as a universal UI strategy.</p>
+          <a class="btn btn-outline-primary" href="../index.html">Back to Demo Home</a>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

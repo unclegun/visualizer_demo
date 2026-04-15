@@ -134,6 +134,53 @@ body.theme-dark pre[class*="language-"] {
   background: #0d1728 !important;
 }
 
+.htmx-spike-page .spike-toc {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.htmx-spike-page .spike-toc .list-group-item {
+  border-color: var(--line-soft);
+  background: transparent;
+  color: var(--text-main);
+}
+
+.htmx-spike-page .spike-toc .list-group-item:hover,
+.htmx-spike-page .spike-toc .list-group-item:focus-visible {
+  background: color-mix(in srgb, var(--theme-primary) 10%, var(--bg-elevated));
+  color: var(--theme-primary);
+}
+
+.htmx-spike-page .spike-anchor {
+  scroll-margin-top: 6.5rem;
+}
+
+.htmx-spike-page .code-card + .code-card {
+  margin-top: 1rem;
+}
+
+.htmx-spike-page .developer-brief {
+  border: 1px solid color-mix(in srgb, var(--theme-primary) 32%, var(--line-soft));
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--theme-primary) 8%, var(--bg-elevated));
+}
+
+.htmx-spike-page .flow-step {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--bg-elevated) 86%, var(--surface-panel));
+  padding: 0.75rem 0.9rem;
+}
+
+@media (min-width: 992px) {
+  .htmx-spike-page .spike-toc-sticky {
+    position: sticky;
+    top: 5.8rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
