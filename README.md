@@ -11,9 +11,59 @@ Live demo: https://unclegun.github.io/visualizer_demo
 - Chart.js dashboard patterns
 - DataTable + modal workflows
 - HTMX patterns for partial updates in Razor Pages
-- Theme and palette system patterns
+- Advanced UI pattern packs (headers, cards, data shells, forms, motion, navigation, visual elements)
+- Theme, tone, and palette system patterns
 - Reusable snippets and conventions
 - Razor Pages implementation mapping
+- Tooling references (including LLM context generation)
+- Element Style Designer route behavior for static and Razor hosting
+
+## Site Areas (Complete Map)
+
+### Home
+
+- `index.html` - landing page with featured patterns, reference guides, and architecture framing
+
+### Pattern Gallery
+
+- `patterns/chartjs-dashboard.html`
+- `patterns/datatable-modal.html`
+- `patterns/htmx-partials.html`
+- `patterns/htmx-modal-form.html`
+- `patterns/htmx-cascading-selects.html`
+- `patterns/htmx-table-refresh.html`
+
+### Advanced UI Section
+
+- `patterns/advanced-ui.html` - category entry point
+- `patterns/advanced-headers.html`
+- `patterns/premium-cards.html`
+- `patterns/data-display.html`
+- `patterns/forms-filters.html`
+- `patterns/dashboard-motion.html`
+- `patterns/navigation-layout.html`
+- `patterns/microinteractions.html`
+- `patterns/css-visual-elements.html`
+
+### Reference Guides
+
+- `docs/getting-started.html`
+- `docs/conventions.html`
+- `docs/razor-pages-mapping.html`
+- `docs/snippets.html`
+- `docs/htmx-spike.html`
+- `docs/llm-context-generator.html`
+- `docs/tag-helpers.md`
+
+### Tool Route and Fallback
+
+- `admin/element-style-designer/index.html` - static fallback for the designer link
+- Razor runtime route in reference app: `/admin/element-style-designer`
+
+### .NET Reference Application
+
+- `examples/razor-reference/visualizer_demo/` - ASP.NET Core Razor Pages implementation sample
+- Includes the full Razor version of `Pages/Admin/ElementStyleDesigner.cshtml`
 
 ## Repository Story
 
@@ -32,12 +82,26 @@ The old single-purpose framing was retired because the project now spans multipl
 │   ├── htmx-partials.html
 │   ├── htmx-modal-form.html
 │   ├── htmx-cascading-selects.html
-│   └── htmx-table-refresh.html
+│   ├── htmx-table-refresh.html
+│   ├── advanced-ui.html
+│   ├── advanced-headers.html
+│   ├── premium-cards.html
+│   ├── data-display.html
+│   ├── forms-filters.html
+│   ├── dashboard-motion.html
+│   ├── navigation-layout.html
+│   ├── microinteractions.html
+│   └── css-visual-elements.html
+├── admin/
+│   └── element-style-designer/
+│       └── index.html
 ├── docs/
 │   ├── getting-started.html
 │   ├── conventions.html
 │   ├── razor-pages-mapping.html
 │   ├── snippets.html
+│   ├── htmx-spike.html
+│   ├── llm-context-generator.html
 │   ├── snippets/
 │   └── tag-helpers.md
 ├── assets/
