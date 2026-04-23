@@ -1,484 +1,1269 @@
-[CmdletBinding()]
 param(
-    [string]$ProjectPath = (Get-Location).Path,
-    [string]$ConfigFileName = "appsettings.llmcontext.json"
+    [string]$SettingsFile = "",
+    [string]$SettingsSection = "LlmContextBuild"
 )
 
 $ErrorActionPreference = "Stop"
-Set-StrictMode -Version Latest
 
-function Resolve-SolutionRoot {
-    param([string]$StartPath)
+function Get-SolutionRoot {
+    param([string]$StartDir)
 
-    $current = Get-Item -LiteralPath $StartPath
-    if ($current.PSIsContainer -eq $false) {
-        $current = $current.Directory
-    }
+    $current = Get-Item (Resolve-Path $StartDir)
 
     while ($null -ne $current) {
-        $solution = Get-ChildItem -LiteralPath $current.FullName -Filter *.sln -File -ErrorAction SilentlyContinue | Select-Object -First 1
-        if ($null -ne $solution) {
+        $sln = Get-ChildItem -Path $current.FullName -Filter *.sln -File -ErrorAction SilentlyContinue
+        if ($sln.Count -gt 0) {
             return $current.FullName
         }
 
+        if ($null -eq $current.Parent) { break }
         $current = $current.Parent
     }
 
-    throw "Unable to locate a solution root. Start from a project folder or any child folder beneath a directory that contains a .sln file."
+    throw "Could not locate a .sln file by walking upward from '$StartDir'."
 }
 
-function ConvertTo-RelativeSolutionPath {
+function Get-RelativePathSafe {
     param(
         [string]$BasePath,
-        [string]$FullPath
+        [string]$TargetPath
     )
 
-    $relative = [System.IO.Path]::GetRelativePath($BasePath, $FullPath)
-    return $relative.Replace("\", "/")
-}
-
-function Get-DefaultSettings {
-    return [ordered]@{
-        OutputDirectory = "llm-context"
-        MaxFileBytes = 262144
-        SoftContextBytes = 786432
-        MaxSummaryFileBytes = 16384
-        EnableFrontendSummaries = $false
-        FrontendSummaryExtensions = @(".js", ".ts", ".tsx", ".jsx", ".css", ".scss", ".html")
-        BuiltInWhitelist = @("**/*.cs", "**/*.cshtml", "**/*.sql", "**/*.json", "**/*.config", "**/*.csproj", "**/*.props", "**/*.targets")
-        BuiltInIgnore = @("**/bin/**", "**/obj/**", "**/.git/**", "**/node_modules/**", "**/dist/**", "**/wwwroot/lib/**", "**/llm-context/**")
-    }
-}
-
-function Merge-Settings {
-    param(
-        [hashtable]$Defaults,
-        [object]$Loaded
+    $baseUri = [System.Uri]((Resolve-Path $BasePath).Path.TrimEnd('\') + '\')
+    $targetUri = [System.Uri]((Resolve-Path $TargetPath).Path)
+    return [System.Uri]::UnescapeDataString(
+        $baseUri.MakeRelativeUri($targetUri).ToString().Replace('/', '\')
     )
-
-    $merged = [ordered]@{}
-    foreach ($key in $Defaults.Keys) {
-        $merged[$key] = $Defaults[$key]
-    }
-
-    if ($null -eq $Loaded) {
-        return $merged
-    }
-
-    foreach ($property in $Loaded.PSObject.Properties) {
-        $merged[$property.Name] = $property.Value
-    }
-
-    return $merged
 }
 
-function Read-OptionalJsonFile {
+function Get-Sha256Hex {
     param([string]$Path)
-
-    if (-not (Test-Path -LiteralPath $Path)) {
-        return $null
-    }
-
-    $raw = Get-Content -LiteralPath $Path -Raw -Encoding UTF8
-    if ([string]::IsNullOrWhiteSpace($raw)) {
-        return $null
-    }
-
-    return $raw | ConvertFrom-Json -Depth 20
+    return (Get-FileHash -Path $Path -Algorithm SHA256).Hash.ToLowerInvariant()
 }
 
 function Read-PatternFile {
-    param(
-        [string]$Path,
-        [string[]]$FallbackPatterns
-    )
+    param([string]$Path)
 
-    if (-not (Test-Path -LiteralPath $Path)) {
-        return $FallbackPatterns
+    if (-not (Test-Path $Path)) {
+        return @()
     }
 
-    $patterns = Get-Content -LiteralPath $Path -Encoding UTF8 |
+    return Get-Content -Path $Path |
         ForEach-Object { $_.Trim() } |
         Where-Object { $_ -and -not $_.StartsWith("#") }
+}
 
-    if ($patterns.Count -eq 0) {
-        return $FallbackPatterns
+function Ensure-ControlFiles {
+    param([string]$Root)
+
+    $ignorePath = Join-Path $Root ".llmignore"
+    $whitelistPath = Join-Path $Root ".llmwhitelist"
+
+    if (-not (Test-Path $ignorePath)) {
+@"
+# Ignore patterns
+# Directory patterns should end with /
+# Examples:
+# bin/
+# obj/
+# node_modules/
+# dist/
+# .git/
+# *.png
+# *.jpg
+# *.dll
+# *.exe
+# package-lock.json
+
+bin/
+obj/
+node_modules/
+dist/
+build/
+coverage/
+.vs/
+.git/
+TestResults/
+llm-context/
+
+*.dll
+*.exe
+*.pdb
+*.cache
+*.log
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.ico
+*.pdf
+*.zip
+*.map
+*.min.js
+*.min.css
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+"@ | Set-Content -Path $ignorePath -Encoding UTF8
     }
 
-    return $patterns
+    if (-not (Test-Path $whitelistPath)) {
+@"
+# Whitelist patterns
+# Files must match this file to be considered for inclusion.
+# Examples:
+# *.cs
+# *.csproj
+# *.sln
+# *.sql
+# README.md
+# Dockerfile
+# src/MyApp.Web/Program.cs
+
+*.sln
+*.csproj
+*.props
+*.targets
+*.cs
+*.razor
+*.cshtml
+*.json
+*.config
+*.xml
+*.sql
+*.js
+*.jsx
+*.ts
+*.tsx
+*.css
+*.scss
+*.html
+*.md
+*.txt
+*.yml
+*.yaml
+*.ps1
+*.sh
+
+README.md
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+"@ | Set-Content -Path $whitelistPath -Encoding UTF8
+    }
+
+    return [PSCustomObject]@{
+        IgnorePath = $ignorePath
+        WhitelistPath = $whitelistPath
+    }
 }
 
-function Convert-GlobToRegex {
+function Normalize-Pattern {
     param([string]$Pattern)
-
-    $normalized = $Pattern.Replace("\", "/")
-    $escaped = [Regex]::Escape($normalized)
-    $escaped = $escaped -replace "\\\*\\\*", ".*"
-    $escaped = $escaped -replace "\\\*", "[^/]*"
-    $escaped = $escaped -replace "\\\?", "."
-    return "^$escaped$"
+    return $Pattern.Trim().Replace('/', '\')
 }
 
-function Test-AnyPatternMatch {
+function Test-PatternMatch {
     param(
         [string]$RelativePath,
         [string[]]$Patterns
     )
 
-    foreach ($pattern in $Patterns) {
-        if ($RelativePath -match (Convert-GlobToRegex -Pattern $pattern)) {
-            return $true
+    $rel = $RelativePath.Replace('/', '\')
+    $leaf = Split-Path $rel -Leaf
+
+    foreach ($rawPattern in $Patterns) {
+        $pattern = Normalize-Pattern $rawPattern
+
+        if ([string]::IsNullOrWhiteSpace($pattern)) {
+            continue
         }
+
+        if ($pattern.EndsWith("\")) {
+            $dirPattern = $pattern.TrimEnd('\')
+
+            if ($rel -like "$dirPattern\*") { return $true }
+            if ($rel -like "*\$dirPattern\*") { return $true }
+            continue
+        }
+
+        if ($pattern.Contains("\")) {
+            if ($rel -like $pattern) { return $true }
+            if ($rel -like "*\$pattern") { return $true }
+            continue
+        }
+
+        if ($leaf -like $pattern) { return $true }
+        if ($rel -like $pattern) { return $true }
     }
 
     return $false
 }
 
-function Get-CacheKey {
+function Get-FileCategory {
+    param(
+        [string]$RelativePath,
+        [string]$Name,
+        [string]$Extension
+    )
+
+    $p = $RelativePath.ToLowerInvariant()
+
+    if ($Extension -eq ".sln") { return 0 }
+    if ($Extension -eq ".csproj") { return 1 }
+
+    if ($Name -match '^(Program\.cs|Startup\.cs|appsettings(\..+)?\.json|launchSettings\.json|Dockerfile|docker-compose.*|README(\..*)?)$') {
+        return 2
+    }
+
+    if ($p -match '\\(interfaces|contracts)\\') { return 3 }
+    if ($p -match '\\(models|entities|dtos|viewmodels)\\' -or $Name -match '(Dto|Model|Entity|ViewModel)\.cs$') { return 4 }
+    if ($p -match '\\(services)\\' -or $Name -match '(Service|Manager|Provider|Handler)\.cs$') { return 5 }
+    if ($p -match '\\(dal|data|repositories|repository|migrations)\\' -or $Extension -eq ".sql") { return 6 }
+    if ($p -match '\\(controllers|pages)\\' -or $Extension -in @(".razor", ".cshtml")) { return 7 }
+    if ($Extension -in @(".js", ".jsx", ".ts", ".tsx", ".css", ".scss", ".html")) { return 8 }
+
+    return 9
+}
+
+function Get-PriorityScore {
+    param(
+        [string]$RelativePath,
+        [string]$Name,
+        [string]$Extension,
+        [Int64]$Length
+    )
+
+    $category = Get-FileCategory -RelativePath $RelativePath -Name $Name -Extension $Extension
+    $score = $category * 1000000
+
+    if ($Name -match '^(Program\.cs|Startup\.cs|appsettings(\..+)?\.json|Dockerfile|docker-compose.*|README(\..*)?)$') {
+        $score -= 500000
+    }
+
+    if ($RelativePath -match '\\(Interfaces|Contracts)\\') { $score -= 100000 }
+    if ($RelativePath -match '\\(Controllers|Pages)\\') { $score -= 50000 }
+
+    $score += [Math]::Min([int]($Length / 10), 99999)
+
+    return $score
+}
+
+function Load-BuildSettings {
+    param(
+        [string]$Root,
+        [string]$ExplicitSettingsFile,
+        [string]$SectionName
+    )
+
+    $defaultSettings = [ordered]@{
+        Enabled = $false
+        SkipUnalteredFiles = $true
+        OutputFolderName = "llm-context"
+        MaxFileBytes = 250000
+        SoftContextBytes = 6000000
+        MergeIndexIntoContext = $false
+        CleanOrphanedFragments = $true
+        Verbose = $false
+        GenerateCodeSummary = $true
+        SummarizeFrontendFiles = $false
+        MaxSummaryFileBytes = 200000
+    }
+
+    $settingsPath = $null
+
+    if ($ExplicitSettingsFile) {
+        $settingsPath = $ExplicitSettingsFile
+    }
+    else {
+        $candidate1 = Join-Path $Root "appsettings.llmcontext.json"
+        $candidate2 = Join-Path $Root "appsettings.json"
+
+        if (Test-Path $candidate1) {
+            $settingsPath = $candidate1
+        }
+        elseif (Test-Path $candidate2) {
+            $settingsPath = $candidate2
+        }
+    }
+
+    $settings = [ordered]@{}
+    foreach ($k in $defaultSettings.Keys) {
+        $settings[$k] = $defaultSettings[$k]
+    }
+
+    if (-not $settingsPath -or -not (Test-Path $settingsPath)) {
+        return [PSCustomObject]@{
+            Path = ""
+            Values = [PSCustomObject]$settings
+        }
+    }
+
+    $json = Get-Content -Path $settingsPath -Raw | ConvertFrom-Json -Depth 20
+
+    $section = $null
+    if ($json.PSObject.Properties.Name -contains $SectionName) {
+        $section = $json.$SectionName
+    }
+    else {
+        $section = $json
+    }
+
+    foreach ($prop in $section.PSObject.Properties) {
+        $settings[$prop.Name] = $prop.Value
+    }
+
+    return [PSCustomObject]@{
+        Path = $settingsPath
+        Values = [PSCustomObject]$settings
+    }
+}
+
+function Get-SettingsSignature {
+    param($SettingsObject)
+    return (($SettingsObject | ConvertTo-Json -Depth 20 -Compress))
+}
+
+function Get-FragmentFileName {
     param([string]$RelativePath)
 
-    $sha1 = [System.Security.Cryptography.SHA1]::Create()
-    try {
-        $bytes = [System.Text.Encoding]::UTF8.GetBytes($RelativePath.ToLowerInvariant())
-        $hashBytes = $sha1.ComputeHash($bytes)
-        return -join ($hashBytes | ForEach-Object { $_.ToString("x2") })
+    $safeBase = [System.IO.Path]::GetFileNameWithoutExtension($RelativePath)
+    if ([string]::IsNullOrWhiteSpace($safeBase)) {
+        $safeBase = "file"
     }
-    finally {
-        $sha1.Dispose()
-    }
+
+    $safeBase = ($safeBase -replace '[^a-zA-Z0-9\-_]', '_')
+    $hashBytes = [System.Security.Cryptography.SHA1]::Create().ComputeHash([System.Text.Encoding]::UTF8.GetBytes($RelativePath))
+    $hash = [BitConverter]::ToString($hashBytes).Replace("-", "").ToLowerInvariant().Substring(0, 12)
+
+    return "$safeBase`__$hash.fragment.txt"
 }
 
-function Get-TrimmedText {
-    param(
-        [string]$Text,
-        [int]$MaxBytes
+function Get-SummaryFileName {
+    param([string]$RelativePath)
+
+    $safeBase = [System.IO.Path]::GetFileNameWithoutExtension($RelativePath)
+    if ([string]::IsNullOrWhiteSpace($safeBase)) {
+        $safeBase = "file"
+    }
+
+    $safeBase = ($safeBase -replace '[^a-zA-Z0-9\-_]', '_')
+    $hashBytes = [System.Security.Cryptography.SHA1]::Create().ComputeHash(
+        [System.Text.Encoding]::UTF8.GetBytes($RelativePath)
     )
+    $hash = [BitConverter]::ToString($hashBytes).Replace("-", "").ToLowerInvariant().Substring(0, 12)
 
-    $bytes = [System.Text.Encoding]::UTF8.GetByteCount($Text)
-    if ($bytes -le $MaxBytes) {
-        return $Text
-    }
-
-    $ratio = [Math]::Max(0.15, $MaxBytes / [double]$bytes)
-    $length = [Math]::Max(256, [int]($Text.Length * $ratio))
-    return $Text.Substring(0, [Math]::Min($length, $Text.Length)) + "`n`n... [truncated to respect MaxFileBytes]"
+    return "$safeBase`__$hash.summary.json"
 }
 
-function Get-PageTypeSummary {
+function Build-FragmentText {
     param(
+        [System.IO.FileInfo]$File,
         [string]$RelativePath,
-        [string]$Text
+        [int]$Category,
+        [bool]$Whitelisted,
+        [int]$MaxFileBytes
     )
 
-    $summary = New-Object System.Collections.Generic.List[string]
-    $extension = [System.IO.Path]::GetExtension($RelativePath).ToLowerInvariant()
-    $lowerPath = $RelativePath.ToLowerInvariant()
+    $utf8 = [System.Text.Encoding]::UTF8
+    $content = Get-Content -Path $File.FullName -Raw -ErrorAction Stop
+    $originalBytes = $utf8.GetByteCount($content)
 
-    if ($RelativePath.ToLowerInvariant().EndsWith(".cshtml")) {
-        if ($Text -match "(?m)^\s*@page\b") {
-            $summary.Add("Razor Page detected via @page.")
-        }
-        else {
-            $summary.Add("Razor partial or shared view fragment.")
+    $finalContent = $content
+    $truncated = $false
+
+    if ($originalBytes -gt $MaxFileBytes) {
+        $truncated = $true
+
+        $headChars = [Math]::Max([int]($content.Length * 0.70), 1)
+        $tailChars = [Math]::Max([int]($content.Length * 0.20), 1)
+
+        $head = $content.Substring(0, [Math]::Min($headChars, $content.Length))
+        $tailStart = [Math]::Max($content.Length - $tailChars, 0)
+        $tail = $content.Substring($tailStart)
+
+        $notice = @"
+[TRUNCATED FOR LLM SIZE OPTIMIZATION]
+Original UTF8 bytes: $originalBytes
+Per-file limit: $MaxFileBytes
+Strategy: included beginning and ending sections.
+
+--- BEGINNING SECTION ---
+"@
+
+        $candidate = $notice + "`r`n" + $head + "`r`n`r`n--- OMITTED MIDDLE SECTION ---`r`n`r`n--- ENDING SECTION ---`r`n" + $tail
+
+        while ($utf8.GetByteCount($candidate) -gt $MaxFileBytes -and ($head.Length -gt 1000 -or $tail.Length -gt 500)) {
+            if ($head.Length -gt 1000) {
+                $head = $head.Substring(0, [Math]::Max([int]($head.Length * 0.9), 1000))
+            }
+
+            if ($tail.Length -gt 500) {
+                $tail = $tail.Substring([Math]::Max([int]($tail.Length * 0.1), 0))
+            }
+
+            $candidate = $notice + "`r`n" + $head + "`r`n`r`n--- OMITTED MIDDLE SECTION ---`r`n`r`n--- ENDING SECTION ---`r`n" + $tail
         }
 
-        $modelMatch = [Regex]::Match($Text, "(?m)^\s*@model\s+([A-Za-z0-9_\.]+)")
-        if ($modelMatch.Success) {
-            $summary.Add("Model: $($modelMatch.Groups[1].Value)")
-        }
-
-        return $summary
+        $finalContent = $candidate
     }
 
-    if ($RelativePath.ToLowerInvariant().EndsWith(".cshtml.cs")) {
-        $classMatch = [Regex]::Match($Text, "\bclass\s+([A-Za-z0-9_]+)")
-        if ($classMatch.Success) {
-            $summary.Add("PageModel class: $($classMatch.Groups[1].Value)")
-        }
+    $header = @"
+================================================================================
+FILE: $RelativePath
+CATEGORY: $Category
+WHITELISTED: $Whitelisted
+SIZE_BYTES: $($File.Length)
+LAST_WRITE_UTC: $($File.LastWriteTimeUtc.ToString('s'))
+================================================================================
 
-        $handlerMatches = [Regex]::Matches($Text, "\b(On(?:Get|Post|Put|Delete|Patch)[A-Za-z0-9_]*)(?:Async)?\s*\(") |
-            ForEach-Object { $_.Groups[1].Value } |
-            Select-Object -Unique
+"@
 
-        if ($handlerMatches.Count -gt 0) {
-            $summary.Add("Handlers: " + ($handlerMatches -join ", "))
-        }
+    $block = $header + $finalContent + "`r`n`r`n"
 
-        return $summary
+    return [PSCustomObject]@{
+        BlockText = $block
+        OriginalBytes = $originalBytes
+        EmittedBytes = $utf8.GetByteCount($block)
+        Truncated = $truncated
     }
-
-    if ($extension -eq ".cs") {
-        $classMatches = [Regex]::Matches($Text, "\bclass\s+([A-Za-z0-9_]+)") |
-            ForEach-Object { $_.Groups[1].Value } |
-            Select-Object -Unique
-
-        $isDal = $lowerPath -match "(^|/)(dal|data|repositories|repository)(/|$)" -or
-            ($classMatches | Where-Object { $_ -match "(Dal|Repository|Queries|Commands|Db)$" }).Count -gt 0
-
-        if ($isDal) {
-            $summary.Add("DAL-oriented C# file detected.")
-        }
-        elseif ($lowerPath -match "(^|/)pages(/|$)") {
-            $summary.Add("C# file under Pages/ path.")
-        }
-
-        if ($classMatches.Count -gt 0) {
-            $summary.Add("Classes: " + ($classMatches -join ", "))
-        }
-
-        $methodMatches = [Regex]::Matches($Text, "(?m)^\s*(?:public|internal)\s+(?:async\s+)?(?:[A-Za-z0-9_<>,\[\]\.?]+\s+)+([A-Za-z0-9_]+)\s*\(") |
-            ForEach-Object { $_.Groups[1].Value } |
-            Where-Object { $_ -notmatch "^(if|for|foreach|while|switch)$" } |
-            Select-Object -Unique
-
-        if ($methodMatches.Count -gt 0) {
-            $summary.Add("Methods: " + (($methodMatches | Select-Object -First 8) -join ", "))
-        }
-    }
-
-    $sqlHints = [Regex]::Matches($Text, "\b(SELECT|INSERT|UPDATE|DELETE|MERGE|EXEC(?:UTE)?)\b", [System.Text.RegularExpressions.RegexOptions]::IgnoreCase) |
-        ForEach-Object { $_.Groups[1].Value.ToUpperInvariant() } |
-        Select-Object -Unique
-
-    if ($sqlHints.Count -gt 0) {
-        $summary.Add("SQL hints: " + ($sqlHints -join ", "))
-    }
-
-    if ($extension -eq ".sql") {
-        $summary.Add("SQL script or embedded query file.")
-    }
-
-    return $summary
 }
 
-function New-FileSummary {
-    param(
-        [string]$RelativePath,
-        [string]$Text,
-        [hashtable]$Settings
-    )
-
-    $extension = [System.IO.Path]::GetExtension($RelativePath).ToLowerInvariant()
-    $frontendSummaryExtensions = @($Settings.FrontendSummaryExtensions | ForEach-Object { $_.ToLowerInvariant() })
-
-    if (($frontendSummaryExtensions -contains $extension) -and -not [bool]$Settings.EnableFrontendSummaries) {
-        return "Frontend summary skipped by configuration for $RelativePath."
-    }
-
-    $summaryLines = Get-PageTypeSummary -RelativePath $RelativePath -Text $Text
-    if ($summaryLines.Count -eq 0) {
-        $summaryLines.Add("General source/config file included for context.")
-    }
-
-    $summary = @(
-        "Path: $RelativePath"
-        "Summary:"
-        ($summaryLines | ForEach-Object { "- $_" })
-    ) -join "`n"
-
-    return Get-TrimmedText -Text $summary -MaxBytes ([int]$Settings.MaxSummaryFileBytes)
-}
-
-function New-ContextFragment {
-    param(
-        [string]$RelativePath,
-        [string]$Summary,
-        [string]$Text,
-        [hashtable]$Settings
-    )
-
-    $trimmedContent = Get-TrimmedText -Text $Text -MaxBytes ([int]$Settings.MaxFileBytes)
-    return @(
-        "--- BEGIN FILE: $RelativePath ---"
-        $Summary
-        "Content:"
-        $trimmedContent
-        "--- END FILE: $RelativePath ---"
-    ) -join "`n"
-}
-
-function Write-TextIfChanged {
+function Save-TextIfChanged {
     param(
         [string]$Path,
         [string]$Content
     )
 
-    if ((Test-Path -LiteralPath $Path) -and ((Get-Content -LiteralPath $Path -Raw -Encoding UTF8) -ceq $Content)) {
-        return $false
-    }
-
-    Set-Content -LiteralPath $Path -Value $Content -Encoding UTF8
-    return $true
-}
-
-function Load-ManifestLookup {
-    param([string]$ManifestPath)
-
-    $lookup = @{}
-    if (-not (Test-Path -LiteralPath $ManifestPath)) {
-        return $lookup
-    }
-
-    $manifest = Read-OptionalJsonFile -Path $ManifestPath
-    if ($null -eq $manifest -or $null -eq $manifest.Files) {
-        return $lookup
-    }
-
-    foreach ($entry in $manifest.Files) {
-        $lookup[$entry.Path] = $entry
-    }
-
-    return $lookup
-}
-
-$solutionRoot = Resolve-SolutionRoot -StartPath $ProjectPath
-$settings = Merge-Settings -Defaults (Get-DefaultSettings) -Loaded (Read-OptionalJsonFile -Path (Join-Path $solutionRoot $ConfigFileName))
-
-$whitelist = Read-PatternFile -Path (Join-Path $solutionRoot ".llmwhitelist") -FallbackPatterns @($settings.BuiltInWhitelist)
-$ignore = Read-PatternFile -Path (Join-Path $solutionRoot ".llmignore") -FallbackPatterns @($settings.BuiltInIgnore)
-
-$outputRoot = Join-Path $solutionRoot $settings.OutputDirectory
-$cacheRoot = Join-Path $outputRoot ".cache"
-$fragmentCacheRoot = Join-Path $cacheRoot "fragments"
-$summaryCacheRoot = Join-Path $cacheRoot "summaries"
-$manifestPath = Join-Path $cacheRoot "manifest.json"
-$indexPath = Join-Path $outputRoot "solution-index.txt"
-$contextPath = Join-Path $outputRoot "solution-context.txt"
-
-foreach ($path in @($outputRoot, $cacheRoot, $fragmentCacheRoot, $summaryCacheRoot)) {
-    if (-not (Test-Path -LiteralPath $path)) {
-        New-Item -ItemType Directory -Path $path | Out-Null
-    }
-}
-
-$manifestLookup = Load-ManifestLookup -ManifestPath $manifestPath
-$files = Get-ChildItem -LiteralPath $solutionRoot -Recurse -File -ErrorAction SilentlyContinue
-
-$candidateFiles = foreach ($file in $files) {
-    $relativePath = ConvertTo-RelativeSolutionPath -BasePath $solutionRoot -FullPath $file.FullName
-    if (-not (Test-AnyPatternMatch -RelativePath $relativePath -Patterns $whitelist)) {
-        continue
-    }
-
-    if (Test-AnyPatternMatch -RelativePath $relativePath -Patterns $ignore) {
-        continue
-    }
-
-    [PSCustomObject]@{
-        FileInfo = $file
-        RelativePath = $relativePath
-    }
-}
-
-$indexEntries = New-Object System.Collections.Generic.List[string]
-$contextFragments = New-Object System.Collections.Generic.List[string]
-$manifestEntries = New-Object System.Collections.Generic.List[object]
-$contextBudget = 0
-$reusedCount = 0
-$regeneratedCount = 0
-
-foreach ($candidate in ($candidateFiles | Sort-Object RelativePath)) {
-    $fileInfo = $candidate.FileInfo
-    $relativePath = $candidate.RelativePath
-    $cacheKey = Get-CacheKey -RelativePath $relativePath
-    $fragmentCachePath = Join-Path $fragmentCacheRoot "$cacheKey.txt"
-    $summaryCachePath = Join-Path $summaryCacheRoot "$cacheKey.txt"
-    $lastWriteUtcTicks = $fileInfo.LastWriteTimeUtc.Ticks
-    $cachedEntry = $manifestLookup[$relativePath]
-    $shouldReuse = $false
-    $hash = $null
-
-    if ($null -ne $cachedEntry -and
-        $cachedEntry.Size -eq $fileInfo.Length -and
-        $cachedEntry.LastWriteUtcTicks -eq $lastWriteUtcTicks -and
-        (Test-Path -LiteralPath $fragmentCachePath) -and
-        (Test-Path -LiteralPath $summaryCachePath)) {
-        $shouldReuse = $true
-        $hash = $cachedEntry.Hash
-    }
-    else {
-        $hash = (Get-FileHash -LiteralPath $fileInfo.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
-        if ($null -ne $cachedEntry -and
-            $cachedEntry.Hash -eq $hash -and
-            (Test-Path -LiteralPath $fragmentCachePath) -and
-            (Test-Path -LiteralPath $summaryCachePath)) {
-            $shouldReuse = $true
+    if (Test-Path $Path) {
+        $existing = Get-Content -Path $Path -Raw
+        if ($existing -ceq $Content) {
+            return $false
         }
     }
 
-    if ($shouldReuse) {
-        $summary = Get-Content -LiteralPath $summaryCachePath -Raw -Encoding UTF8
-        $fragment = Get-Content -LiteralPath $fragmentCachePath -Raw -Encoding UTF8
-        $reusedCount++
-    }
-    else {
-        $text = Get-Content -LiteralPath $fileInfo.FullName -Raw -Encoding UTF8
-        $summary = New-FileSummary -RelativePath $relativePath -Text $text -Settings $settings
-        $fragment = New-ContextFragment -RelativePath $relativePath -Summary $summary -Text $text -Settings $settings
-        Set-Content -LiteralPath $summaryCachePath -Value $summary -Encoding UTF8
-        Set-Content -LiteralPath $fragmentCachePath -Value $fragment -Encoding UTF8
-        $regeneratedCount++
+    $parent = Split-Path $Path -Parent
+    if (-not (Test-Path $parent)) {
+        New-Item -ItemType Directory -Path $parent | Out-Null
     }
 
-    $indexSummaryLine = ($summary -split "`n" | Select-Object -Skip 2 | ForEach-Object { $_.TrimStart("- ") } | Where-Object { $_ } | Select-Object -First 2) -join "; "
-    if ([string]::IsNullOrWhiteSpace($indexSummaryLine)) {
-        $indexSummaryLine = "General source or configuration file."
-    }
-
-    $indexEntries.Add("- $relativePath | $indexSummaryLine")
-
-    $fragmentBytes = [System.Text.Encoding]::UTF8.GetByteCount($fragment)
-    if ($contextFragments.Count -eq 0 -or ($contextBudget + $fragmentBytes) -le [int]$settings.SoftContextBytes) {
-        $contextFragments.Add($fragment)
-        $contextBudget += $fragmentBytes
-    }
-
-    $manifestEntries.Add([PSCustomObject]@{
-        Path = $relativePath
-        Hash = $hash
-        Size = $fileInfo.Length
-        LastWriteUtcTicks = $lastWriteUtcTicks
-        FragmentCache = "fragments/$cacheKey.txt"
-        SummaryCache = "summaries/$cacheKey.txt"
-    })
+    $Content | Set-Content -Path $Path -Encoding UTF8
+    return $true
 }
 
-$indexContent = @(
-    "LLM Context Solution Index"
-    "SolutionRoot: $solutionRoot"
-    "Workflow: Incremental, regex-based, Razor Pages + DAL oriented"
-    "Notes:"
-    "- Files must match .llmwhitelist and must not match .llmignore."
-    "- Summary generation is intentionally shallow and regex-based for build friendliness."
-    "- Table schema generation is intentionally out of scope; keep that in a separate script."
-    ""
-    "Files:"
-    ($indexEntries -join "`n")
-) -join "`n"
+function Load-Manifest {
+    param([string]$Path)
 
-$contextHeader = @(
-    "LLM Context Pack"
-    "SolutionRoot: $solutionRoot"
-    "Focus: ASP.NET Core Razor Pages solutions with DAL classes and no MVC dependency"
-    "Notes:"
-    "- Solution root is auto-discovered by walking up to the nearest parent folder that contains a .sln file."
-    "- Unchanged files reuse cached fragments and cached summaries."
-    "- This pass is intentionally regex-based for speed rather than Roslyn-based semantic analysis."
-    "- Table schema generation is handled by a separate script."
-    ""
-) -join "`n"
+    if (-not (Test-Path $Path)) {
+        return @{
+            Version = 1
+            SettingsSignature = ""
+            Files = @{}
+            EmittedOrder = @()
+            IncludedOrder = @()
+        }
+    }
 
-$contextContent = $contextHeader + ($contextFragments -join "`n`n")
+    $raw = Get-Content -Path $Path -Raw | ConvertFrom-Json -Depth 50
+    $fileMap = @{}
 
-$manifestContent = [PSCustomObject]@{
-    SolutionRoot = $solutionRoot
-    OutputDirectory = $settings.OutputDirectory
-    SoftContextBytes = [int]$settings.SoftContextBytes
-    Files = $manifestEntries
-} | ConvertTo-Json -Depth 8
+    if ($raw.Files) {
+        foreach ($p in $raw.Files.PSObject.Properties) {
+            $fileMap[$p.Name] = $p.Value
+        }
+    }
 
-$indexUpdated = Write-TextIfChanged -Path $indexPath -Content $indexContent
-$contextUpdated = Write-TextIfChanged -Path $contextPath -Content $contextContent
-Set-Content -LiteralPath $manifestPath -Value $manifestContent -Encoding UTF8
+    return @{
+        Version = $raw.Version
+        SettingsSignature = $raw.SettingsSignature
+        Files = $fileMap
+        EmittedOrder = @($raw.EmittedOrder)
+        IncludedOrder = @($raw.IncludedOrder)
+    }
+}
 
-Write-Host "LLM context complete. Files considered: $($candidateFiles.Count); reused cache: $reusedCount; regenerated: $regeneratedCount; index updated: $indexUpdated; context updated: $contextUpdated"
+function Save-Manifest {
+    param(
+        [string]$Path,
+        [hashtable]$Manifest
+    )
+
+    $filesOrdered = [ordered]@{}
+    foreach ($key in ($Manifest.Files.Keys | Sort-Object)) {
+        $filesOrdered[$key] = $Manifest.Files[$key]
+    }
+
+    $obj = [ordered]@{
+        Version = $Manifest.Version
+        SettingsSignature = $Manifest.SettingsSignature
+        EmittedOrder = @($Manifest.EmittedOrder)
+        IncludedOrder = @($Manifest.IncludedOrder)
+        Files = $filesOrdered
+    }
+
+    ($obj | ConvertTo-Json -Depth 50) | Set-Content -Path $Path -Encoding UTF8
+}
+
+function Should-SummarizeFile {
+    param(
+        [object]$Record,
+        $SettingsValues
+    )
+
+    if (-not $SettingsValues.GenerateCodeSummary) {
+        return $false
+    }
+
+    if ($Record.Length -gt [int64]$SettingsValues.MaxSummaryFileBytes) {
+        return $false
+    }
+
+    switch ($Record.Extension) {
+        ".cs"       { return $true }
+        ".cshtml"   { return $true }
+        ".razor"    { return $true }
+        ".js"       { return [bool]$SettingsValues.SummarizeFrontendFiles }
+        ".ts"       { return [bool]$SettingsValues.SummarizeFrontendFiles }
+        ".tsx"      { return [bool]$SettingsValues.SummarizeFrontendFiles }
+        default     { return $false }
+    }
+}
+
+function Get-CSharpFileSummary {
+    param(
+        [string]$Path,
+        [string]$RelativePath
+    )
+
+    $text = Get-Content -Path $Path -Raw -ErrorAction Stop
+
+    $namespace = ""
+    $className = ""
+    $baseTypes = @()
+    $publicMethods = @()
+    $pageHandlers = @()
+    $isPageModel = $false
+    $isDalLike = $false
+    $sqlOps = New-Object System.Collections.Generic.HashSet[string]
+
+    $nsMatch = [regex]::Match($text, '(?m)^\s*namespace\s+([A-Za-z0-9_.]+)')
+    if ($nsMatch.Success) {
+        $namespace = $nsMatch.Groups[1].Value
+    }
+
+    $classMatch = [regex]::Match($text, '(?m)^\s*public\s+(?:partial\s+)?class\s+([A-Za-z0-9_]+)(?:\s*:\s*([^{\r\n]+))?')
+    if ($classMatch.Success) {
+        $className = $classMatch.Groups[1].Value
+        if ($classMatch.Groups[2].Success) {
+            $baseTypes = $classMatch.Groups[2].Value.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ }
+        }
+    }
+
+    if ($baseTypes -contains "PageModel" -or $text -match '\bPageModel\b') {
+        $isPageModel = $true
+    }
+
+    if ($RelativePath -match '\\(DAL|Data|Repositories|Repository)\\' -or
+        $className -match '(Dal|Repository|DataAccess)$') {
+        $isDalLike = $true
+    }
+
+    $methodMatches = [regex]::Matches(
+        $text,
+        '(?m)^\s*public\s+(?:async\s+)?(?:[A-Za-z0-9_<>\[\],?.]+\s+)+([A-Za-z0-9_]+)\s*\('
+    )
+
+    foreach ($m in $methodMatches) {
+        $name = $m.Groups[1].Value
+        if ($name -and $publicMethods -notcontains $name) {
+            $publicMethods += $name
+        }
+
+        if ($name -match '^On(Get|Post|Put|Delete|Patch)([A-Za-z0-9_]*)$') {
+            $pageHandlers += $name
+        }
+    }
+
+    if ($text -match '\bSELECT\b') { [void]$sqlOps.Add("SELECT") }
+    if ($text -match '\bINSERT\b') { [void]$sqlOps.Add("INSERT") }
+    if ($text -match '\bUPDATE\b') { [void]$sqlOps.Add("UPDATE") }
+    if ($text -match '\bDELETE\b') { [void]$sqlOps.Add("DELETE") }
+    if ($text -match '\bEXEC\b|\bExecuteReader\b|\bExecuteScalar\b|\bExecuteNonQuery\b') { [void]$sqlOps.Add("EXECUTE") }
+    if ($text -match '\bSqlConnection\b|\bSqlCommand\b|\bDbConnection\b|\bDbCommand\b') { [void]$sqlOps.Add("ADO.NET") }
+    if ($text -match '\bstored\s+procedure\b|\bCommandType\.StoredProcedure\b') { [void]$sqlOps.Add("StoredProcedure") }
+
+    return [ordered]@{
+        RelativePath = $RelativePath
+        Kind = "csharp"
+        Namespace = $namespace
+        ClassName = $className
+        BaseTypes = @($baseTypes)
+        PublicMethods = @($publicMethods)
+        PageHandlers = @($pageHandlers)
+        IsPageModel = $isPageModel
+        IsDalLike = $isDalLike
+        SqlOps = @($sqlOps)
+    }
+}
+
+function Get-CshtmlFileSummary {
+    param(
+        [string]$Path,
+        [string]$RelativePath
+    )
+
+    $text = Get-Content -Path $Path -Raw -ErrorAction Stop
+
+    $hasPageDirective = $false
+    $routeTemplate = ""
+    $modelType = ""
+
+    $pageMatch = [regex]::Match($text, '(?m)^\s*@page(?:\s+"([^"]+)")?')
+    if ($pageMatch.Success) {
+        $hasPageDirective = $true
+        if ($pageMatch.Groups[1].Success) {
+            $routeTemplate = $pageMatch.Groups[1].Value
+        }
+    }
+
+    $modelMatch = [regex]::Match($text, '(?m)^\s*@model\s+([A-Za-z0-9_.]+)')
+    if ($modelMatch.Success) {
+        $modelType = $modelMatch.Groups[1].Value
+    }
+
+    return [ordered]@{
+        RelativePath = $RelativePath
+        Kind = "cshtml"
+        HasPageDirective = $hasPageDirective
+        RouteTemplate = $routeTemplate
+        ModelType = $modelType
+    }
+}
+
+function Get-RazorComponentSummary {
+    param(
+        [string]$Path,
+        [string]$RelativePath
+    )
+
+    $text = Get-Content -Path $Path -Raw -ErrorAction Stop
+
+    $routeTemplates = [regex]::Matches($text, '(?m)^\s*@page\s+"([^"]+)"') |
+        ForEach-Object { $_.Groups[1].Value } |
+        Select-Object -Unique
+
+    $codeHints = @()
+    if ($text -match '@code\s*\{') {
+        $codeHints += "inline-code"
+    }
+
+    return [ordered]@{
+        RelativePath = $RelativePath
+        Kind = "razor"
+        Routes = @($routeTemplates)
+        Hints = @($codeHints)
+    }
+}
+
+function Build-FileSummary {
+    param(
+        [object]$Record,
+        $SettingsValues
+    )
+
+    if (-not (Should-SummarizeFile -Record $Record -SettingsValues $SettingsValues)) {
+        return $null
+    }
+
+    switch ($Record.Extension) {
+        ".cs" {
+            return Get-CSharpFileSummary -Path $Record.File.FullName -RelativePath $Record.RelativePath
+        }
+        ".cshtml" {
+            return Get-CshtmlFileSummary -Path $Record.File.FullName -RelativePath $Record.RelativePath
+        }
+        ".razor" {
+            return Get-RazorComponentSummary -Path $Record.File.FullName -RelativePath $Record.RelativePath
+        }
+        default {
+            return $null
+        }
+    }
+}
+
+function New-FileRecord {
+    param(
+        [System.IO.FileInfo]$File,
+        [string]$Root,
+        [string[]]$WhitelistPatterns,
+        [string[]]$IgnorePatterns
+    )
+
+    $relative = Get-RelativePathSafe -BasePath $Root -TargetPath $File.FullName
+    $relative = $relative.Replace('/', '\')
+
+    $whitelisted = Test-PatternMatch -RelativePath $relative -Patterns $WhitelistPatterns
+    $ignored = Test-PatternMatch -RelativePath $relative -Patterns $IgnorePatterns
+
+    $include = $whitelisted -and (-not $ignored)
+
+    [PSCustomObject]@{
+        File = $File
+        RelativePath = $relative
+        Name = $File.Name
+        Extension = $File.Extension.ToLowerInvariant()
+        Length = $File.Length
+        LastWriteTimeUtc = $File.LastWriteTimeUtc
+        SourceSignature = "$($File.Length)|$($File.LastWriteTimeUtc.Ticks)"
+        Whitelisted = $whitelisted
+        Ignored = $ignored
+        Include = $include
+        Category = Get-FileCategory -RelativePath $relative -Name $File.Name -Extension $File.Extension
+        Priority = Get-PriorityScore -RelativePath $relative -Name $File.Name -Extension $File.Extension -Length $File.Length
+    }
+}
+
+function Build-OrReuseFragments {
+    param(
+        [string]$FragmentDir,
+        [object[]]$IncludedRecords,
+        [hashtable]$Manifest,
+        $SettingsValues
+    )
+
+    $results = New-Object System.Collections.Generic.List[object]
+    $newFileMap = @{}
+    $changedAnything = $false
+
+    foreach ($record in $IncludedRecords) {
+        $relative = $record.RelativePath
+        $existing = $null
+        if ($Manifest.Files.ContainsKey($relative)) {
+            $existing = $Manifest.Files[$relative]
+        }
+
+        $fragmentName = Get-FragmentFileName -RelativePath $relative
+        $fragmentPath = Join-Path $FragmentDir $fragmentName
+
+        $needsRebuild = $true
+        $sourceHash = ""
+
+        if ($SettingsValues.SkipUnalteredFiles -and $existing -and (Test-Path $fragmentPath)) {
+            if ($existing.SourceSignature -eq $record.SourceSignature) {
+                $needsRebuild = $false
+            }
+            else {
+                $sourceHash = Get-Sha256Hex -Path $record.File.FullName
+                if ($existing.SourceHash -eq $sourceHash) {
+                    $needsRebuild = $false
+                }
+            }
+        }
+
+        if ($needsRebuild) {
+            if (-not $sourceHash) {
+                $sourceHash = Get-Sha256Hex -Path $record.File.FullName
+            }
+
+            $fragment = Build-FragmentText `
+                -File $record.File `
+                -RelativePath $relative `
+                -Category $record.Category `
+                -Whitelisted $record.Whitelisted `
+                -MaxFileBytes ([int]$SettingsValues.MaxFileBytes)
+
+            $wrote = Save-TextIfChanged -Path $fragmentPath -Content $fragment.BlockText
+            if ($wrote) {
+                $changedAnything = $true
+            }
+
+            $meta = [ordered]@{
+                RelativePath = $relative
+                FragmentPath = $fragmentPath
+                SummaryPath = ""
+                SourceSignature = $record.SourceSignature
+                SourceHash = $sourceHash
+                OriginalBytes = $fragment.OriginalBytes
+                EmittedBytes = $fragment.EmittedBytes
+                Truncated = $fragment.Truncated
+                Category = $record.Category
+                Priority = $record.Priority
+            }
+        }
+        else {
+            $meta = [ordered]@{
+                RelativePath = $relative
+                FragmentPath = $fragmentPath
+                SummaryPath = $existing.SummaryPath
+                SourceSignature = $existing.SourceSignature
+                SourceHash = $existing.SourceHash
+                OriginalBytes = [int64]$existing.OriginalBytes
+                EmittedBytes = [int64]$existing.EmittedBytes
+                Truncated = [bool]$existing.Truncated
+                Category = [int]$existing.Category
+                Priority = [int]$existing.Priority
+            }
+        }
+
+        $newFileMap[$relative] = $meta
+        $results.Add([PSCustomObject]$meta) | Out-Null
+    }
+
+    return [PSCustomObject]@{
+        FileMap = $newFileMap
+        FragmentMetadata = $results
+        ChangedAnything = $changedAnything
+    }
+}
+
+function Build-OrReuseSummaries {
+    param(
+        [string]$SummaryDir,
+        [object[]]$IncludedRecords,
+        [hashtable]$Manifest,
+        $SettingsValues
+    )
+
+    $summaryMap = @{}
+    $changedAnything = $false
+
+    foreach ($record in $IncludedRecords) {
+        if (-not (Should-SummarizeFile -Record $record -SettingsValues $SettingsValues)) {
+            continue
+        }
+
+        $relative = $record.RelativePath
+        $existing = $null
+        if ($Manifest.Files.ContainsKey($relative)) {
+            $existing = $Manifest.Files[$relative]
+        }
+
+        $summaryName = Get-SummaryFileName -RelativePath $relative
+        $summaryPath = Join-Path $SummaryDir $summaryName
+
+        $needsRebuild = $true
+        if ($SettingsValues.SkipUnalteredFiles -and $existing -and $existing.SummaryPath -and (Test-Path $existing.SummaryPath)) {
+            if ($existing.SourceSignature -eq $record.SourceSignature) {
+                $needsRebuild = $false
+            }
+        }
+
+        if ($needsRebuild) {
+            $summaryObj = Build-FileSummary -Record $record -SettingsValues $SettingsValues
+
+            if ($null -ne $summaryObj) {
+                $json = $summaryObj | ConvertTo-Json -Depth 20
+                $wrote = Save-TextIfChanged -Path $summaryPath -Content $json
+                if ($wrote) {
+                    $changedAnything = $true
+                }
+            }
+        }
+
+        if (Test-Path $summaryPath) {
+            $summaryMap[$relative] = $summaryPath
+        }
+    }
+
+    return [PSCustomObject]@{
+        SummaryMap = $summaryMap
+        ChangedAnything = $changedAnything
+    }
+}
+
+function Remove-OrphanedArtifacts {
+    param(
+        [hashtable]$OldFiles,
+        [hashtable]$NewFiles,
+        [bool]$Enabled
+    )
+
+    $removed = $false
+
+    if (-not $Enabled) {
+        return $false
+    }
+
+    foreach ($key in $OldFiles.Keys) {
+        if (-not $NewFiles.ContainsKey($key)) {
+            $old = $OldFiles[$key]
+
+            if ($old.FragmentPath -and (Test-Path $old.FragmentPath)) {
+                Remove-Item -Path $old.FragmentPath -Force -ErrorAction SilentlyContinue
+                $removed = $true
+            }
+
+            if ($old.SummaryPath -and (Test-Path $old.SummaryPath)) {
+                Remove-Item -Path $old.SummaryPath -Force -ErrorAction SilentlyContinue
+                $removed = $true
+            }
+        }
+    }
+
+    return $removed
+}
+
+function Build-EmissionPlan {
+    param(
+        [object[]]$FragmentMetadata,
+        [int]$SoftContextBytes
+    )
+
+    $header = @"
+SOLUTION CONTEXT
+Generated: $(Get-Date -Format s)
+
+Ordered for LLM comprehension: solution > projects > startup/config > contracts > domain > services > data > endpoints > frontend > other
+
+"@
+
+    $utf8 = [System.Text.Encoding]::UTF8
+    $runningBytes = $utf8.GetByteCount($header)
+    $results = New-Object System.Collections.Generic.List[object]
+
+    foreach ($meta in $FragmentMetadata | Sort-Object Priority, RelativePath) {
+        if (($runningBytes + [int64]$meta.EmittedBytes) -le $SoftContextBytes) {
+            $runningBytes += [int64]$meta.EmittedBytes
+            $results.Add([PSCustomObject]@{
+                RelativePath = $meta.RelativePath
+                Category = $meta.Category
+                Status = "Included"
+                Truncated = $meta.Truncated
+                OriginalBytes = $meta.OriginalBytes
+                EmittedBytes = $meta.EmittedBytes
+                FragmentPath = $meta.FragmentPath
+            }) | Out-Null
+        }
+        else {
+            $results.Add([PSCustomObject]@{
+                RelativePath = $meta.RelativePath
+                Category = $meta.Category
+                Status = "SkippedForBudget"
+                Truncated = $meta.Truncated
+                OriginalBytes = $meta.OriginalBytes
+                EmittedBytes = 0
+                FragmentPath = $meta.FragmentPath
+            }) | Out-Null
+        }
+    }
+
+    return $results
+}
+
+function Build-ContextText {
+    param(
+        [object[]]$EmissionPlan,
+        [bool]$MergeIndexIntoContext,
+        [string]$IndexText
+    )
+
+    $sb = New-Object System.Text.StringBuilder
+
+    if ($MergeIndexIntoContext) {
+        [void]$sb.AppendLine($IndexText)
+        [void]$sb.AppendLine()
+        [void]$sb.AppendLine("================================================================================")
+        [void]$sb.AppendLine()
+    }
+
+    [void]$sb.AppendLine("SOLUTION CONTEXT")
+    [void]$sb.AppendLine("Generated: $(Get-Date -Format s)")
+    [void]$sb.AppendLine("Ordered for LLM comprehension: solution > projects > startup/config > contracts > domain > services > data > endpoints > frontend > other")
+    [void]$sb.AppendLine()
+
+    foreach ($item in $EmissionPlan | Where-Object { $_.Status -eq "Included" }) {
+        $fragmentText = Get-Content -Path $item.FragmentPath -Raw
+        [void]$sb.Append($fragmentText)
+    }
+
+    return $sb.ToString()
+}
+
+function Write-IndexText {
+    param(
+        [string]$Root,
+        [string]$SettingsPath,
+        $SettingsValues,
+        [object[]]$IncludedRecords,
+        [object[]]$ExcludedRecords,
+        [object[]]$EmissionResults,
+        [hashtable]$FileMap
+    )
+
+    $sb = New-Object System.Text.StringBuilder
+
+    $solutions = $IncludedRecords | Where-Object { $_.Extension -eq ".sln" }
+    $projects = $IncludedRecords | Where-Object { $_.Extension -eq ".csproj" }
+    $configFiles = $IncludedRecords | Where-Object {
+        $_.Name -match '^(Program\.cs|Startup\.cs|appsettings(\..+)?\.json|launchSettings\.json|Dockerfile|docker-compose.*|README(\..*)?)$'
+    }
+
+    $truncated = $EmissionResults | Where-Object { $_.Truncated }
+    $skippedForBudget = $EmissionResults | Where-Object { $_.Status -eq "SkippedForBudget" }
+
+    $pageSummaries = @()
+    $dalSummaries = @()
+    $modelSummaries = @()
+    $serviceSummaries = @()
+
+    foreach ($key in ($FileMap.Keys | Sort-Object)) {
+        $meta = $FileMap[$key]
+        if (-not $meta.SummaryPath -or -not (Test-Path $meta.SummaryPath)) {
+            continue
+        }
+
+        $summary = Get-Content -Path $meta.SummaryPath -Raw | ConvertFrom-Json -Depth 20
+
+        if ($summary.Kind -eq "cshtml" -and $summary.HasPageDirective) {
+            $pageSummaries += $summary
+            continue
+        }
+
+        if ($summary.Kind -eq "csharp") {
+            if ($summary.IsPageModel -or ($summary.PublicMethods | Where-Object { $_ -like "OnGet*" -or $_ -like "OnPost*" })) {
+                $pageSummaries += $summary
+                continue
+            }
+
+            if ($summary.IsDalLike) {
+                $dalSummaries += $summary
+                continue
+            }
+
+            if ($summary.RelativePath -match '\\(Models|Entities|DTOs|ViewModels)\\') {
+                $modelSummaries += $summary
+                continue
+            }
+
+            if ($summary.RelativePath -match '\\(Services|Helpers|Providers|Managers)\\') {
+                $serviceSummaries += $summary
+                continue
+            }
+        }
+    }
+
+    [void]$sb.AppendLine("SOLUTION INDEX")
+    [void]$sb.AppendLine("Root: $Root")
+    [void]$sb.AppendLine("Generated: $(Get-Date -Format s)")
+    [void]$sb.AppendLine("SettingsFile: $SettingsPath")
+    [void]$sb.AppendLine("Enabled: $($SettingsValues.Enabled)")
+    [void]$sb.AppendLine("SkipUnalteredFiles: $($SettingsValues.SkipUnalteredFiles)")
+    [void]$sb.AppendLine("GenerateCodeSummary: $($SettingsValues.GenerateCodeSummary)")
+    [void]$sb.AppendLine("Per-file UTF8 byte limit: $($SettingsValues.MaxFileBytes)")
+    [void]$sb.AppendLine("Soft total UTF8 byte budget: $($SettingsValues.SoftContextBytes)")
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("SUMMARY")
+    [void]$sb.AppendLine("- Included candidate files: $($IncludedRecords.Count)")
+    [void]$sb.AppendLine("- Excluded files: $($ExcludedRecords.Count)")
+    [void]$sb.AppendLine("- Emitted into solution-context.txt: $(($EmissionResults | Where-Object { $_.Status -eq 'Included' }).Count)")
+    [void]$sb.AppendLine("- Truncated files: $($truncated.Count)")
+    [void]$sb.AppendLine("- Skipped due to total budget: $($skippedForBudget.Count)")
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("SOLUTIONS")
+    foreach ($r in $solutions) {
+        [void]$sb.AppendLine("- $($r.RelativePath)")
+    }
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("PROJECTS")
+    foreach ($r in $projects) {
+        [void]$sb.AppendLine("- $($r.RelativePath)")
+    }
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("KEY CONFIG / STARTUP FILES")
+    foreach ($r in $configFiles | Sort-Object RelativePath) {
+        [void]$sb.AppendLine("- $($r.RelativePath)")
+    }
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("RAZOR PAGES")
+    foreach ($p in $pageSummaries | Sort-Object RelativePath) {
+        if ($p.Kind -eq "cshtml") {
+            $routeText = if ($p.RouteTemplate) { $p.RouteTemplate } else { "(default route)" }
+            $modelText = if ($p.ModelType) { $p.ModelType } else { "(no model detected)" }
+            [void]$sb.AppendLine("- $($p.RelativePath) | route=$routeText | model=$modelText")
+        }
+        elseif ($p.Kind -eq "csharp") {
+            $handlers = @($p.PageHandlers) -join ", "
+            if (-not $handlers) { $handlers = "(none detected)" }
+            $classText = if ($p.ClassName) { $p.ClassName } else { "(unknown class)" }
+            [void]$sb.AppendLine("- $($p.RelativePath) | pageModel=$classText | handlers=$handlers")
+        }
+    }
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("DAL / DATA ACCESS")
+    foreach ($d in $dalSummaries | Sort-Object RelativePath) {
+        $classText = if ($d.ClassName) { $d.ClassName } else { "(unknown class)" }
+        $methods = @($d.PublicMethods | Select-Object -First 12) -join ", "
+        if (-not $methods) { $methods = "(no public methods detected)" }
+        $sqlOps = @($d.SqlOps) -join ", "
+        if (-not $sqlOps) { $sqlOps = "(no SQL ops detected)" }
+
+        [void]$sb.AppendLine("- $($d.RelativePath) | class=$classText | methods=$methods | sql=$sqlOps")
+    }
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("MODELS / DTOS / VIEWMODELS")
+    foreach ($m in $modelSummaries | Sort-Object RelativePath) {
+        $classText = if ($m.ClassName) { $m.ClassName } else { "(unknown class)" }
+        [void]$sb.AppendLine("- $($m.RelativePath) | class=$classText")
+    }
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("SERVICES / HELPERS")
+    foreach ($s in $serviceSummaries | Sort-Object RelativePath) {
+        $classText = if ($s.ClassName) { $s.ClassName } else { "(unknown class)" }
+        $methods = @($s.PublicMethods | Select-Object -First 12) -join ", "
+        if (-not $methods) { $methods = "(no public methods detected)" }
+
+        [void]$sb.AppendLine("- $($s.RelativePath) | class=$classText | methods=$methods")
+    }
+    [void]$sb.AppendLine()
+
+    [void]$sb.AppendLine("FILES INCLUDED IN solution-context.txt")
+    foreach ($e in $EmissionResults | Where-Object { $_.Status -eq "Included" }) {
+        $tag = if ($e.Truncated) { "TRUNCATED" } else { "FULL" }
+        [void]$sb.AppendLine("- [$tag] $($e.RelativePath) | category=$($e.Category) | sourceBytes=$($e.OriginalBytes) | emittedBytes=$($e.EmittedBytes)")
+    }
+    [void]$sb.AppendLine()
+
+    if ($skippedForBudget.Count -gt 0) {
+        [void]$sb.AppendLine("FILES SKIPPED DUE TO TOTAL SIZE BUDGET")
+        foreach ($e in $skippedForBudget) {
+            [void]$sb.AppendLine("- $($e.RelativePath) | category=$($e.Category) | sourceBytes=$($e.OriginalBytes)")
+        }
+        [void]$sb.AppendLine()
+    }
+
+    if ($ExcludedRecords.Count -gt 0) {
+        [void]$sb.AppendLine("FILES EXCLUDED BY RULES")
+        foreach ($r in $ExcludedRecords | Sort-Object RelativePath) {
+            $reason = if (-not $r.Whitelisted) { "not-whitelisted" } elseif ($r.Ignored) { "ignored" } else { "excluded" }
+            [void]$sb.AppendLine("- $($r.RelativePath) | $reason")
+        }
+        [void]$sb.AppendLine()
+    }
+
+    return $sb.ToString()
+}
+
+# Main
+$scriptDir = $PSScriptRoot
+$solutionRoot = Get-SolutionRoot -StartDir $scriptDir
+
+$controlFiles = Ensure-ControlFiles -Root $solutionRoot
+$whitelistPatterns = Read-PatternFile -Path $controlFiles.WhitelistPath
+$ignorePatterns = Read-PatternFile -Path $controlFiles.IgnorePath
+
+$settingsInfo = Load-BuildSettings -Root $solutionRoot -ExplicitSettingsFile $SettingsFile -SectionName $SettingsSection
+$settings = $settingsInfo.Values
+
+if (-not $settings.Enabled) {
+    Write-Host "LLM context generation is disabled. Set $SettingsSection.Enabled=true to enable."
+    exit 0
+}
+
+$outDir = Join-Path $solutionRoot $settings.OutputFolderName
+$cacheDir = Join-Path $outDir ".cache"
+$fragmentDir = Join-Path $cacheDir "fragments"
+$summaryDir = Join-Path $cacheDir "summaries"
+$manifestPath = Join-Path $cacheDir "manifest.json"
+$indexPath = Join-Path $outDir "solution-index.txt"
+$contextPath = Join-Path $outDir "solution-context.txt"
+
+foreach ($dir in @($outDir, $cacheDir, $fragmentDir, $summaryDir)) {
+    if (-not (Test-Path $dir)) {
+        New-Item -ItemType Directory -Path $dir | Out-Null
+    }
+}
+
+$manifest = Load-Manifest -Path $manifestPath
+$settingsSignature = Get-SettingsSignature -SettingsObject $settings
+
+$allFiles = Get-ChildItem -Path $solutionRoot -Recurse -File | Where-Object {
+    $_.FullName -notlike "$outDir*"
+}
+
+$records = foreach ($file in $allFiles) {
+    New-FileRecord `
+        -File $file `
+        -Root $solutionRoot `
+        -WhitelistPatterns $whitelistPatterns `
+        -IgnorePatterns $ignorePatterns
+}
+
+$includedRecords = $records | Where-Object { $_.Include } | Sort-Object Priority, RelativePath
+$excludedRecords = $records | Where-Object { -not $_.Include } | Sort-Object RelativePath
+
+$fragmentRun = Build-OrReuseFragments `
+    -FragmentDir $fragmentDir `
+    -IncludedRecords $includedRecords `
+    -Manifest $manifest `
+    -SettingsValues $settings
+
+$summaryRun = Build-OrReuseSummaries `
+    -SummaryDir $summaryDir `
+    -IncludedRecords $includedRecords `
+    -Manifest $manifest `
+    -SettingsValues $settings
+
+foreach ($key in $fragmentRun.FileMap.Keys) {
+    if ($summaryRun.SummaryMap.ContainsKey($key)) {
+        $fragmentRun.FileMap[$key].SummaryPath = $summaryRun.SummaryMap[$key]
+    }
+}
+
+$orphanRemoved = Remove-OrphanedArtifacts `
+    -OldFiles $manifest.Files `
+    -NewFiles $fragmentRun.FileMap `
+    -Enabled ([bool]$settings.CleanOrphanedFragments)
+
+$emissionPlan = Build-EmissionPlan `
+    -FragmentMetadata $fragmentRun.FragmentMetadata `
+    -SoftContextBytes ([int]$settings.SoftContextBytes)
+
+$indexText = Write-IndexText `
+    -Root $solutionRoot `
+    -SettingsPath $settingsInfo.Path `
+    -SettingsValues $settings `
+    -IncludedRecords $includedRecords `
+    -ExcludedRecords $excludedRecords `
+    -EmissionResults $emissionPlan `
+    -FileMap $fragmentRun.FileMap
+
+$contextText = Build-ContextText `
+    -EmissionPlan $emissionPlan `
+    -MergeIndexIntoContext ([bool]$settings.MergeIndexIntoContext) `
+    -IndexText $indexText
+
+$currentIncludedOrder = @($includedRecords | ForEach-Object { $_.RelativePath })
+$currentEmittedOrder = @($emissionPlan | Where-Object { $_.Status -eq "Included" } | ForEach-Object { $_.RelativePath })
+
+$indexChanged = Save-TextIfChanged -Path $indexPath -Content $indexText
+$contextChanged = Save-TextIfChanged -Path $contextPath -Content $contextText
+
+$manifest.Version = 1
+$manifest.SettingsSignature = $settingsSignature
+$manifest.Files = $fragmentRun.FileMap
+$manifest.IncludedOrder = $currentIncludedOrder
+$manifest.EmittedOrder = $currentEmittedOrder
+
+Save-Manifest -Path $manifestPath -Manifest $manifest
+
+if ($settings.Verbose) {
+    Write-Host "Fragments changed: $($fragmentRun.ChangedAnything)"
+    Write-Host "Summaries changed: $($summaryRun.ChangedAnything)"
+    Write-Host "Orphans removed: $orphanRemoved"
+    Write-Host "Index changed: $indexChanged"
+    Write-Host "Context changed: $contextChanged"
+}
+
+Write-Host "LLM context complete:"
+Write-Host "  $indexPath"
+Write-Host "  $contextPath"
