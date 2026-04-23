@@ -1,0 +1,9 @@
+# Razor Pages + DAL defaults
+**/*.cs
+**/*.cshtml
+**/*.sql
+**/*.json
+**/*.config
+**/*.csproj
+**/*.props
+**/*.targets

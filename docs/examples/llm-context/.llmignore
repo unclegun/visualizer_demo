@@ -1,0 +1,21 @@
+# Build output and generated assets
+**/bin/**
+**/obj/**
+**/.git/**
+**/node_modules/**
+**/dist/**
+**/wwwroot/lib/**
+**/llm-context/**
+
+# Large or noisy artifacts
+**/*.min.js
+**/*.min.css
+**/*.Designer.cs
+**/*.generated.cs
+**/*.g.cs
+**/*.g.i.cs
+**/Migrations/**
+
+# Vendor and test capture folders
+**/coverage/**
+**/TestResults/**

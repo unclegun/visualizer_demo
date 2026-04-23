@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LLM Context Generator | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/code-blocks.css" />
+  <link rel="stylesheet" href="../assets/css/components/callouts.css" />
+</head>
+<body data-site-root=".." class="llm-context-page">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top"><div class="container-xl"><a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a><button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="mainNav"><ul class="navbar-nav me-auto gap-lg-1"><li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li><li class="nav-item"><a class="nav-link" data-nav href="../patterns/chartjs-dashboard.html">Patterns</a></li><li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="../patterns/advanced-ui.html">Advanced UI</a></li><li class="nav-item"><a class="nav-link" data-nav href="./razor-pages-mapping.html">Razor Pages</a></li><li class="nav-item"><a class="nav-link" data-nav href="./snippets.html">Snippets</a></li><li class="nav-item"><a class="nav-link" data-nav href="./conventions.html">Conventions</a></li><li class="nav-item"><a class="nav-link" data-nav href="./htmx-spike.html">HTMX Spike</a></li></ul><button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button></div></div></nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4">
+      <p class="text-uppercase small fw-semibold mb-2">Incremental Tooling Guide</p>
+      <h1 class="display-6 fw-bold mb-2 spike-anchor" id="overview">Incremental LLM Context Generator for Razor Pages + DAL Solutions</h1>
+      <p class="text-muted mb-3">This workflow is designed for ASP.NET Core web apps that use Razor Pages, PageModel handlers, and DAL classes for SQL access without introducing MVC controllers. The generator stays static-site friendly here, but the files are organized so you can copy the script into a real solution later.</p>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <span class="badge badge-soft">Razor Pages</span>
+        <span class="badge badge-soft">DAL-first</span>
+        <span class="badge badge-soft">No MVC</span>
+        <span class="badge badge-soft">Incremental cache</span>
+        <span class="badge badge-soft">Regex summaries</span>
+      </div>
+      <div class="row g-3 mb-3">
+        <div class="col-sm-6 col-xl-3"><div class="card h-100 p-3"><div class="small text-uppercase text-muted mb-2">Outputs</div><div class="h4 mb-1">2</div><p class="mb-0 text-muted">Compact index plus prompt-ready context.</p></div></div>
+        <div class="col-sm-6 col-xl-3"><div class="card h-100 p-3"><div class="small text-uppercase text-muted mb-2">Cache layers</div><div class="h4 mb-1">3</div><p class="mb-0 text-muted">Fragments, summaries, and a manifest for reuse.</p></div></div>
+        <div class="col-sm-6 col-xl-3"><div class="card h-100 p-3"><div class="small text-uppercase text-muted mb-2">Root discovery</div><div class="h4 mb-1">.sln</div><p class="mb-0 text-muted">Walks upward to the nearest parent with a solution file.</p></div></div>
+        <div class="col-sm-6 col-xl-3"><div class="card h-100 p-3"><div class="small text-uppercase text-muted mb-2">Analysis mode</div><div class="h4 mb-1">Fast</div><p class="mb-0 text-muted">Shallow regex scanning instead of Roslyn graph analysis.</p></div></div>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-primary" href="#copyable-source">Jump to Source</a>
+        <a class="btn btn-outline-primary" href="./examples/llm-context/Generate-LlmContext.ps1">Open Script File</a>
+        <a class="btn btn-outline-primary" href="./examples/llm-context/appsettings.llmcontext.json">Open Sample Settings</a>
+      </div>
+    </section>
+
+    <section class="row g-4">
+      <aside class="col-lg-3">
+        <div class="spike-toc spike-toc-sticky p-3" aria-label="In-page table of contents">
+          <h2 class="h6 text-uppercase mb-3">On this page</h2>
+          <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action px-2" href="#workflow">What the script does</a>
+            <a class="list-group-item list-group-item-action px-2" href="#outputs">Why two output files</a>
+            <a class="list-group-item list-group-item-action px-2" href="#control-files">Whitelist and ignore rules</a>
+            <a class="list-group-item list-group-item-action px-2" href="#settings">Build settings</a>
+            <a class="list-group-item list-group-item-action px-2" href="#cache">Incremental cache</a>
+            <a class="list-group-item list-group-item-action px-2" href="#razor-pages-dal">Razor Pages + DAL detection</a>
+            <a class="list-group-item list-group-item-action px-2" href="#architecture">Architecture layout</a>
+            <a class="list-group-item list-group-item-action px-2" href="#build-target">.csproj integration</a>
+            <a class="list-group-item list-group-item-action px-2" href="#performance">Performance notes</a>
+            <a class="list-group-item list-group-item-action px-2" href="#tuning">Practical tuning</a>
+            <a class="list-group-item list-group-item-action px-2" href="#layout">Recommended repo layout</a>
+            <a class="list-group-item list-group-item-action px-2" href="#defaults">Defaults and customization</a>
+            <a class="list-group-item list-group-item-action px-2" href="#copyable-source">Copyable source</a>
+          </div>
+        </div>
+      </aside>
+
+      <div class="col-lg-9">
+        <section class="doc-section p-4 mb-3 spike-anchor" id="workflow">
+          <h2 class="h4 mb-3">What the script does</h2>
+          <p>The generator starts from a project directory, auto-discovers the solution root by walking up until it finds the nearest parent folder that contains a <code>.sln</code> file, and then builds an incremental context pack under <code>llm-context/</code>. Only files that match <code>.llmwhitelist</code> and do not match <code>.llmignore</code> are eligible for inclusion.</p>
+          <div class="section-shell mt-3 mb-3">
+            <h3 class="h6 mb-3">Workflow in practice</h3>
+            <ol class="list-unstyled d-grid gap-2 mb-0">
+              <li class="flow-step"><strong>1.</strong> Resolve the solution root from the current project path.</li>
+              <li class="flow-step"><strong>2.</strong> Load <code>appsettings.llmcontext.json</code>, <code>.llmwhitelist</code>, and <code>.llmignore</code>.</li>
+              <li class="flow-step"><strong>3.</strong> Reuse cached fragments and cached summaries when file size, timestamp, or hash has not changed.</li>
+              <li class="flow-step"><strong>4.</strong> Regenerate only the changed fragment and summary files, then rebuild the final output text files only if their content actually changed.</li>
+            </ol>
+          </div>
+          <div class="callout callout-success mb-0">
+            <strong>Why this design works:</strong> it gives a large language model a stable, copyable context artifact without turning every normal build into a full semantic analysis pass.
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="outputs">
+          <h2 class="h4 mb-3">Why it uses two output files</h2>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h5 mb-2">solution-index.txt</h3>
+                <p class="text-muted mb-2">The fast catalog file. It lists the files that passed the filters and gives a compact, human-readable summary for each one.</p>
+                <ul class="mb-0">
+                  <li>Quick to diff and cheap to inspect.</li>
+                  <li>Useful when you want a map of the solution before pulling in raw content.</li>
+                  <li>Regenerated only when the resulting index text actually changes.</li>
+                </ul>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card h-100 p-3">
+                <h3 class="h5 mb-2">solution-context.txt</h3>
+                <p class="text-muted mb-2">The prompt-ready file. It contains trimmed fragments and shallow summaries until the configured context budget is reached.</p>
+                <ul class="mb-0">
+                  <li>Optimized for pasteability into LLM workflows.</li>
+                  <li>Keeps raw code and summary text together.</li>
+                  <li>Also written only when the generated content actually changed.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="callout callout-note mb-0">
+            A single file would force the same artifact to serve two jobs: quick indexing and prompt payload generation. Splitting them keeps each output easier to diff, smaller to inspect, and cheaper to reuse.
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="control-files">
+          <h2 class="h4 mb-3">How <code>.llmwhitelist</code> and <code>.llmignore</code> work</h2>
+          <p>The generator uses a positive filter first and a subtractive filter second. Files are only considered when they match at least one whitelist pattern and do not match any ignore pattern. That keeps the input set explicit, predictable, and easy to tune for large solutions.</p>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">Whitelist</h3><p class="mb-0 text-muted">Include the file types that matter to Razor Pages and DAL understanding: PageModels, Razor markup, SQL, JSON settings, project metadata, and any narrowly scoped extras your team actually wants in context.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">Ignore</h3><p class="mb-0 text-muted">Strip out build output, generated files, vendor assets, migration churn, and anything else that adds bytes without adding decision-making value.</p></div></div>
+          </div>
+
+          <article class="card code-card mb-3">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">.llmignore</span><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="./examples/llm-context/.llmignore">Open file</a><button class="btn btn-sm btn-outline-primary" type="button" data-copy-target="#llmIgnoreBlock">Copy</button></div></header>
+            <div class="card-body p-0">
+              <pre id="llmIgnoreBlock" class="mb-0 language-bash" data-src="./examples/llm-context/.llmignore"></pre>
+            </div>
+          </article>
+
+          <article class="card code-card">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">.llmwhitelist</span><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="./examples/llm-context/.llmwhitelist">Open file</a><button class="btn btn-sm btn-outline-primary" type="button" data-copy-target="#llmWhitelistBlock">Copy</button></div></header>
+            <div class="card-body p-0">
+              <pre id="llmWhitelistBlock" class="mb-0 language-bash" data-src="./examples/llm-context/.llmwhitelist"></pre>
+            </div>
+          </article>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="settings">
+          <h2 class="h4 mb-3">How <code>appsettings.llmcontext.json</code> controls the build</h2>
+          <p>The settings file governs output location, file-size trimming, context budget, summary budget, and whether frontend files should receive summaries. In other words, it defines how aggressive the build step should be and how much context the final artifact is allowed to carry.</p>
+          <div class="table-responsive mb-3">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th scope="col">Setting</th>
+                  <th scope="col">Purpose</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>OutputDirectory</strong></td><td>Location of <code>solution-index.txt</code>, <code>solution-context.txt</code>, and the cache folders.</td></tr>
+                <tr><td><strong>MaxFileBytes</strong></td><td>Upper bound for the raw content fragment taken from any single file.</td></tr>
+                <tr><td><strong>SoftContextBytes</strong></td><td>Budget for the combined prompt-ready context file before the generator stops adding more fragments.</td></tr>
+                <tr><td><strong>MaxSummaryFileBytes</strong></td><td>Cap for each summary text file so summaries stay compact.</td></tr>
+                <tr><td><strong>EnableFrontendSummaries</strong></td><td>Controls whether JavaScript, TypeScript, CSS, and related frontend files receive summary generation.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <article class="card code-card">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">appsettings.llmcontext.json</span><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="./examples/llm-context/appsettings.llmcontext.json">Open file</a><button class="btn btn-sm btn-outline-primary" type="button" data-copy-target="#llmSettingsBlock">Copy</button></div></header>
+            <div class="card-body p-0">
+              <pre id="llmSettingsBlock" class="mb-0 language-json" data-src="./examples/llm-context/appsettings.llmcontext.json"></pre>
+            </div>
+          </article>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="cache">
+          <h2 class="h4 mb-3">How the incremental cache works</h2>
+          <p>The cache is intentionally simple. The manifest remembers relative path, file size, last write time, and hash. If the metadata matches and the cached text artifacts still exist, the script reuses them. If metadata changed, it hashes the file. If the hash still matches, it still reuses the existing fragment and summary. Only truly changed inputs get re-read and re-summarized.</p>
+          <div class="callout callout-warning mb-3">
+            This is intentionally a build-friendly optimization, not a perfect source-of-truth database. The goal is to avoid repeatedly summarizing hundreds of unchanged files during ordinary local builds.
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">Reused when unchanged</h3><p class="mb-0 text-muted">Cached fragments and summaries are reused to minimize file reads, summary generation, and output churn.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">Outputs stay stable</h3><p class="mb-0 text-muted">The final <code>solution-index.txt</code> and <code>solution-context.txt</code> are only written when the content actually differs, which keeps diffs quieter in CI and local repos.</p></div></div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="razor-pages-dal">
+          <h2 class="h4 mb-3">Razor Pages + DAL detection</h2>
+          <p>This summary pass is intentionally shallow and regex-based for speed. It is not trying to build a Roslyn symbol graph. Instead, it extracts just enough signal to make the generated index and context useful for Razor Pages teams.</p>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">@page and @model detection</h3><p class="mb-0 text-muted">For <code>.cshtml</code> files, the generator looks for <code>@page</code> to distinguish full Razor Pages from partial fragments and captures the <code>@model</code> type when present.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">PageModel handler extraction</h3><p class="mb-0 text-muted">For <code>.cshtml.cs</code> files, it identifies the PageModel class and extracts handler names such as <code>OnGet</code>, <code>OnGetAsync</code>, <code>OnPostSaveAsync</code>, and similar variations.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">DAL class and method summaries</h3><p class="mb-0 text-muted">C# files in DAL-like folders or classes ending in names such as <code>Dal</code>, <code>Repository</code>, <code>Queries</code>, or <code>Commands</code> get DAL-oriented summaries and a shallow public method list.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">SQL operation hints</h3><p class="mb-0 text-muted">The pass scans for SQL verbs like <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>MERGE</code>, and <code>EXEC</code> so the index can hint at read/write behavior.</p></div></div>
+          </div>
+          <div class="callout callout-note mb-0">
+            Table schema generation is intentionally out of scope here. If your team needs schema-level context, keep that in a separate script so this build hook stays lightweight.
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="architecture">
+          <h2 class="h4 mb-3">Architecture layout</h2>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6 mb-2">solution-index.txt</h3><p class="mb-0 text-muted">The compact solution map. Good for quick review, diffs, and file-level scanning before loading larger prompt context.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6 mb-2">solution-context.txt</h3><p class="mb-0 text-muted">The prompt payload. Contains trimmed source fragments plus summaries until the soft byte budget is reached.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6 mb-2">llm-context/.cache/fragments</h3><p class="mb-0 text-muted">One cached prompt fragment per file. These are reused when the source file did not meaningfully change.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6 mb-2">llm-context/.cache/summaries</h3><p class="mb-0 text-muted">Compact summary text files for each eligible source file, kept separate so summaries can be reused independently.</p></div></div>
+            <div class="col-12"><div class="card p-3"><h3 class="h6 mb-2">llm-context/.cache/manifest.json</h3><p class="mb-0 text-muted">The change-detection ledger. It records relative paths, size, last-write ticks, hash, and cache file names so the generator can cheaply determine when cached artifacts are safe to reuse.</p></div></div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="build-target">
+          <h2 class="h4 mb-3">How to wire the script into a <code>.csproj</code> build target</h2>
+          <p>Use a small target that runs before the normal build, skips design-time builds, and can be disabled through an MSBuild property. The sample below assumes you eventually copy the script into a real solution under <code>tools/Generate-LlmContext.ps1</code>.</p>
+          <article class="card code-card mb-3">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">.csproj build target snippet</span><button class="btn btn-sm btn-outline-primary" type="button" data-copy-target="#csprojSnippet code">Copy</button></header>
+            <div class="card-body p-0">
+<pre id="csprojSnippet" class="mb-0"><code class="language-markup">&lt;PropertyGroup&gt;
+  &lt;GenerateLlmContext&gt;true&lt;/GenerateLlmContext&gt;
+&lt;/PropertyGroup&gt;
+
+&lt;Target Name="GenerateLlmContext"
+        BeforeTargets="BeforeBuild"
+        Condition="'$(DesignTimeBuild)' != 'true' and '$(GenerateLlmContext)' == 'true'"&gt;
+  &lt;Exec Command='pwsh -NoProfile -ExecutionPolicy Bypass -File &quot;$(SolutionDir)tools\Generate-LlmContext.ps1&quot; -ProjectPath &quot;$(MSBuildProjectDirectory)&quot;' /&gt;
+&lt;/Target&gt;</code></pre>
+            </div>
+          </article>
+          <div class="callout callout-info mb-0">
+            Skipping design-time builds matters. It avoids running the generator during IntelliSense-triggered builds in Visual Studio or other IDE workflows where the context artifacts are not the primary concern.
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="performance">
+          <h2 class="h4 mb-3">Performance considerations</h2>
+          <ul class="mb-3">
+            <li>The generator avoids Roslyn because full semantic analysis would add unnecessary overhead to a build-oriented documentation artifact.</li>
+            <li>Whitelist-first filtering reduces the candidate set before any summary work happens.</li>
+            <li>Cache reuse minimizes repeated fragment generation and summary generation for unchanged files.</li>
+            <li>Final outputs are only rewritten when the generated content changed, which reduces disk churn and noisy diffs.</li>
+            <li>Frontend summaries are configurable so teams can keep the focus on Razor Pages, PageModels, DAL, and SQL-heavy files.</li>
+          </ul>
+          <div class="callout callout-warning mb-0">
+            This approach avoids slowing builds too much because it uses simple regex extraction, capped fragment sizes, and manifest-driven reuse instead of parsing the entire solution into a rich semantic model on every build.
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="tuning">
+          <h2 class="h4 mb-3">Practical tuning</h2>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">MaxFileBytes</h3><p class="mb-0 text-muted">Raise it when important PageModels or DAL files are getting cut off too early. Lower it when a few large files dominate the prompt budget.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">SoftContextBytes</h3><p class="mb-0 text-muted">Increase it if your LLM tooling can handle larger prompt payloads. Decrease it when you want smaller, more diffable context packs.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">MaxSummaryFileBytes</h3><p class="mb-0 text-muted">Keep this small so the index stays signal-heavy. If summaries become verbose, trim this before trimming the raw code fragments.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h6">Disable frontend summaries</h3><p class="mb-0 text-muted">Do this when your main goal is backend workflow understanding and the frontend files are mostly static, generated, or incidental to the PageModel and DAL flow.</p></div></div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="layout">
+          <h2 class="h4 mb-3">Recommended repo layout</h2>
+          <p>For the demo site, the script lives under <code>docs/examples/llm-context/</code> so it is easy to browse and copy. In a real Razor Pages solution, move the script into a dedicated <code>tools/</code> folder at the solution root and keep the control files beside the <code>.sln</code>.</p>
+<pre class="mb-3"><code class="language-bash">/YourSolution.sln
+/appsettings.llmcontext.json
+/.llmignore
+/.llmwhitelist
+/llm-context/
+/tools/Generate-LlmContext.ps1
+/src/WebApp/Pages/
+/src/WebApp/Pages/Shared/
+/src/WebApp/Dal/
+/src/WebApp/Models/
+/src/WebApp/wwwroot/</code></pre>
+          <div class="callout callout-note mb-0">
+            Keeping the control files at the solution root matches the script's auto-discovery behavior and makes the generator consistent no matter which project directory launches it.
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="defaults">
+          <h2 class="h4 mb-3">Recommended default settings and customization</h2>
+          <ul class="mb-3">
+            <li>Start with Razor Pages, C#, SQL, JSON, and project files only. Add more only when they materially improve prompt quality.</li>
+            <li>Ignore build output, generated code, minified assets, migrations, and vendor folders by default.</li>
+            <li>Leave frontend summaries disabled unless your prompts regularly need to reason about JavaScript- or CSS-driven behavior.</li>
+            <li>Keep schema generation in a separate step so the context build remains fast and focused.</li>
+          </ul>
+          <div class="developer-brief p-3">
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2">
+              <h3 class="h6 mb-0">Customization guidance</h3>
+              <span class="copy-note">Change the control files before changing the script.</span>
+            </div>
+            <p class="mb-2">Use <code>.llmwhitelist</code> to add solution-specific patterns such as stored procedure folders, API contracts, or DTO libraries. Use <code>.llmignore</code> to cut out heavy but low-value content such as snapshots, generated artifacts, or bulky static assets.</p>
+            <p class="mb-0">If your DAL layer lives in a nonstandard folder, keep the script simple and rename folders or add clear class suffixes before expanding the regex rules. That keeps the build hook maintainable.</p>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 spike-anchor" id="copyable-source">
+          <h2 class="h4 mb-3">Copyable source</h2>
+          <p class="text-muted mb-3">These code blocks are loaded directly from the sample files stored in this repo so the documentation stays aligned with the copy-ready artifacts.</p>
+
+          <article class="card code-card mb-3">
+            <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">Generate-LlmContext.ps1</span><div class="d-flex gap-2"><a class="btn btn-sm btn-outline-primary" href="./examples/llm-context/Generate-LlmContext.ps1">Open file</a><button class="btn btn-sm btn-outline-primary" type="button" data-copy-target="#generateLlmContextScript">Copy</button></div></header>
+            <div class="card-body p-0">
+              <pre id="generateLlmContextScript" class="mb-0 language-powershell" data-src="./examples/llm-context/Generate-LlmContext.ps1"></pre>
+            </div>
+          </article>
+
+          <div class="row g-3">
+            <div class="col-12">
+              <article class="card code-card">
+                <header class="card-header d-flex justify-content-between align-items-center"><span class="fw-semibold">GenerateLlmContext.targets.md</span><a class="btn btn-sm btn-outline-primary" href="./examples/llm-context/GenerateLlmContext.targets.md">Open notes</a></header>
+                <div class="card-body">
+                  <p class="mb-0 text-muted">The repo also includes a short markdown note alongside the samples so you can copy the build-target guidance separately from the main page.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-json.min.js"></script>
+  <script src="../assets/vendor/prism/prism-bash.min.js"></script>
+  <script src="../assets/vendor/prism/prism-powershell.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>
