@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../assets/css/components/navbar.css" />
   <link rel="stylesheet" href="../assets/css/components/navigation.css" />
   <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+  <link rel="stylesheet" href="../wwwroot/css/element-style-designer.css" />
 </head>
 <body data-site-root=".." data-nav-section="advanced-ui">
   <div class="scroll-progress"><span data-scroll-progress></span></div>
@@ -80,7 +81,7 @@
 }</code></pre>
     </section>
 
-    <section class="section-shell" data-reveal>
+    <section class="section-shell mb-5" data-reveal>
       <h2 class="h5">Razor Pages adaptation</h2>
       <ul class="mb-0">
         <li>Best in shared section partials and dashboard modules.</li>
@@ -88,11 +89,824 @@
         <li>Avoid overuse in dense internal grids where visual quiet is more important.</li>
       </ul>
     </section>
+
+    <section id="element-style-designer" class="mb-5">
+      <div class="section-shell mb-3">
+        <h2 class="h4 mb-2">Element Style Designer</h2>
+        <p class="mb-0 text-muted">Interactive live editor for designing reusable CSS classes with visual controls, state simulation, two-way CSS editing, and generated markup.</p>
+      </div>
+
+<div class="element-style-designer">
+    <!-- Header -->
+    <header class="esd-header">
+        <div class="esd-header-content">
+            <div class="esd-header-title">
+                <h1>Element Style Designer</h1>
+                <p class="esd-header-subtitle">Design, preview, and generate CSS for custom Tag Helpers and reusable components</p>
+            </div>
+            <div class="esd-header-actions">
+                <button class="esd-btn esd-btn-secondary" id="esd-reset-btn" title="Reset to default state">
+                    <span>Reset</span>
+                </button>
+                <button class="esd-btn esd-btn-secondary" id="esd-export-json-btn" title="Export configuration as JSON">
+                    <span>Export</span>
+                </button>
+                <button class="esd-btn esd-btn-secondary" id="esd-import-json-btn" title="Import configuration from JSON">
+                    <span>Import</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Three-Panel Layout -->
+    <div class="esd-layout">
+        <!-- LEFT PANEL: Style Controls -->
+        <aside class="esd-panel esd-panel-left">
+            <div class="esd-panel-header">
+                <h2>Style Controls</h2>
+            </div>
+            <div class="esd-panel-content">
+                <!-- Dirty state indicator -->
+                <div class="esd-dirty-indicator" id="esd-dirty-indicator" style="display: none;">
+                    <span class="esd-dirty-dot"></span>
+                    <span>Draft modified</span>
+                </div>
+
+                <!-- Element Selection & Identity -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="true">
+                            <span class="esd-collapse-icon">▼</span>
+                        </button>
+                        Identity &amp; Type
+                    </h3>
+                    <div class="esd-control-group-content">
+                        <div class="esd-control">
+                            <label for="esd-element-type">Element Type</label>
+                            <select id="esd-element-type" name="elementType">
+                                <option value="button">Button</option>
+                                <option value="input">Input</option>
+                                <option value="textarea">Textarea</option>
+                                <option value="select">Select</option>
+                                <option value="checkbox">Checkbox</option>
+                                <option value="radio">Radio</option>
+                                <option value="toggle">Toggle / Switch</option>
+                                <option value="card">Card / Container</option>
+                                <option value="section">Section / Block</option>
+                                <option value="heading">Heading</option>
+                                <option value="paragraph">Paragraph</option>
+                                <option value="label">Label</option>
+                                <option value="badge">Badge / Tag</option>
+                                <option value="alert">Alert / Message</option>
+                                <option value="link">Link</option>
+                                <option value="table">Table Wrapper</option>
+                                <option value="listitem">List Item</option>
+                                <option value="navitem">Nav Item</option>
+                                <option value="panel">Panel</option>
+                                <option value="imageframe">Image Frame Placeholder</option>
+                                <option value="iconbutton">Icon Button</option>
+                                <option value="chip">Chip / Pill</option>
+                            </select>
+                        </div>
+
+                        <div class="esd-control">
+                            <label for="esd-class-name">CSS Class Name</label>
+                            <input type="text" id="esd-class-name" name="className" placeholder="my-button" maxlength="100" />
+                        </div>
+
+                        <div class="esd-control">
+                            <label for="esd-label">Friendly Label</label>
+                            <input type="text" id="esd-label" name="label" placeholder="e.g., Primary Button" maxlength="100" />
+                        </div>
+
+                        <div class="esd-control">
+                            <label for="esd-preset">Load Preset</label>
+                            <select id="esd-preset" name="preset">
+                                <option value="">— Start fresh —</option>
+                                <option value="primary-button">Primary Button</option>
+                                <option value="secondary-button">Secondary Button</option>
+                                <option value="text-input">Text Input</option>
+                                <option value="card-panel">Card Panel</option>
+                                <option value="alert-box">Alert Box</option>
+                                <option value="badge">Badge</option>
+                                <option value="link">Link</option>
+                                <option value="section-block">Section Block</option>
+                                <option value="disabled-button">Disabled Button</option>
+                                <option value="focused-input">Focused Input</option>
+                            </select>
+                        </div>
+
+                        <button class="esd-btn esd-btn-secondary esd-btn-small" id="esd-duplicate-btn">
+                            Duplicate Design
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Box Model -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Box Model
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-width">Width</label>
+                            <input type="text" id="esd-width" name="default.width" placeholder="auto" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-height">Height</label>
+                            <input type="text" id="esd-height" name="default.height" placeholder="auto" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-min-width">Min Width</label>
+                            <input type="text" id="esd-min-width" name="default.minWidth" placeholder="none" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-min-height">Min Height</label>
+                            <input type="text" id="esd-min-height" name="default.minHeight" placeholder="none" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-max-width">Max Width</label>
+                            <input type="text" id="esd-max-width" name="default.maxWidth" placeholder="none" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-max-height">Max Height</label>
+                            <input type="text" id="esd-max-height" name="default.maxHeight" placeholder="none" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-box-sizing">Box Sizing</label>
+                            <select id="esd-box-sizing" name="default.boxSizing">
+                                <option value="">— unset —</option>
+                                <option value="content-box">content-box</option>
+                                <option value="border-box">border-box</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-overflow">Overflow</label>
+                            <select id="esd-overflow" name="default.overflow">
+                                <option value="">— unset —</option>
+                                <option value="visible">visible</option>
+                                <option value="hidden">hidden</option>
+                                <option value="scroll">scroll</option>
+                                <option value="auto">auto</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Margin -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Margin
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-margin-top">Top</label>
+                            <input type="text" id="esd-margin-top" name="default.marginTop" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-margin-right">Right</label>
+                            <input type="text" id="esd-margin-right" name="default.marginRight" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-margin-bottom">Bottom</label>
+                            <input type="text" id="esd-margin-bottom" name="default.marginBottom" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-margin-left">Left</label>
+                            <input type="text" id="esd-margin-left" name="default.marginLeft" placeholder="0" class="esd-size-input" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Padding -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Padding
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-padding-top">Top</label>
+                            <input type="text" id="esd-padding-top" name="default.paddingTop" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-padding-right">Right</label>
+                            <input type="text" id="esd-padding-right" name="default.paddingRight" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-padding-bottom">Bottom</label>
+                            <input type="text" id="esd-padding-bottom" name="default.paddingBottom" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-padding-left">Left</label>
+                            <input type="text" id="esd-padding-left" name="default.paddingLeft" placeholder="0" class="esd-size-input" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Typography -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Typography
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-font-family">Font Family</label>
+                            <input type="text" id="esd-font-family" name="default.fontFamily" placeholder="inherit" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-font-size">Font Size</label>
+                            <input type="text" id="esd-font-size" name="default.fontSize" placeholder="1rem" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-font-weight">Font Weight</label>
+                            <select id="esd-font-weight" name="default.fontWeight">
+                                <option value="">— unset —</option>
+                                <option value="300">300 (Light)</option>
+                                <option value="400">400 (Normal)</option>
+                                <option value="500">500 (Medium)</option>
+                                <option value="600">600 (Semibold)</option>
+                                <option value="700">700 (Bold)</option>
+                                <option value="800">800 (Extrabold)</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-font-style">Font Style</label>
+                            <select id="esd-font-style" name="default.fontStyle">
+                                <option value="">— unset —</option>
+                                <option value="normal">Normal</option>
+                                <option value="italic">Italic</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-line-height">Line Height</label>
+                            <input type="text" id="esd-line-height" name="default.lineHeight" placeholder="1.5" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-letter-spacing">Letter Spacing</label>
+                            <input type="text" id="esd-letter-spacing" name="default.letterSpacing" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-text-color">Text Color</label>
+                            <div class="esd-color-input-row">
+                                <input type="color" id="esd-text-color-picker" name="default.colorPicker" />
+                                <input type="text" id="esd-text-color" name="default.color" placeholder="#000000" />
+                            </div>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-text-align">Text Align</label>
+                            <select id="esd-text-align" name="default.textAlign">
+                                <option value="">— unset —</option>
+                                <option value="left">Left</option>
+                                <option value="center">Center</option>
+                                <option value="right">Right</option>
+                                <option value="justify">Justify</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-text-transform">Text Transform</label>
+                            <select id="esd-text-transform" name="default.textTransform">
+                                <option value="">— unset —</option>
+                                <option value="uppercase">Uppercase</option>
+                                <option value="lowercase">Lowercase</option>
+                                <option value="capitalize">Capitalize</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-text-decoration">Text Decoration</label>
+                            <select id="esd-text-decoration" name="default.textDecoration">
+                                <option value="">— unset —</option>
+                                <option value="none">None</option>
+                                <option value="underline">Underline</option>
+                                <option value="overline">Overline</option>
+                                <option value="line-through">Line Through</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-white-space">White Space</label>
+                            <select id="esd-white-space" name="default.whiteSpace">
+                                <option value="">— unset —</option>
+                                <option value="normal">Normal</option>
+                                <option value="nowrap">No Wrap</option>
+                                <option value="pre">Pre</option>
+                                <option value="pre-wrap">Pre Wrap</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Background -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Background
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-background-color">Background Color</label>
+                            <div class="esd-color-input-row">
+                                <input type="color" id="esd-background-color-picker" name="default.backgroundColorPicker" />
+                                <input type="text" id="esd-background-color" name="default.backgroundColor" placeholder="#ffffff" />
+                            </div>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-background-image">Background Image / Gradient</label>
+                            <textarea id="esd-background-image" name="default.backgroundImage" placeholder="linear-gradient(...)" rows="2"></textarea>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-background-size">Background Size</label>
+                            <select id="esd-background-size" name="default.backgroundSize">
+                                <option value="">— unset —</option>
+                                <option value="auto">Auto</option>
+                                <option value="cover">Cover</option>
+                                <option value="contain">Contain</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-background-position">Background Position</label>
+                            <input type="text" id="esd-background-position" name="default.backgroundPosition" placeholder="center" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-background-repeat">Background Repeat</label>
+                            <select id="esd-background-repeat" name="default.backgroundRepeat">
+                                <option value="">— unset —</option>
+                                <option value="repeat">Repeat</option>
+                                <option value="no-repeat">No Repeat</option>
+                                <option value="repeat-x">Repeat X</option>
+                                <option value="repeat-y">Repeat Y</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Border -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Border
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-border-width">Border Width</label>
+                            <input type="text" id="esd-border-width" name="default.borderWidth" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-border-style">Border Style</label>
+                            <select id="esd-border-style" name="default.borderStyle">
+                                <option value="">— unset —</option>
+                                <option value="solid">Solid</option>
+                                <option value="dashed">Dashed</option>
+                                <option value="dotted">Dotted</option>
+                                <option value="double">Double</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-border-color">Border Color</label>
+                            <div class="esd-color-input-row">
+                                <input type="color" id="esd-border-color-picker" name="default.borderColorPicker" />
+                                <input type="text" id="esd-border-color" name="default.borderColor" placeholder="#cccccc" />
+                            </div>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-border-radius">Border Radius</label>
+                            <input type="text" id="esd-border-radius" name="default.borderRadius" placeholder="0" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-outline">Outline</label>
+                            <input type="text" id="esd-outline" name="default.outline" placeholder="none" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-outline-offset">Outline Offset</label>
+                            <input type="text" id="esd-outline-offset" name="default.outlineOffset" placeholder="0" class="esd-size-input" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Shadow & Effects -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Shadow &amp; Effects
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-box-shadow">Box Shadow</label>
+                            <textarea id="esd-box-shadow" name="default.boxShadow" placeholder="0 2px 8px rgba(0, 0, 0, 0.1)" rows="2"></textarea>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-text-shadow">Text Shadow</label>
+                            <input type="text" id="esd-text-shadow" name="default.textShadow" placeholder="none" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-opacity">Opacity</label>
+                            <input type="range" id="esd-opacity" name="default.opacity" min="0" max="1" step="0.05" value="1" />
+                            <span class="esd-opacity-value">1</span>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-filter">Filter</label>
+                            <input type="text" id="esd-filter" name="default.filter" placeholder="none" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-backdrop-filter">Backdrop Filter</label>
+                            <input type="text" id="esd-backdrop-filter" name="default.backdropFilter" placeholder="none" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Layout / Flow -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Layout / Flow
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-display">Display</label>
+                            <select id="esd-display" name="default.display">
+                                <option value="">— unset —</option>
+                                <option value="block">Block</option>
+                                <option value="inline">Inline</option>
+                                <option value="inline-block">Inline Block</option>
+                                <option value="flex">Flex</option>
+                                <option value="grid">Grid</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-flex-direction">Flex Direction</label>
+                            <select id="esd-flex-direction" name="default.flexDirection">
+                                <option value="">— unset —</option>
+                                <option value="row">Row</option>
+                                <option value="column">Column</option>
+                                <option value="row-reverse">Row Reverse</option>
+                                <option value="column-reverse">Column Reverse</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-flex-wrap">Flex Wrap</label>
+                            <select id="esd-flex-wrap" name="default.flexWrap">
+                                <option value="">— unset —</option>
+                                <option value="nowrap">No Wrap</option>
+                                <option value="wrap">Wrap</option>
+                                <option value="wrap-reverse">Wrap Reverse</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-justify-content">Justify Content</label>
+                            <select id="esd-justify-content" name="default.justifyContent">
+                                <option value="">— unset —</option>
+                                <option value="flex-start">Flex Start</option>
+                                <option value="center">Center</option>
+                                <option value="flex-end">Flex End</option>
+                                <option value="space-between">Space Between</option>
+                                <option value="space-around">Space Around</option>
+                                <option value="space-evenly">Space Evenly</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-align-items">Align Items</label>
+                            <select id="esd-align-items" name="default.alignItems">
+                                <option value="">— unset —</option>
+                                <option value="flex-start">Flex Start</option>
+                                <option value="center">Center</option>
+                                <option value="flex-end">Flex End</option>
+                                <option value="stretch">Stretch</option>
+                                <option value="baseline">Baseline</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-gap">Gap</label>
+                            <input type="text" id="esd-gap" name="default.gap" placeholder="0" class="esd-size-input" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Positioning -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Positioning
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-position">Position</label>
+                            <select id="esd-position" name="default.position">
+                                <option value="">— unset —</option>
+                                <option value="static">Static</option>
+                                <option value="relative">Relative</option>
+                                <option value="absolute">Absolute</option>
+                                <option value="fixed">Fixed</option>
+                                <option value="sticky">Sticky</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-top">Top</label>
+                            <input type="text" id="esd-top" name="default.top" placeholder="auto" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-right">Right</label>
+                            <input type="text" id="esd-right" name="default.right" placeholder="auto" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-bottom">Bottom</label>
+                            <input type="text" id="esd-bottom" name="default.bottom" placeholder="auto" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-left">Left</label>
+                            <input type="text" id="esd-left" name="default.left" placeholder="auto" class="esd-size-input" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-z-index">Z Index</label>
+                            <input type="number" id="esd-z-index" name="default.zIndex" placeholder="auto" />
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Transform / Motion -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Transform / Motion
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-transform">Transform</label>
+                            <input type="text" id="esd-transform" name="default.transform" placeholder="none" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-transform-origin">Transform Origin</label>
+                            <input type="text" id="esd-transform-origin" name="default.transformOrigin" placeholder="center" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-transition-property">Transition Property</label>
+                            <input type="text" id="esd-transition-property" name="default.transitionProperty" placeholder="all" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-transition-duration">Transition Duration</label>
+                            <input type="text" id="esd-transition-duration" name="default.transitionDuration" placeholder="0s" />
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-transition-timing">Transition Timing</label>
+                            <select id="esd-transition-timing" name="default.transitionTimingFunction">
+                                <option value="">— unset —</option>
+                                <option value="ease">Ease</option>
+                                <option value="ease-in">Ease In</option>
+                                <option value="ease-out">Ease Out</option>
+                                <option value="ease-in-out">Ease In Out</option>
+                                <option value="linear">Linear</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Interaction -->
+                <section class="esd-control-group">
+                    <h3 class="esd-control-group-title">
+                        <button class="esd-collapse-toggle" type="button" aria-expanded="false">
+                            <span class="esd-collapse-icon">▶</span>
+                        </button>
+                        Interaction
+                    </h3>
+                    <div class="esd-control-group-content" style="display: none;">
+                        <div class="esd-control">
+                            <label for="esd-cursor">Cursor</label>
+                            <select id="esd-cursor" name="default.cursor">
+                                <option value="">— unset —</option>
+                                <option value="auto">Auto</option>
+                                <option value="default">Default</option>
+                                <option value="pointer">Pointer</option>
+                                <option value="text">Text</option>
+                                <option value="wait">Wait</option>
+                                <option value="move">Move</option>
+                                <option value="not-allowed">Not Allowed</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-pointer-events">Pointer Events</label>
+                            <select id="esd-pointer-events" name="default.pointerEvents">
+                                <option value="">— unset —</option>
+                                <option value="auto">Auto</option>
+                                <option value="none">None</option>
+                            </select>
+                        </div>
+                        <div class="esd-control">
+                            <label for="esd-user-select">User Select</label>
+                            <select id="esd-user-select" name="default.userSelect">
+                                <option value="">— unset —</option>
+                                <option value="auto">Auto</option>
+                                <option value="none">None</option>
+                                <option value="text">Text</option>
+                                <option value="all">All</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- State Override Controls -->
+            <div class="esd-state-controls">
+                <h3 class="esd-state-header">State-Specific Overrides</h3>
+                <div class="esd-state-tabs">
+                    <button class="esd-state-tab esd-state-tab-active" data-state="hover" type="button">
+                        <span>Hover</span>
+                    </button>
+                    <button class="esd-state-tab" data-state="focus" type="button">
+                        <span>Focus</span>
+                    </button>
+                    <button class="esd-state-tab" data-state="active" type="button">
+                        <span>Active</span>
+                    </button>
+                    <button class="esd-state-tab" data-state="disabled" type="button">
+                        <span>Disabled</span>
+                    </button>
+                </div>
+                <div id="esd-state-overrides" class="esd-state-content">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- MIDDLE PANEL: Live Preview -->
+        <section class="esd-panel esd-panel-middle">
+            <div class="esd-panel-header">
+                <h2>Live Preview</h2>
+            </div>
+            <div class="esd-panel-content">
+                <!-- State Simulation Toolbar -->
+                <div class="esd-simulation-toolbar">
+                    <div class="esd-simulation-toolbar-title">Simulate State</div>
+                    <div class="esd-simulation-controls">
+                        <label class="esd-checkbox">
+                            <input type="checkbox" id="esd-sim-hover" data-state="hover" />
+                            <span>Hover</span>
+                        </label>
+                        <label class="esd-checkbox">
+                            <input type="checkbox" id="esd-sim-focus" data-state="focus" />
+                            <span>Focus</span>
+                        </label>
+                        <label class="esd-checkbox">
+                            <input type="checkbox" id="esd-sim-active" data-state="active" />
+                            <span>Active</span>
+                        </label>
+                        <label class="esd-checkbox">
+                            <input type="checkbox" id="esd-sim-disabled" data-state="disabled" />
+                            <span>Disabled</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Preview Sandbox -->
+                <div class="esd-preview-sandbox">
+                    <div id="esd-preview-element" class="esd-preview-element">
+                        <!-- Element will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- Preview Content Editor -->
+                <div class="esd-preview-editor">
+                    <div class="esd-editor-title">Preview Content</div>
+                    <div id="esd-preview-content-controls">
+                        <!-- Populated dynamically based on element type -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL: Outputs & CSS Editor -->
+        <aside class="esd-panel esd-panel-right">
+            <div class="esd-panel-header">
+                <h2>Outputs &amp; CSS</h2>
+            </div>
+            <div class="esd-panel-content">
+                <!-- Output Tabs -->
+                <div class="esd-output-tabs">
+                    <button class="esd-output-tab esd-output-tab-active" data-view="generated-css" type="button">
+                        Generated CSS
+                    </button>
+                    <button class="esd-output-tab" data-view="markup" type="button">
+                        Markup
+                    </button>
+                    <button class="esd-output-tab" data-view="css-editor" type="button">
+                        CSS Editor
+                    </button>
+                    <button class="esd-output-tab" data-view="saved-designs" type="button">
+                        Saved
+                    </button>
+                </div>
+
+                <!-- Generated CSS View -->
+                <div id="esd-view-generated-css" class="esd-output-view esd-output-view-active">
+                    <div class="esd-output-header-with-btn">
+                        <span class="esd-output-label">CSS Output</span>
+                        <button class="esd-btn esd-btn-tiny" id="esd-copy-css-btn" title="Copy CSS to clipboard">
+                            Copy
+                        </button>
+                    </div>
+                    <pre><code id="esd-generated-css-output" class="language-css"></code></pre>
+                    <button class="esd-btn esd-btn-small" id="esd-download-css-btn">
+                        Download CSS File
+                    </button>
+                </div>
+
+                <!-- Markup View -->
+                <div id="esd-view-markup" class="esd-output-view">
+                    <div class="esd-output-section">
+                        <div class="esd-output-header-with-btn">
+                            <span class="esd-output-label">Semantic HTML</span>
+                            <button class="esd-btn esd-btn-tiny" id="esd-copy-markup-btn" title="Copy markup to clipboard">
+                                Copy
+                            </button>
+                        </div>
+                        <pre><code id="esd-generated-markup-output" class="language-html"></code></pre>
+                    </div>
+
+                    <div class="esd-output-section">
+                        <div class="esd-output-header-with-btn">
+                            <span class="esd-output-label">Future Tag Helper Example</span>
+                            <button class="esd-btn esd-btn-tiny" id="esd-copy-helper-btn" title="Copy Tag Helper example to clipboard">
+                                Copy
+                            </button>
+                        </div>
+                        <pre><code id="esd-generated-helper-output" class="language-html"></code></pre>
+                        <p class="esd-subtle-text">This is how your class might be used with a future custom Tag Helper.</p>
+                    </div>
+
+                    <div class="esd-output-header-with-btn">
+                        <button class="esd-btn esd-btn-small" id="esd-copy-all-markup-btn">
+                            Copy All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CSS Editor View -->
+                <div id="esd-view-css-editor" class="esd-output-view">
+                    <div class="esd-output-header">
+                        Raw CSS Editor
+                    </div>
+                    <textarea id="esd-raw-css-input" placeholder="Paste or edit CSS here..."></textarea>
+                    <div class="esd-css-editor-controls">
+                        <button class="esd-btn esd-btn-small" id="esd-apply-raw-css-btn">
+                            Apply CSS to Preview
+                        </button>
+                        <button class="esd-btn esd-btn-small" id="esd-sync-parsed-css-btn">
+                            Sync to Controls
+                        </button>
+                        <button class="esd-btn esd-btn-small esd-btn-secondary" id="esd-format-css-btn">
+                            Format CSS
+                        </button>
+                        <button class="esd-btn esd-btn-small esd-btn-secondary" id="esd-rebuild-css-btn">
+                            Rebuild from Controls
+                        </button>
+                    </div>
+                    <div id="esd-parse-warnings" class="esd-parse-warnings" style="display: none;"></div>
+                </div>
+
+                <!-- Saved Designs View -->
+                <div id="esd-view-saved-designs" class="esd-output-view">
+                    <div class="esd-output-header">
+                        Saved Designs
+                    </div>
+                    <button class="esd-btn esd-btn-small" id="esd-save-design-btn">
+                        Save Current Design
+                    </button>
+                    <div id="esd-saved-list" class="esd-saved-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+</div>
+    </section>
   </main>
 
   <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
   <script src="../assets/vendor/prism/prism.min.js"></script>
   <script src="../assets/vendor/prism/prism-css.min.js"></script>
   <script type="module" src="../assets/js/site.js"></script>
+  <script src="../wwwroot/js/element-style-designer.js"></script>
 </body>
 </html>

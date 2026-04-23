@@ -16,7 +16,7 @@ Live demo: https://unclegun.github.io/visualizer_demo
 - Reusable snippets and conventions
 - Razor Pages implementation mapping
 - Tooling references (including LLM context generation)
-- Element Style Designer route behavior for static and Razor hosting
+- Embedded Element Style Designer within the CSS Visual Elements pattern page
 
 ## Site Areas (Complete Map)
 
@@ -55,15 +55,13 @@ Live demo: https://unclegun.github.io/visualizer_demo
 - `docs/llm-context-generator.html`
 - `docs/tag-helpers.md`
 
-### Tool Route and Fallback
+### Tool Integration
 
-- `admin/element-style-designer/index.html` - static fallback for the designer link
-- Razor runtime route in reference app: `/admin/element-style-designer`
+- `patterns/css-visual-elements.html#element-style-designer` - embedded designer experience in the static pattern page
 
 ### .NET Reference Application
 
-- `examples/razor-reference/visualizer_demo/` - ASP.NET Core Razor Pages implementation sample
-- Includes the full Razor version of `Pages/Admin/ElementStyleDesigner.cshtml`
+- `examples/razor-reference/visualizer_demo/` - ASP.NET Core Razor Pages implementation sample with pattern implementations and Tag Helper examples
 
 ## Repository Story
 
@@ -92,9 +90,6 @@ The old single-purpose framing was retired because the project now spans multipl
 │   ├── navigation-layout.html
 │   ├── microinteractions.html
 │   └── css-visual-elements.html
-├── admin/
-│   └── element-style-designer/
-│       └── index.html
 ├── docs/
 │   ├── getting-started.html
 │   ├── conventions.html
