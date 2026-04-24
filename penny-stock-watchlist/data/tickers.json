@@ -1,0 +1,17 @@
+{
+  "_comment": "Configurable penny-stock candidate universe. Edit freely. Avoid OTC tickers by default. Only listed (NYSE/NASDAQ/AMEX) tickers here.",
+  "version": "1.0.0",
+  "updatedAt": "2025-01-01",
+  "tickers": [
+    "SOUN", "MARA", "RIOT", "CLSK", "HUT",
+    "FFIE", "MULN", "NKLA", "GOEV", "WKHS",
+    "IDEX", "ILUS", "NAKD", "SHIP", "CNEY",
+    "SLNW", "SIGA", "COEP", "BFRI", "ATNF",
+    "MOXC", "PHIO", "COHN", "AEYE", "GOVX",
+    "IMPP", "LIZI", "GFAI", "NRXP", "HPNN",
+    "VNET", "BTBT", "ARBK", "SDIG", "CIFR",
+    "ANY", "ZKIN", "AULT", "DPRO", "SOBR",
+    "SEED", "ARAV", "CLOV", "WISH", "BBIG",
+    "OCGN", "BNGO", "SRNE", "HGEN", "INPX"
+  ]
+}
