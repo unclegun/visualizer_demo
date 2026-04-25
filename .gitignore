@@ -43,3 +43,9 @@ Thumbs.db
 # Build results
 [Bb]in/
 [Oo]bj/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
