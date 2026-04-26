@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     dashboardRoot:  document.getElementById("dashboard-root"),
 
     // Best move
-    biasLabel:      document.getElementById("bias-label"),
+
     biasScore:      document.getElementById("bias-score"),
     biasText:       document.getElementById("bias-text"),
     bestAction:     document.getElementById("best-action"),
@@ -185,7 +185,6 @@ function populateBestMove(json) {
                   : label === "Risk-Off" ? "bias-risk-off"
                   : "bias-neutral";
 
-  E.biasLabel.textContent = label;
   E.biasScore.textContent = score;
   E.biasText.textContent  = label;
   E.biasText.className = "bias-text " + biasClass;
