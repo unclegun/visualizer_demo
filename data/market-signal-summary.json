@@ -1,0 +1,89 @@
+{
+  "generatedAt": "2026-04-26T07:23:00Z",
+  "marketDate": "2026-04-25",
+  "sourceNote": "Generated from free/public delayed data sources. Verify all data before acting. Not financial advice.",
+  "marketBias": {
+    "label": "Neutral",
+    "score": 48,
+    "reasoning": [
+      "No live data yet – this is a placeholder file.",
+      "Run the GitHub Action (market-signals.yml) to generate real data.",
+      "After the first Action run, this file will contain scored market signals."
+    ]
+  },
+  "bestMove": {
+    "action": "Wait for Confirmation",
+    "summary": "No data has been generated yet. Trigger the market-signals workflow to populate real signals."
+  },
+  "topPennyStocks": [
+    {
+      "rank": 1,
+      "ticker": "PLACEHOLDER",
+      "companyName": "Placeholder Corp",
+      "score": 0,
+      "confidence": "No Data",
+      "latestPrice": null,
+      "percentChange": null,
+      "fiveDayChange": null,
+      "twentyDayChange": null,
+      "volume": null,
+      "averageVolume": null,
+      "relativeVolume": null,
+      "rsi": null,
+      "sma5": null,
+      "sma20": null,
+      "volatility": null,
+      "entryZone": { "low": null, "high": null },
+      "stopLoss": null,
+      "target": null,
+      "suggestedAction": "No data – run the GitHub Action first",
+      "justification": ["Placeholder entry. Run market-signals.yml to generate real data."],
+      "warnings": ["This is a placeholder. No real market data has been fetched yet."],
+      "marketDate": "2026-04-25"
+    }
+  ],
+  "topPredictionMarkets": [
+    {
+      "rank": 1,
+      "platform": "Kalshi",
+      "marketTitle": "Placeholder Market",
+      "marketId": "placeholder",
+      "side": "YES",
+      "probability": null,
+      "previousProbability": null,
+      "probabilityChange": null,
+      "volume": null,
+      "liquidity": null,
+      "score": 0,
+      "suggestedAction": "No data – run the GitHub Action first",
+      "justification": ["Placeholder entry. Run market-signals.yml to generate real data."]
+    }
+  ],
+  "combinedSignals": [
+    {
+      "label": "Small-cap momentum",
+      "score": 0,
+      "interpretation": "No data yet. Run the GitHub Action to populate signals."
+    },
+    {
+      "label": "Prediction market confirmation",
+      "score": 0,
+      "interpretation": "No data yet. Run the GitHub Action to populate signals."
+    },
+    {
+      "label": "Volume breadth",
+      "score": 0,
+      "interpretation": "No data yet. Run the GitHub Action to populate signals."
+    }
+  ],
+  "chatGptInstructions": {
+    "primaryQuestion": "Based only on this file, what is the best move today?",
+    "requiredOutput": [
+      "Best overall move",
+      "Top 3 penny stock candidates",
+      "Top 3 prediction market opportunities",
+      "What to avoid",
+      "Manual verification checklist"
+    ]
+  }
+}

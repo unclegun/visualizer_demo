@@ -1,0 +1,77 @@
+name: Market Signal Dashboard – Daily Update
+
+on:
+  schedule:
+    # Run at 07:23 UTC on every weekday (Mon–Fri).
+    # Non-round time reduces GitHub Actions scheduling queue contention.
+    # ~3:23 AM ET / 12:23 AM PT – well before US market open.
+    - cron: "23 7 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      max_tickers:
+        description: "Max tickers to scan"
+        required: false
+        default: "50"
+      price_min:
+        description: "Min price filter (USD)"
+        required: false
+        default: "0.10"
+      price_max:
+        description: "Max price filter (USD)"
+        required: false
+        default: "5.00"
+      top_n_stocks:
+        description: "Top N penny stocks in summary"
+        required: false
+        default: "10"
+      top_n_markets:
+        description: "Top N prediction markets in summary"
+        required: false
+        default: "10"
+
+permissions:
+  contents: write   # Required to commit generated JSON files back to the repo
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          # requests is used internally by urllib wrappers; pandas is optional.
+          pip install requests
+
+      - name: Generate market signals
+        env:
+          MAX_TICKERS:  ${{ github.event.inputs.max_tickers  || '50' }}
+          PRICE_MIN:    ${{ github.event.inputs.price_min    || '0.10' }}
+          PRICE_MAX:    ${{ github.event.inputs.price_max    || '5.00' }}
+          TOP_N_STOCKS: ${{ github.event.inputs.top_n_stocks || '10' }}
+          TOP_N_MARKETS: ${{ github.event.inputs.top_n_markets || '10' }}
+        run: python scripts/market_signals/generate_market_signals.py
+
+      - name: Commit generated data files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market-signal-summary.json \
+                  data/market-signal-raw.json \
+                  data/market-signal-history/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "chore(data): update market signals $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
