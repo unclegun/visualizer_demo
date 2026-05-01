@@ -1,6 +1,41 @@
 {
-  "generatedAt": "2026-04-30T08:21:20Z",
+  "generatedAt": "2026-05-01T08:20:46Z",
   "marketDate": "2026-04-30",
   "disclaimer": "This is NOT financial advice. All data may be delayed. Penny stocks are highly speculative and most retail traders lose money. This tool is for educational and research purposes only. Do not make trading decisions based solely on this data. Always do your own research and consult a licensed financial advisor.",
-  "recommendations": []
+  "recommendations": [
+    {
+      "ticker": "CNEY",
+      "score": 31,
+      "price": 0.68,
+      "percentChange": 3.19,
+      "volume": 23600,
+      "averageVolume": 748920,
+      "relativeVolume": 0.03,
+      "rsi": 52.7,
+      "volatility": 2.2312,
+      "sma5": 0.6762,
+      "sma20": 0.5761,
+      "gapPct": -2.88,
+      "momentumScore": 19,
+      "liquidityScore": 0,
+      "riskScore": 12,
+      "entryZone": "0.67 \u2013 0.69",
+      "stopLoss": 0.54,
+      "target": 0.97,
+      "riskLevel": "Very High",
+      "reasons": [
+        "Up 3.2% on the day",
+        "Price is above the 5-day moving average",
+        "Price is above the 20-day moving average",
+        "RSI (52.7) is in a healthy range"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data",
+        "Extreme annualised volatility (223%)"
+      ],
+      "marketDate": "2026-04-30",
+      "rank": 1
+    }
+  ]
 }
