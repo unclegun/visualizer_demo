@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-10T08:40:24Z",
-  "marketDate": "2026-06-10",
+  "generatedAt": "2026-06-11T08:56:05Z",
+  "marketDate": "2026-06-11",
   "sourceNote": "Generated from free/public delayed data sources. Verify all data before acting. Not financial advice.",
   "pennyStocks": {
     "universe": [
@@ -55,8 +55,726 @@
       "HGEN",
       "INPX"
     ],
-    "scored": [],
-    "rawByTicker": {}
+    "scored": [
+      {
+        "ticker": "CLOV",
+        "companyName": "CLOV",
+        "score": 68,
+        "confidence": "Moderate Candidate",
+        "latestPrice": 4.29,
+        "percentChange": 9.44,
+        "fiveDayChange": 15.01,
+        "twentyDayChange": 34.06,
+        "volume": 15034700,
+        "averageVolume": 8423335,
+        "relativeVolume": 1.78,
+        "rsi": 70.4,
+        "sma5": 3.936,
+        "sma20": 3.7055,
+        "volatility": 0.8355,
+        "entryZone": {
+          "low": 4.2471,
+          "high": 4.3329
+        },
+        "stopLoss": 3.9513,
+        "target": 4.9673,
+        "riskLevel": "High",
+        "suggestedAction": "Watch for momentum confirmation",
+        "justification": [
+          "Up 9.4% on the day.",
+          "Short-term (5-day) momentum is positive.",
+          "Price is above SMA5.",
+          "Price is above SMA20."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 30,
+        "liquidityScore": 22,
+        "riskScore": 16,
+        "marketDate": "2026-06-09",
+        "rank": 1
+      },
+      {
+        "ticker": "ZKIN",
+        "companyName": "ZKIN",
+        "score": 49,
+        "confidence": "Weak Signal",
+        "latestPrice": 1.71,
+        "percentChange": 3.32,
+        "fiveDayChange": 27.61,
+        "twentyDayChange": 22.14,
+        "volume": 63800,
+        "averageVolume": 18445,
+        "relativeVolume": 3.46,
+        "rsi": 64.0,
+        "sma5": 1.463,
+        "sma20": 1.4285,
+        "volatility": 1.0558,
+        "entryZone": {
+          "low": 1.6929,
+          "high": 1.7271
+        },
+        "stopLoss": 1.5394,
+        "target": 2.0512,
+        "riskLevel": "High",
+        "suggestedAction": "Monitor \u2013 wait for volume and price confirmation",
+        "justification": [
+          "Relative volume is 3.46\u00d7 average.",
+          "Up 3.3% on the day.",
+          "Short-term (5-day) momentum is positive.",
+          "Price is above SMA5.",
+          "Price is above SMA20.",
+          "RSI (64.0) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 30,
+        "liquidityScore": 3,
+        "riskScore": 16,
+        "marketDate": "2026-06-09",
+        "rank": 2
+      },
+      {
+        "ticker": "NRXP",
+        "companyName": "NRXP",
+        "score": 43,
+        "confidence": "Weak Signal",
+        "latestPrice": 3.87,
+        "percentChange": -10.62,
+        "fiveDayChange": -16.23,
+        "twentyDayChange": 37.23,
+        "volume": 2700200,
+        "averageVolume": 1834420,
+        "relativeVolume": 1.47,
+        "rsi": 54.5,
+        "sma5": 4.088,
+        "sma20": 3.7418,
+        "volatility": 1.3222,
+        "entryZone": {
+          "low": 3.8313,
+          "high": 3.9087
+        },
+        "stopLoss": 3.3865,
+        "target": 4.837,
+        "riskLevel": "High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "Price is above SMA20.",
+          "RSI (54.5) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 11,
+        "liquidityScore": 16,
+        "riskScore": 16,
+        "marketDate": "2026-06-09",
+        "rank": 3
+      },
+      {
+        "ticker": "ARBK",
+        "companyName": "ARBK",
+        "score": 40,
+        "confidence": "Weak Signal",
+        "latestPrice": 3.72,
+        "percentChange": 0.54,
+        "fiveDayChange": 6.29,
+        "twentyDayChange": -10.79,
+        "volume": 15400,
+        "averageVolume": 22240,
+        "relativeVolume": 0.69,
+        "rsi": 52.6,
+        "sma5": 3.534,
+        "sma20": 3.7505,
+        "volatility": 0.7692,
+        "entryZone": {
+          "low": 3.6828,
+          "high": 3.7572
+        },
+        "stopLoss": 3.4496,
+        "target": 4.2608,
+        "riskLevel": "Moderate",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "Short-term (5-day) momentum is positive.",
+          "Price is above SMA5.",
+          "RSI (52.6) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 18,
+        "liquidityScore": 0,
+        "riskScore": 22,
+        "marketDate": "2026-06-09",
+        "rank": 4
+      },
+      {
+        "ticker": "SIGA",
+        "companyName": "SIGA",
+        "score": 39,
+        "confidence": "Weak Signal",
+        "latestPrice": 4.39,
+        "percentChange": 1.39,
+        "fiveDayChange": 1.62,
+        "twentyDayChange": -3.52,
+        "volume": 375500,
+        "averageVolume": 498420,
+        "relativeVolume": 0.75,
+        "rsi": 45.3,
+        "sma5": 4.348,
+        "sma20": 4.4525,
+        "volatility": 0.406,
+        "entryZone": {
+          "low": 4.3461,
+          "high": 4.4339
+        },
+        "stopLoss": 4.1924,
+        "target": 4.7851,
+        "riskLevel": "Moderate",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "Price is above SMA5.",
+          "RSI (45.3) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 15,
+        "liquidityScore": 2,
+        "riskScore": 22,
+        "marketDate": "2026-06-09",
+        "rank": 5
+      },
+      {
+        "ticker": "OCGN",
+        "companyName": "OCGN",
+        "score": 37,
+        "confidence": "Weak Signal",
+        "latestPrice": 1.24,
+        "percentChange": -1.59,
+        "fiveDayChange": -7.46,
+        "twentyDayChange": -16.22,
+        "volume": 4576000,
+        "averageVolume": 5192745,
+        "relativeVolume": 0.88,
+        "rsi": 31.9,
+        "sma5": 1.29,
+        "sma20": 1.3575,
+        "volatility": 0.4674,
+        "entryZone": {
+          "low": 1.2276,
+          "high": 1.2524
+        },
+        "stopLoss": 1.1842,
+        "target": 1.3516,
+        "riskLevel": "Moderate",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "No strong bullish signals detected."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 15,
+        "riskScore": 22,
+        "marketDate": "2026-06-09",
+        "rank": 6
+      },
+      {
+        "ticker": "BTBT",
+        "companyName": "BTBT",
+        "score": 34,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 1.76,
+        "percentChange": -1.12,
+        "fiveDayChange": -11.11,
+        "twentyDayChange": -18.14,
+        "volume": 29767900,
+        "averageVolume": 26928165,
+        "relativeVolume": 1.11,
+        "rsi": 46.6,
+        "sma5": 1.776,
+        "sma20": 1.9042,
+        "volatility": 1.0566,
+        "entryZone": {
+          "low": 1.7424,
+          "high": 1.7776
+        },
+        "stopLoss": 1.5843,
+        "target": 2.1114,
+        "riskLevel": "High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "RSI (46.6) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 18,
+        "riskScore": 16,
+        "marketDate": "2026-06-09",
+        "rank": 7
+      },
+      {
+        "ticker": "SEED",
+        "companyName": "SEED",
+        "score": 33,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 0.96,
+        "percentChange": 0.0,
+        "fiveDayChange": -15.04,
+        "twentyDayChange": -15.04,
+        "volume": 39900,
+        "averageVolume": 23280,
+        "relativeVolume": 1.71,
+        "rsi": 24.1,
+        "sma5": 1.012,
+        "sma20": 1.105,
+        "volatility": 0.332,
+        "entryZone": {
+          "low": 0.9504,
+          "high": 0.9696
+        },
+        "stopLoss": 0.9168,
+        "target": 1.0464,
+        "riskLevel": "Lower",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "Positive opening gap (5.2%)."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 0,
+        "riskScore": 28,
+        "marketDate": "2026-06-09",
+        "rank": 8
+      },
+      {
+        "ticker": "BNGO",
+        "companyName": "BNGO",
+        "score": 33,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 1.16,
+        "percentChange": -0.85,
+        "fiveDayChange": -7.94,
+        "twentyDayChange": -8.66,
+        "volume": 225000,
+        "averageVolume": 186440,
+        "relativeVolume": 1.21,
+        "rsi": 41.6,
+        "sma5": 1.212,
+        "sma20": 1.22,
+        "volatility": 0.4499,
+        "entryZone": {
+          "low": 1.1484,
+          "high": 1.1716
+        },
+        "stopLoss": 1.1078,
+        "target": 1.2644,
+        "riskLevel": "Moderate",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "RSI (41.6) is in a healthy range.",
+          "Positive opening gap (2.6%)."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 6,
+        "riskScore": 22,
+        "marketDate": "2026-06-09",
+        "rank": 9
+      },
+      {
+        "ticker": "ANY",
+        "companyName": "ANY",
+        "score": 30,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 3.11,
+        "percentChange": -9.59,
+        "fiveDayChange": -20.46,
+        "twentyDayChange": 57.07,
+        "volume": 608400,
+        "averageVolume": 8858690,
+        "relativeVolume": 0.07,
+        "rsi": 53.8,
+        "sma5": 4.116,
+        "sma20": 2.6965,
+        "volatility": 3.5471,
+        "entryZone": {
+          "low": 3.0789,
+          "high": 3.1411
+        },
+        "stopLoss": 2.0676,
+        "target": 5.1948,
+        "riskLevel": "Very High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "Price is above SMA20.",
+          "RSI (53.8) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed.",
+          "Extreme annualised volatility (355%)."
+        ],
+        "momentumScore": 11,
+        "liquidityScore": 7,
+        "riskScore": 12,
+        "marketDate": "2026-06-09",
+        "rank": 10
+      },
+      {
+        "ticker": "PHIO",
+        "companyName": "PHIO",
+        "score": 28,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 1.08,
+        "percentChange": -0.92,
+        "fiveDayChange": -3.57,
+        "twentyDayChange": 0.0,
+        "volume": 176200,
+        "averageVolume": 130300,
+        "relativeVolume": 1.35,
+        "rsi": 43.9,
+        "sma5": 1.096,
+        "sma20": 1.099,
+        "volatility": 0.4286,
+        "entryZone": {
+          "low": 1.0692,
+          "high": 1.0908
+        },
+        "stopLoss": 1.0314,
+        "target": 1.1772,
+        "riskLevel": "Moderate",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "RSI (43.9) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 6,
+        "riskScore": 22,
+        "marketDate": "2026-06-09",
+        "rank": 11
+      },
+      {
+        "ticker": "WKHS",
+        "companyName": "WKHS",
+        "score": 20,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 3.17,
+        "percentChange": -3.06,
+        "fiveDayChange": -14.78,
+        "twentyDayChange": -11.94,
+        "volume": 141400,
+        "averageVolume": 191535,
+        "relativeVolume": 0.74,
+        "rsi": 46.1,
+        "sma5": 3.352,
+        "sma20": 3.4242,
+        "volatility": 1.374,
+        "entryZone": {
+          "low": 3.1383,
+          "high": 3.2017
+        },
+        "stopLoss": 2.7584,
+        "target": 3.9931,
+        "riskLevel": "High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "RSI (46.1) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 2,
+        "liquidityScore": 2,
+        "riskScore": 16,
+        "marketDate": "2026-06-09",
+        "rank": 12
+      },
+      {
+        "ticker": "GOVX",
+        "companyName": "GOVX",
+        "score": 19,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 1.28,
+        "percentChange": -4.48,
+        "fiveDayChange": -39.05,
+        "twentyDayChange": -13.51,
+        "volume": 559500,
+        "averageVolume": 14841145,
+        "relativeVolume": 0.04,
+        "rsi": 39.9,
+        "sma5": 1.618,
+        "sma20": 2.051,
+        "volatility": 3.0025,
+        "entryZone": {
+          "low": 1.2672,
+          "high": 1.2928
+        },
+        "stopLoss": 0.9169,
+        "target": 2.0063,
+        "riskLevel": "Very High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "No strong bullish signals detected."
+        ],
+        "warnings": [
+          "Free data may be delayed.",
+          "Extreme annualised volatility (300%)."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 7,
+        "riskScore": 12,
+        "marketDate": "2026-06-09",
+        "rank": 13
+      },
+      {
+        "ticker": "CNEY",
+        "companyName": "CNEY",
+        "score": 18,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 0.858,
+        "percentChange": -4.67,
+        "fiveDayChange": -14.2,
+        "twentyDayChange": 17.7,
+        "volume": 173500,
+        "averageVolume": 2151880,
+        "relativeVolume": 0.08,
+        "rsi": 43.1,
+        "sma5": 0.9386,
+        "sma20": 1.176,
+        "volatility": 3.5363,
+        "entryZone": {
+          "low": 0.8494,
+          "high": 0.8666
+        },
+        "stopLoss": 0.5713,
+        "target": 1.4314,
+        "riskLevel": "Very High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "RSI (43.1) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed.",
+          "Extreme annualised volatility (354%)."
+        ],
+        "momentumScore": 2,
+        "liquidityScore": 4,
+        "riskScore": 12,
+        "marketDate": "2026-06-09",
+        "rank": 14
+      },
+      {
+        "ticker": "BFRI",
+        "companyName": "BFRI",
+        "score": 18,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 0.88,
+        "percentChange": -5.38,
+        "fiveDayChange": -14.56,
+        "twentyDayChange": -20.72,
+        "volume": 184700,
+        "averageVolume": 255495,
+        "relativeVolume": 0.72,
+        "rsi": 43.5,
+        "sma5": 0.9452,
+        "sma20": 0.8931,
+        "volatility": 1.0593,
+        "entryZone": {
+          "low": 0.8712,
+          "high": 0.8888
+        },
+        "stopLoss": 0.7919,
+        "target": 1.0562,
+        "riskLevel": "High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "RSI (43.5) is in a healthy range."
+        ],
+        "warnings": [
+          "Free data may be delayed."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 2,
+        "riskScore": 16,
+        "marketDate": "2026-06-09",
+        "rank": 15
+      },
+      {
+        "ticker": "GFAI",
+        "companyName": "GFAI",
+        "score": 18,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 0.421,
+        "percentChange": -1.64,
+        "fiveDayChange": -33.91,
+        "twentyDayChange": -13.02,
+        "volume": 918500,
+        "averageVolume": 2753925,
+        "relativeVolume": 0.33,
+        "rsi": 39.7,
+        "sma5": 0.4848,
+        "sma20": 0.4989,
+        "volatility": 1.1977,
+        "entryZone": {
+          "low": 0.4168,
+          "high": 0.4252
+        },
+        "stopLoss": 0.3734,
+        "target": 0.5163,
+        "riskLevel": "Very High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "Positive opening gap (2.8%)."
+        ],
+        "warnings": [
+          "Free data may be delayed.",
+          "Price below $0.50 \u2013 very high fraud/delist risk."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 7,
+        "riskScore": 6,
+        "marketDate": "2026-06-09",
+        "rank": 16
+      },
+      {
+        "ticker": "SOBR",
+        "companyName": "SOBR",
+        "score": 13,
+        "confidence": "Insufficient Signal",
+        "latestPrice": 0.746,
+        "percentChange": -11.92,
+        "fiveDayChange": -35.69,
+        "twentyDayChange": -51.56,
+        "volume": 113400,
+        "averageVolume": 797820,
+        "relativeVolume": 0.14,
+        "rsi": 37.5,
+        "sma5": 0.9746,
+        "sma20": 1.2536,
+        "volatility": 1.5855,
+        "entryZone": {
+          "low": 0.7385,
+          "high": 0.7535
+        },
+        "stopLoss": 0.6342,
+        "target": 0.9695,
+        "riskLevel": "Very High",
+        "suggestedAction": "Avoid \u2013 insufficient signal quality",
+        "justification": [
+          "No strong bullish signals detected."
+        ],
+        "warnings": [
+          "Free data may be delayed.",
+          "Extreme annualised volatility (159%)."
+        ],
+        "momentumScore": 0,
+        "liquidityScore": 1,
+        "riskScore": 12,
+        "marketDate": "2026-06-09",
+        "rank": 17
+      }
+    ],
+    "rawByTicker": {
+      "WKHS": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 3.1700000762939453
+      },
+      "CNEY": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 0.8579999804496765
+      },
+      "SIGA": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 4.389999866485596
+      },
+      "BFRI": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 0.8799999952316284
+      },
+      "PHIO": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 1.0800000429153442
+      },
+      "GOVX": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 1.2799999713897705
+      },
+      "GFAI": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 0.42100000381469727
+      },
+      "NRXP": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 3.869999885559082
+      },
+      "BTBT": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 1.7599999904632568
+      },
+      "ARBK": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 3.7200000286102295
+      },
+      "ANY": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 3.109999895095825
+      },
+      "ZKIN": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 1.7100000381469727
+      },
+      "SOBR": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 0.7459999918937683
+      },
+      "SEED": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 0.9599999785423279
+      },
+      "CLOV": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 4.289999961853027
+      },
+      "OCGN": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 1.2400000095367432
+      },
+      "BNGO": {
+        "historyRows": 59,
+        "latestDate": "2026-06-09",
+        "latestClose": 1.159999966621399
+      }
+    }
   },
   "predictionMarkets": {
     "rawByPlatform": {
