@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="./assets/css/components/navbar.css" />
   <link rel="stylesheet" href="./assets/css/components/navigation.css" />
   <link rel="stylesheet" href="./assets/css/components/cards.css" />
+  <link rel="stylesheet" href="./assets/css/components/callouts.css" />
   <link rel="stylesheet" href="./assets/css/patterns/advanced-ui.css" />
 </head>
 <body data-site-root=".">
@@ -116,6 +117,14 @@
         </div>
         <div class="col-md-6 col-xl-4">
           <div class="card pattern-card p-3">
+            <span class="badge badge-soft align-self-start mb-2">Runtime CSS · prop-for-that</span>
+            <h3 class="h5 card-title">Runtime CSS with prop-for-that</h3>
+            <p class="text-muted mb-3">High-impact pointer, visibility, range, form-state, and image-color demos that map cleanly to Razor Pages and HTMX.</p>
+            <a class="pattern-link" href="./patterns/prop-for-that-runtime-css.html">Open Pattern</a>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <div class="card pattern-card p-3">
             <span class="badge badge-soft align-self-start mb-2">HTMX · Forms</span>
             <h3 class="h5 card-title">HTMX Cascading Selects</h3>
             <p class="text-muted mb-3">Dependent form controls where the server remains authoritative over valid options.</p>
@@ -167,6 +176,23 @@
         <div class="callout h-100">
           <h2 class="h5">Architecture philosophy taught here</h2>
           <p class="mb-0">Razor Pages handles routing and handlers, partials own fragment markup, HTMX handles transport and swap behavior, Bootstrap provides visual primitives, and focused JavaScript fills only the interaction gaps.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-5">
+      <div class="col-lg-7">
+        <div class="site-hero section-frame h-100">
+          <p class="pattern-hero-kicker mb-2">New technical showcase</p>
+          <h2 class="h4 mb-3">Runtime browser state as CSS input</h2>
+          <p class="text-muted mb-3">The new prop-for-that page shows how a static Razor-friendly site can expose pointer, visibility, form state, range values, and sampled media color to CSS variables, then build polished reactive effects from those values.</p>
+          <a class="btn btn-primary" href="./patterns/prop-for-that-runtime-css.html">Explore Runtime CSS Demo</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="callout callout-success h-100">
+          <h2 class="h5">Why this page belongs here</h2>
+          <p class="mb-0">It reinforces the repo’s architecture stance: Razor and HTMX can keep server concerns simple while CSS handles a surprising amount of reactivity once small runtime facts are exposed cleanly.</p>
         </div>
       </div>
     </section>

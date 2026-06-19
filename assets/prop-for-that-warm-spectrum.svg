@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Warm spectrum artwork</title>
+  <desc id="desc">Warm magenta, amber, and coral abstract artwork for image color extraction demos.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#220814" />
+      <stop offset="55%" stop-color="#40111b" />
+      <stop offset="100%" stop-color="#13060d" />
+    </linearGradient>
+    <radialGradient id="sunA" cx="50%" cy="50%" r="58%">
+      <stop offset="0%" stop-color="#ffd479" />
+      <stop offset="45%" stop-color="#ff8d52" />
+      <stop offset="100%" stop-color="#ff5b7a" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="beamA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffb36b" />
+      <stop offset="100%" stop-color="#ff4fa2" />
+    </linearGradient>
+    <linearGradient id="beamB" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#ff6c63" />
+      <stop offset="100%" stop-color="#ffd36c" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)" rx="44" />
+  <circle cx="280" cy="180" r="210" fill="url(#sunA)" />
+  <circle cx="928" cy="220" r="180" fill="#ff7e73" fill-opacity="0.18" />
+  <circle cx="910" cy="600" r="250" fill="#ffcb6b" fill-opacity="0.16" />
+  <path d="M95 640C235 458 380 382 575 350" stroke="url(#beamA)" stroke-width="22" stroke-linecap="round" fill="none" />
+  <path d="M220 728C392 562 568 450 1030 364" stroke="url(#beamB)" stroke-width="18" stroke-linecap="round" fill="none" />
+  <polygon points="690,128 1046,210 940,454 626,374" fill="#ff8f68" fill-opacity="0.18" />
+  <polygon points="146,320 412,244 560,584 280,664" fill="#ff52a1" fill-opacity="0.2" />
+  <polygon points="742,456 1084,528 1006,720 666,676" fill="#ffd26d" fill-opacity="0.18" />
+</svg>

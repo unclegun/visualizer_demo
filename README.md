@@ -4,7 +4,7 @@ Static demos and ASP.NET Core Razor Pages implementation references.
 
 This repository is a pattern-first reference site for modern UI implementation in Razor Pages. It is intentionally organized as a static GitHub Pages site with practical architecture guidance and copy-paste snippets.
 
-Live demo: https://unclegun.github.io/visualizer_demo
+Live demo: https://www.stratastacksolutions.com/visualizer_demo/
 
 ## What This Site Covers
 
@@ -12,6 +12,7 @@ Live demo: https://unclegun.github.io/visualizer_demo
 - DataTable + modal workflows
 - HTMX patterns for partial updates in Razor Pages
 - Advanced UI pattern packs (headers, cards, data shells, forms, motion, navigation, visual elements)
+- Runtime CSS patterns with prop-for-that
 - Theme, tone, and palette system patterns
 - Reusable snippets and conventions
 - Razor Pages implementation mapping
@@ -32,6 +33,7 @@ Live demo: https://unclegun.github.io/visualizer_demo
 - `patterns/htmx-modal-form.html`
 - `patterns/htmx-cascading-selects.html`
 - `patterns/htmx-table-refresh.html`
+- `patterns/prop-for-that-runtime-css.html`
 
 ### Advanced UI Section
 
@@ -44,6 +46,7 @@ Live demo: https://unclegun.github.io/visualizer_demo
 - `patterns/navigation-layout.html`
 - `patterns/microinteractions.html`
 - `patterns/css-visual-elements.html`
+- `patterns/prop-for-that-runtime-css.html`
 
 ### Reference Guides
 
@@ -58,6 +61,11 @@ Live demo: https://unclegun.github.io/visualizer_demo
 ### Tool Integration
 
 - `patterns/css-visual-elements.html#element-style-designer` - embedded designer experience in the static pattern page
+
+### Standalone Dashboards And Utilities
+
+- `penny-stock-ranker.html` - generated market signal dashboard
+- `penny-stock-watchlist/index.html` - lightweight watchlist experience
 
 ### .NET Reference Application
 
@@ -89,7 +97,8 @@ The old single-purpose framing was retired because the project now spans multipl
 │   ├── dashboard-motion.html
 │   ├── navigation-layout.html
 │   ├── microinteractions.html
-│   └── css-visual-elements.html
+│   ├── css-visual-elements.html
+│   └── prop-for-that-runtime-css.html
 ├── docs/
 │   ├── getting-started.html
 │   ├── conventions.html
@@ -97,6 +106,7 @@ The old single-purpose framing was retired because the project now spans multipl
 │   ├── snippets.html
 │   ├── htmx-spike.html
 │   ├── llm-context-generator.html
+│   ├── examples/
 │   ├── snippets/
 │   └── tag-helpers.md
 ├── assets/
@@ -111,6 +121,8 @@ The old single-purpose framing was retired because the project now spans multipl
 │       ├── Dockerfile
 │       └── docker-compose.yml
 ├── DOTNET_REFERENCE.md
+├── penny-stock-ranker.html
+├── penny-stock-watchlist/
 └── README.md
 ```
 

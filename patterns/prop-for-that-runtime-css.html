@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en" data-props-for="pointer scroll-velocity clock">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Runtime CSS with prop-for-that | Razor UI Patterns</title>
+  <meta name="description" content="A deep technical showcase for prop-for-that in a static Razor UI patterns site, covering pointer, visibility, range, select, field, image color, and practical Razor Pages mapping." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/callouts.css" />
+  <link rel="stylesheet" href="../assets/css/components/code-blocks.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/prop-for-that-demo.css" />
+  <script type="importmap">
+    {
+      "imports": {
+        "prop-for-that/auto": "https://unpkg.com/prop-for-that@0.7.4/dist/auto.js"
+      }
+    }
+  </script>
+</head>
+<body class="runtime-css-page" data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/htmx-spike.html">HTMX Spike</a></li>
+          <li class="nav-item"><a class="nav-link" href="https://github.com/unclegun/visualizer_demo" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero runtime-css-hero section-frame mb-4" data-reveal="zoom">
+      <div class="row g-4 align-items-stretch">
+        <div class="col-xl-7">
+          <p class="pattern-hero-kicker mb-2">Runtime CSS Showcase</p>
+          <h1 class="display-6 fw-bold mb-3">Runtime CSS with prop-for-that</h1>
+          <p class="lead text-muted mb-3">JavaScript observes runtime state; CSS consumes that state as custom properties.</p>
+          <p class="text-muted mb-4">This page shows how <strong>prop-for-that</strong> turns runtime browser facts into <code>--live-*</code> and <code>--const-*</code> values so a Razor Pages or HTMX app can hand most visual behavior back to CSS.</p>
+          <div class="d-flex flex-wrap gap-2 mb-4">
+            <a class="btn btn-primary" href="#showcase">Open live showcase</a>
+            <a class="btn btn-outline-primary" href="#deep-dive">Read developer deep dive</a>
+          </div>
+          <div class="pft-flow-diagram" aria-label="prop-for-that mental model">
+            <div class="pft-flow-step">Browser event or state</div>
+            <div class="pft-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="pft-flow-step">prop-for-that plugin</div>
+            <div class="pft-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="pft-flow-step">CSS custom property</div>
+            <div class="pft-flow-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="pft-flow-step">CSS effect</div>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="pft-hero-stack">
+            <article class="section-shell pft-concept-card h-100">
+              <span class="badge badge-soft mb-2 align-self-start">Compact example</span>
+              <p class="text-subtle small mb-2">Bind once. Let CSS drive the visual response.</p>
+              <div class="code-shell">
+                <div class="code-shell-toolbar">
+                  <span class="language-tag">CSS</span>
+                  <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftHeroSnippet" type="button">Copy</button>
+                </div>
+<pre class="m-0"><code id="pftHeroSnippet" class="language-css">.card {
+  transform: rotateX(calc((0.5 - var(--live-pointer-y-ratio)) * 18deg))
+             rotateY(calc((var(--live-pointer-x-ratio) - 0.5) * 18deg));
+}</code></pre>
+              </div>
+            </article>
+            <article class="section-shell pft-observer-card h-100">
+              <span class="badge badge-soft mb-2 align-self-start">Why it matters</span>
+              <ul class="mb-0 text-muted">
+                <li>No per-card pointer handlers.</li>
+                <li>No React state for cosmetic motion.</li>
+                <li>CSS owns transforms, gradients, filters, and transitions.</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="showcase" class="demo-shell mb-4" data-reveal>
+      <div class="d-flex flex-wrap justify-content-between gap-3 align-items-end mb-3">
+        <div>
+          <p class="pattern-hero-kicker mb-2">Interactive Showcase</p>
+          <h2 class="h3 mb-1">Five demos, one mental model</h2>
+          <p class="text-muted mb-0">Global sources write to <code>:root</code>. Element sources write to the bound card, form, or media panel that needs the data.</p>
+        </div>
+        <div class="pft-mini-facts">
+          <span>Pointer</span>
+          <span>Visibility</span>
+          <span>Range</span>
+          <span>Select</span>
+          <span>Color</span>
+          <span>Field</span>
+          <span>Image Color</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-shell mb-4" data-reveal>
+      <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-3">
+        <div>
+          <p class="pattern-hero-kicker mb-2">Demo 1</p>
+          <h2 class="h4 mb-2">Pointer-Reactive Holographic Card</h2>
+          <p class="text-muted mb-0">The card tilts toward the cursor, grows a traveling highlight, and intensifies the edge glow with no demo-specific pointer math in JavaScript.</p>
+        </div>
+        <span class="badge badge-soft align-self-start">pointer + pointer-local</span>
+      </div>
+      <div class="row g-3 align-items-stretch">
+        <div class="col-lg-7">
+          <div class="pft-holo-stage" data-props-for="pointer-local">
+            <article class="pft-holo-card">
+              <div class="pft-holo-noise"></div>
+              <div class="pft-holo-glow"></div>
+              <div class="pft-holo-content">
+                <p class="pattern-hero-kicker mb-2">Ops Telemetry Node</p>
+                <h3 class="h3 mb-2">CSS reacts to cursor ratios</h3>
+                <p class="text-muted mb-4">The library exposes local pointer ratios. CSS turns them into tilt, shadow direction, glow placement, and restrained lift.</p>
+                <div class="pft-chip-row">
+                  <span class="pft-chip">Glass surface</span>
+                  <span class="pft-chip">Local pointer ratios</span>
+                  <span class="pft-chip">No render loop</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <article class="section-shell h-100">
+            <h3 class="h5">What’s happening</h3>
+            <ul class="text-muted mb-4">
+              <li>The pointer plugin tracks viewport-level motion.</li>
+              <li>The local pointer plugin adds element-scoped ratios and inside state.</li>
+              <li>CSS turns those normalized values into <code>rotateX</code>, <code>rotateY</code>, <code>translateY</code>, and radial highlight positions.</li>
+            </ul>
+            <div class="code-shell">
+              <div class="code-shell-toolbar">
+                <span class="language-tag">HTML + CSS</span>
+                <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftPointerSnippet" type="button">Copy</button>
+              </div>
+<pre class="m-0"><code id="pftPointerSnippet" class="language-html">&lt;html data-props-for="pointer"&gt;
+&lt;article class="pft-holo-stage" data-props-for="pointer-local"&gt;...&lt;/article&gt;
+
+.pft-holo-card {
+  transform:
+    perspective(1100px)
+    rotateX(calc((0.5 - var(--live-local-pointer-y-ratio, 0.5)) * 18deg))
+    rotateY(calc((var(--live-local-pointer-x-ratio, 0.5) - 0.5) * 18deg));
+}</code></pre>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-shell mb-4" data-reveal>
+      <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-3">
+        <div>
+          <p class="pattern-hero-kicker mb-2">Demo 2</p>
+          <h2 class="h4 mb-2">Scroll / Visibility Reveal Timeline</h2>
+          <p class="text-muted mb-0">The visibility plugin provides a simple binary handoff that is often enough for staggered docs reveals, timeline cards, and narrative walkthroughs.</p>
+        </div>
+        <span class="badge badge-soft align-self-start">visibility</span>
+      </div>
+      <div class="row g-3 align-items-stretch">
+        <div class="col-lg-7">
+          <div class="pft-visibility-timeline">
+            <article class="pft-timeline-item" data-props-for="visibility">
+              <span class="pft-timeline-dot"></span>
+              <h3 class="h5 mb-2">Observe the viewport boundary</h3>
+              <p class="text-muted mb-0">The source writes <code>--live-visible</code> and the one-time <code>--const-has-entered</code> latch as the card reaches the viewport.</p>
+            </article>
+            <article class="pft-timeline-item" data-props-for="visibility">
+              <span class="pft-timeline-dot"></span>
+              <h3 class="h5 mb-2">Let CSS own reveal behavior</h3>
+              <p class="text-muted mb-0">Opacity, blur, border glow, and translation transition naturally from static defaults to live values.</p>
+            </article>
+            <article class="pft-timeline-item" data-props-for="visibility">
+              <span class="pft-timeline-dot"></span>
+              <h3 class="h5 mb-2">Keep the content readable without motion</h3>
+              <p class="text-muted mb-0">If JavaScript fails or the user prefers reduced motion, the cards still render with sensible fallbacks.</p>
+            </article>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="card code-card h-100">
+            <div class="card-header"><strong>Visibility pattern</strong></div>
+            <div class="card-body">
+<pre><code id="pftVisibilitySnippet" class="language-css">.pft-timeline-item {
+  opacity: calc(0.3 + (var(--live-visible, 1) * 0.7));
+  transform: translateY(calc((1 - var(--live-visible, 1)) * 2rem));
+  filter: blur(calc((1 - var(--live-visible, 1)) * 6px));
+}
+
+.pft-timeline-item {
+  border-color: color-mix(
+    in srgb,
+    var(--theme-accent) calc(var(--const-has-entered, 0) * 44%),
+    var(--line-soft)
+  );
+}</code></pre>
+              <p class="copy-note mb-0">This plugin currently gives you binary visibility and a one-time entered latch. If you need continuous scroll progress, pair it with a different source or a dedicated scroll utility.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-shell mb-4" data-reveal>
+      <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-3">
+        <div>
+          <p class="pattern-hero-kicker mb-2">Demo 3</p>
+          <h2 class="h4 mb-2">Range-Controlled Theme Lab</h2>
+          <p class="text-muted mb-0">Move the controls and watch one large preview surface react immediately. The sliders, select, and color input all publish values as CSS variables so the demo can stay almost entirely in CSS.</p>
+        </div>
+        <span class="badge badge-soft align-self-start">range + select + color-input</span>
+      </div>
+      <div class="pft-range-lab" data-pft-theme-lab>
+        <div class="row g-3 align-items-stretch mt-0">
+          <div class="col-lg-5">
+            <div class="pft-control-stack pft-control-stack--compact">
+              <div id="pftHueScope" class="pft-range-control pft-range-control--compact" data-props-for="range">
+                <div>
+                  <label class="form-label mb-1" for="pftHueRange">Hue orbit</label>
+                  <p class="text-subtle small mb-0">Dominant palette hue.</p>
+                </div>
+                <output class="pft-control-output" for="pftHueRange" data-demo-output>215</output>
+                <input id="pftHueRange" class="form-range" type="range" min="180" max="320" value="215" />
+              </div>
+              <div id="pftGlowScope" class="pft-range-control pft-range-control--compact" data-props-for="range">
+                <div>
+                  <label class="form-label mb-1" for="pftGlowRange">Glow intensity</label>
+                  <p class="text-subtle small mb-0">Ambient bloom strength.</p>
+                </div>
+                <output class="pft-control-output" for="pftGlowRange" data-demo-output>62%</output>
+                <input id="pftGlowRange" class="form-range" type="range" min="20" max="100" value="62" />
+              </div>
+              <div id="pftRadiusScope" class="pft-range-control pft-range-control--compact" data-props-for="range">
+                <div>
+                  <label class="form-label mb-1" for="pftRadiusRange">Border radius</label>
+                  <p class="text-subtle small mb-0">Shape softness.</p>
+                </div>
+                <output class="pft-control-output" for="pftRadiusRange" data-demo-output>22px</output>
+                <input id="pftRadiusRange" class="form-range" type="range" min="10" max="34" value="22" />
+              </div>
+              <div id="pftDepthScope" class="pft-range-control pft-range-control--compact" data-props-for="range">
+                <div>
+                  <label class="form-label mb-1" for="pftDepthRange">Depth / scale</label>
+                  <p class="text-subtle small mb-0">Card lift and graph punch.</p>
+                </div>
+                <output class="pft-control-output" for="pftDepthRange" data-demo-output>1.04x</output>
+                <input id="pftDepthRange" class="form-range" type="range" min="100" max="116" value="104" />
+              </div>
+              <div id="pftDensityScope" class="pft-range-control pft-range-control--compact" data-props-for="select">
+                <div>
+                  <label class="form-label mb-1" for="pftDensitySelect">Grid density</label>
+                  <p class="text-subtle small mb-0">Controls chart grid spacing.</p>
+                </div>
+                <output class="pft-control-output" for="pftDensitySelect" data-demo-output>Standard</output>
+                <select id="pftDensitySelect" class="form-select">
+                  <option value="0">Calm</option>
+                  <option value="1" selected>Standard</option>
+                  <option value="2">Dense</option>
+                </select>
+              </div>
+              <div id="pftAccentScope" class="pft-range-control pft-range-control--compact" data-props-for="color-input">
+                <div>
+                  <label class="form-label mb-1" for="pftAccentColor">Manual accent</label>
+                  <p class="text-subtle small mb-0">Button and glow color seed.</p>
+                </div>
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                  <output class="pft-control-output" for="pftAccentColor" data-demo-output>#59d9ff</output>
+                  <input id="pftAccentColor" class="form-control form-control-color" type="color" value="#59d9ff" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <article class="pft-system-card pft-system-card--xl">
+              <div class="pft-system-card__grid"></div>
+              <div class="pft-system-card__glow"></div>
+              <div class="pft-system-card__content">
+                <p class="pattern-hero-kicker mb-2">Runtime Design Lab</p>
+                <h3 class="h3 mb-2">Every control should visibly alter this preview</h3>
+                <p class="text-muted mb-4">Hue changes palette, glow increases bloom, radius softens the shell, depth lifts the surface, density tightens the graph, and accent recolors key chrome.</p>
+                <div class="pft-system-card__visuals">
+                  <div class="pft-system-orb"></div>
+                  <div class="pft-system-bars">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                </div>
+                <div class="pft-chip-row mb-3">
+                  <span class="pft-chip">Hue</span>
+                  <span class="pft-chip">Glow</span>
+                  <span class="pft-chip">Radius</span>
+                  <span class="pft-chip">Scale</span>
+                  <span class="pft-chip">Density</span>
+                  <span class="pft-chip">Accent</span>
+                </div>
+                <div class="pft-system-footer">
+                  <button class="btn btn-light btn-sm" type="button">Export Theme</button>
+                  <div class="pft-system-badge">Visual response from runtime props</div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+      <div class="code-shell mt-3">
+        <div class="code-shell-toolbar">
+          <span class="language-tag">Detailed range pattern</span>
+          <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftRangeSnippet" type="button">Copy</button>
+        </div>
+<pre class="m-0"><code id="pftRangeSnippet" class="language-css">[data-pft-theme-lab] {
+  --pft-hue: 215;
+  --pft-glow: 0.62;
+  --pft-radius: 22px;
+  --pft-depth: 1.04;
+  --pft-density: 1.12;
+  --pft-manual-accent: #59d9ff;
+}
+
+.pft-system-card {
+  border-radius: var(--pft-radius);
+  transform: scale(var(--pft-depth));
+  border-color: color-mix(in srgb, hsl(var(--pft-hue) 90% 60%) 42%, var(--line-soft));
+}
+
+.pft-system-card__grid {
+  background-size: calc(1.8rem / var(--pft-density)) calc(1.8rem / var(--pft-density));
+}
+
+.pft-system-card__glow {
+  filter: blur(calc(16px + (var(--pft-glow) * 10px)));
+  background: radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--pft-manual-accent) 34%, transparent), transparent 26%);
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="demo-shell mb-4" data-reveal>
+      <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-3">
+        <div>
+          <p class="pattern-hero-kicker mb-2">Demo 4</p>
+          <h2 class="h4 mb-2">Checklist Progress Board</h2>
+          <p class="text-muted mb-0">This version makes the idea clearer: every required checkbox becomes valid when checked, and the form-state plugin turns that into one aggregate completion value you can feed straight into a progress bar.</p>
+        </div>
+        <span class="badge badge-soft align-self-start">field + field-state + form-state</span>
+      </div>
+      <div class="row g-3 align-items-stretch">
+        <div class="col-lg-7">
+          <form class="pft-task-board pft-form-shell" data-props-for="field-state form-state" novalidate>
+            <div class="pft-task-board__header">
+              <div>
+                <p class="pattern-hero-kicker mb-2">Pure CSS progress meter</p>
+                <h3 class="h4 mb-2">Four setup tasks, one live completion value</h3>
+                <p class="text-muted mb-0">The browser already knows whether a required checkbox is valid. prop-for-that exposes that state to CSS as <code>--live-valid</code> per task and <code>--live-completion</code> on the form.</p>
+              </div>
+              <div class="pft-chip-row">
+                <span class="pft-chip">No event handlers</span>
+                <span class="pft-chip">Required checkboxes</span>
+                <span class="pft-chip">Aggregate completion</span>
+              </div>
+            </div>
+            <div class="pft-form-progress pft-form-progress--xl">
+              <span class="pft-form-progress__bar"></span>
+            </div>
+            <div class="pft-task-grid">
+              <label class="pft-task-row" data-props-for="field field-state">
+                <input class="form-check-input" type="checkbox" required name="taskTokens" />
+                <span class="pft-task-copy">
+                  <strong>Create design tokens</strong>
+                  <span>Define your hue, spacing, and elevation variables first.</span>
+                </span>
+                <span class="pft-task-state">01</span>
+              </label>
+              <label class="pft-task-row" data-props-for="field field-state">
+                <input class="form-check-input" type="checkbox" required name="taskPointer" />
+                <span class="pft-task-copy">
+                  <strong>Bind pointer-driven cards</strong>
+                  <span>Give interactive surfaces local pointer ratios for tilt and highlight.</span>
+                </span>
+                <span class="pft-task-state">02</span>
+              </label>
+              <label class="pft-task-row" data-props-for="field field-state">
+                <input class="form-check-input" type="checkbox" required name="taskReveal" />
+                <span class="pft-task-copy">
+                  <strong>Use visibility for reveals</strong>
+                  <span>Fade, lift, and sharpen cards only when they enter the viewport.</span>
+                </span>
+                <span class="pft-task-state">03</span>
+              </label>
+              <label class="pft-task-row" data-props-for="field field-state">
+                <input class="form-check-input" type="checkbox" required name="taskPolish" />
+                <span class="pft-task-copy">
+                  <strong>Layer in color-reactive polish</strong>
+                  <span>Sample images or use color inputs to derive accent gradients and borders.</span>
+                </span>
+                <span class="pft-task-state">04</span>
+              </label>
+            </div>
+            <p class="pft-submit-status mb-0 mt-3">No custom logic is required here. The form plugin counts how many required tasks are currently valid and gives CSS a normalized completion value to paint the bar and board shell.</p>
+          </form>
+        </div>
+        <div class="col-lg-5">
+          <div class="card code-card h-100">
+            <div class="card-header"><strong>What the library is doing</strong></div>
+            <div class="card-body">
+              <ul class="text-muted mb-3">
+                <li>Each task row gets <code>--live-valid</code>, <code>--live-dirty</code>, and <code>--live-touched</code>.</li>
+                <li>The form shell gets <code>--live-field-count</code>, <code>--live-valid-count</code>, and <code>--live-completion</code>.</li>
+                <li>CSS reads those values to color each task and scale the main progress bar.</li>
+              </ul>
+<pre><code id="pftFormSnippet" class="language-html">&lt;form class="task-board" data-props-for="field-state form-state"&gt;
+  &lt;label class="task-row" data-props-for="field field-state"&gt;
+    &lt;input type="checkbox" required /&gt;
+    &lt;span&gt;Create tokens&lt;/span&gt;
+  &lt;/label&gt;
+&lt;/form&gt;
+
+.task-board .progress-bar {
+  transform: scaleX(var(--live-completion, 0));
+}
+
+.task-row {
+  border-color: color-mix(in srgb,
+    hsl(calc(var(--live-valid, 0) * 135) 65% 48%) 48%,
+    var(--line-soft));
+}</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="demo-shell mb-5" data-reveal>
+      <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-3">
+        <div>
+          <p class="pattern-hero-kicker mb-2">Demo 5</p>
+          <h2 class="h4 mb-2">Image-to-UI Token Generator</h2>
+          <p class="text-muted mb-0">Each artwork card auto-generates a practical UI kit: button, badge, progress rail, and panel chrome. This is useful when front-end teams want image-driven theming without writing color extraction logic.</p>
+        </div>
+        <span class="badge badge-soft align-self-start">img + img-color</span>
+      </div>
+      <div class="pft-media-gallery">
+        <article class="pft-media-panel pft-media-panel--interactive" data-props-for="img img-color">
+          <div class="pft-media-panel__surface"></div>
+          <div class="pft-media-panel__content">
+            <img class="img-fluid rounded-4 pft-media-image" src="../assets/prop-for-that-spectrum.svg" alt="Cool neon spectrum artwork used to demonstrate image color extraction." />
+            <div>
+              <p class="pattern-hero-kicker mb-2">Sample 01</p>
+              <h3 class="h5 mb-2">Neon dashboard palette</h3>
+              <p class="text-muted mb-3">The image yields a cool palette used for panel tint, action button, badge edge, and progress rail.</p>
+              <div class="pft-token-kit mb-3">
+                <button class="btn btn-sm pft-token-btn" type="button">Launch panel</button>
+                <span class="pft-token-badge">Live token</span>
+                <div class="pft-token-progress"><span></span></div>
+              </div>
+              <div class="pft-swatch-grid" aria-hidden="true">
+                <span class="pft-swatch pft-swatch--dominant"></span>
+                <span class="pft-swatch pft-swatch--accent"></span>
+                <span class="pft-swatch pft-swatch--dark"></span>
+                <span class="pft-swatch pft-swatch--light"></span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="pft-media-panel pft-media-panel--interactive" data-props-for="img img-color">
+          <div class="pft-media-panel__surface"></div>
+          <div class="pft-media-panel__content">
+            <img class="img-fluid rounded-4 pft-media-image" src="../assets/prop-for-that-warm-spectrum.svg" alt="Warm orange and magenta artwork used to demonstrate image color extraction." />
+            <div>
+              <p class="pattern-hero-kicker mb-2">Sample 02</p>
+              <h3 class="h5 mb-2">Warm editorial palette</h3>
+              <p class="text-muted mb-3">The exact same classes now produce a warmer UI treatment from the sampled palette.</p>
+              <div class="pft-token-kit mb-3">
+                <button class="btn btn-sm pft-token-btn" type="button">Launch panel</button>
+                <span class="pft-token-badge">Live token</span>
+                <div class="pft-token-progress"><span></span></div>
+              </div>
+              <div class="pft-swatch-grid" aria-hidden="true">
+                <span class="pft-swatch pft-swatch--dominant"></span>
+                <span class="pft-swatch pft-swatch--accent"></span>
+                <span class="pft-swatch pft-swatch--dark"></span>
+                <span class="pft-swatch pft-swatch--light"></span>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="pft-media-panel pft-media-panel--interactive" data-props-for="img img-color">
+          <div class="pft-media-panel__surface"></div>
+          <div class="pft-media-panel__content">
+            <img class="img-fluid rounded-4 pft-media-image" src="../assets/prop-for-that-lime-spectrum.svg" alt="Lime and cyan data artwork used to demonstrate image color extraction." />
+            <div>
+              <p class="pattern-hero-kicker mb-2">Sample 03</p>
+              <h3 class="h5 mb-2">Sharp analytical palette</h3>
+              <p class="text-muted mb-3">Useful for component kits where previews need to auto-theme from uploaded brand/media assets.</p>
+              <div class="pft-token-kit mb-3">
+                <button class="btn btn-sm pft-token-btn" type="button">Launch panel</button>
+                <span class="pft-token-badge">Live token</span>
+                <div class="pft-token-progress"><span></span></div>
+              </div>
+              <div class="pft-swatch-grid" aria-hidden="true">
+                <span class="pft-swatch pft-swatch--dominant"></span>
+                <span class="pft-swatch pft-swatch--accent"></span>
+                <span class="pft-swatch pft-swatch--dark"></span>
+                <span class="pft-swatch pft-swatch--light"></span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="code-shell mt-4">
+        <div class="code-shell-toolbar">
+          <span class="language-tag">Image token generator</span>
+          <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftMediaSnippet" type="button">Copy</button>
+        </div>
+<pre class="m-0"><code id="pftMediaSnippet" class="language-html">&lt;article class="art-card" data-props-for="img img-color"&gt;
+  &lt;img src="./artwork.svg" alt="..." /&gt;
+  &lt;button class="cta"&gt;Launch&lt;/button&gt;
+&lt;/article&gt;
+
+.art-card {
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--live-img, #122033) 28%, #08111f),
+    #08111f);
+  border-color: color-mix(in srgb, var(--live-img-accent, #59d9ff) 34%, var(--line-soft));
+}
+
+.art-card .cta {
+  background: color-mix(in srgb, var(--live-img-accent, #59d9ff) 70%, white);
+  color: color-mix(in srgb, var(--live-img-dark, #102038) 86%, black);
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="demo-shell mb-5" data-reveal>
+      <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-3">
+        <div>
+          <p class="pattern-hero-kicker mb-2">Bonus demos</p>
+          <h2 class="h4 mb-2">Two more unusual CSS-only effects</h2>
+          <p class="text-muted mb-0">These use global plugins. There is still almost no JavaScript on the page; the library is only writing custom properties that CSS can react to.</p>
+        </div>
+        <span class="badge badge-soft align-self-start">scroll-velocity + clock</span>
+      </div>
+      <div class="row g-3 align-items-stretch">
+        <div class="col-lg-6">
+          <article class="pft-mini-demo pft-scroll-demo">
+            <p class="pattern-hero-kicker mb-2">Scroll velocity</p>
+            <h3 class="h5 mb-2">Scroll compass</h3>
+            <p class="text-muted mb-3">As you scroll, the needle swings by direction and the outer ring energizes by velocity magnitude. It is a reusable pattern for kinetic status widgets.</p>
+            <div class="pft-scroll-gauge">
+              <div class="pft-scroll-gauge__ring"></div>
+              <div class="pft-scroll-gauge__needle"></div>
+              <div class="pft-scroll-gauge__core"></div>
+            </div>
+          </article>
+        </div>
+        <div class="col-lg-6">
+          <article class="pft-mini-demo pft-clock-demo">
+            <p class="pattern-hero-kicker mb-2">Clock</p>
+            <h3 class="h5 mb-2">Kinetic gradient clock</h3>
+            <p class="text-muted mb-3">Seconds rotate the conic ring and second hand, while minutes and hours drive their own hand layers. This pattern works as a live status dial without custom timers.</p>
+            <div class="pft-clock-halo">
+              <div class="pft-clock-core">
+                <span class="pft-clock-hour"></span>
+              </div>
+            </div>
+            <p class="pft-clock-readout mb-0">Driven by <code>--live-hours</code>, <code>--live-minutes</code>, <code>--live-seconds</code></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="deep-dive" class="mb-5" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Developer Deep Dive</p>
+      <h2 class="h3 mb-3">What `data-props-for` is really doing</h2>
+      <div class="row g-3 mb-4">
+        <div class="col-md-6 col-xl-4">
+          <article class="section-shell h-100">
+            <h3 class="h5">Global vs element scope</h3>
+            <p class="text-muted mb-0">Global sources such as <code>pointer</code>, <code>clock</code>, or <code>scroll-velocity</code> write to <code>:root</code>. Element sources such as <code>range</code>, <code>visibility</code>, and <code>img-color</code> write on the bound element so descendants inherit them naturally.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="section-shell h-100">
+            <h3 class="h5">Why CSS variables are the handoff</h3>
+            <p class="text-muted mb-0">Custom properties are the cleanest bridge between runtime observation and rendering. They slot directly into <code>calc()</code>, gradients, shadows, filters, transforms, and typed properties without forcing component rerenders.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="section-shell h-100">
+            <h3 class="h5"><code>--live-*</code> vs <code>--const-*</code></h3>
+            <p class="text-muted mb-0"><code>--live-*</code> values update over time. <code>--const-*</code> values are written once, which is ideal for latched state like <code>--const-has-entered</code> or navigation metadata.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="section-shell h-100">
+            <h3 class="h5">Why batched and diffed writes matter</h3>
+            <p class="text-muted mb-0">The library coalesces updates and only writes changed custom properties. That keeps style recalculation calmer than many ad hoc listeners mutating inline styles separately.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="section-shell h-100">
+            <h3 class="h5">Compared with React state</h3>
+            <p class="text-muted mb-0">React state is great for business data and UI branching. It is usually the wrong tool for cosmetic values like pointer ratios, scroll velocity, or derived image accents that only need to influence paint and transform decisions.</p>
+          </article>
+        </div>
+        <div class="col-md-6 col-xl-4">
+          <article class="section-shell h-100">
+            <h3 class="h5">When not to use it</h3>
+            <p class="text-muted mb-0">Do not force business rules, data fetching, permissions, or app logic into CSS. Use the library when the runtime data mainly improves presentation, affordance, or visual feedback.</p>
+          </article>
+        </div>
+      </div>
+
+      <section class="section-shell mb-4">
+        <h3 class="h4 mb-3">Frontend setup in three steps</h3>
+        <div class="row g-3">
+          <div class="col-lg-6">
+            <ul class="mb-0 text-muted">
+              <li>Import <code>prop-for-that/auto</code> once in a module script.</li>
+              <li>Opt a global or element container into one or more sources with <code>data-props-for</code>.</li>
+              <li>Write CSS against the published <code>--live-*</code> or <code>--const-*</code> values.</li>
+              <li>Start with default fallback values so the UI still looks composed before the library initializes.</li>
+              <li>Keep optional helper JavaScript limited to niceties such as readouts or demo controls, not animation math.</li>
+              <li>This pattern shines for cards, dashboards, galleries, forms, controls, and reveal systems.</li>
+            </ul>
+          </div>
+          <div class="col-lg-6">
+            <div class="callout callout-success h-100">
+              <h4 class="h6">Frontend takeaway</h4>
+              <p class="mb-0">Think of prop-for-that as a runtime variable feeder for CSS. It is not a UI framework. It is a way to make CSS aware of browser state that CSS normally cannot read on its own.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="row g-3">
+        <div class="col-lg-6">
+          <div class="code-shell h-100">
+            <div class="code-shell-toolbar">
+              <span class="language-tag">Install / import</span>
+              <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftInstallSnippet" type="button">Copy</button>
+            </div>
+<pre class="m-0"><code id="pftInstallSnippet" class="language-html">npm i prop-for-that
+
+&lt;script type="importmap"&gt;
+{
+  "imports": {
+    "prop-for-that/auto": "https://unpkg.com/prop-for-that@0.7.4/dist/auto.js"
+  }
+}
+&lt;/script&gt;
+&lt;script type="module"&gt;import "prop-for-that/auto";&lt;/script&gt;</code></pre>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="code-shell h-100">
+            <div class="code-shell-toolbar">
+              <span class="language-tag">Pointer card</span>
+              <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftPointerRecipe" type="button">Copy</button>
+            </div>
+<pre class="m-0"><code id="pftPointerRecipe" class="language-html">&lt;html data-props-for="pointer"&gt;
+&lt;article class="metric-card" data-props-for="pointer-local"&gt;...&lt;/article&gt;
+
+.metric-card {
+  transform:
+    perspective(900px)
+    rotateX(calc((0.5 - var(--live-local-pointer-y-ratio, 0.5)) * 14deg))
+    rotateY(calc((var(--live-local-pointer-x-ratio, 0.5) - 0.5) * 14deg));
+  background:
+    radial-gradient(circle at calc(var(--live-local-pointer-x-ratio, 0.5) * 100%) calc(var(--live-local-pointer-y-ratio, 0.5) * 100%),
+      rgba(255,255,255,0.24), transparent 22%),
+    linear-gradient(160deg, #102038, #08111f);
+}</code></pre>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="code-shell h-100">
+            <div class="code-shell-toolbar">
+              <span class="language-tag">Visibility reveal</span>
+              <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftRevealRecipe" type="button">Copy</button>
+            </div>
+<pre class="m-0"><code id="pftRevealRecipe" class="language-html">&lt;article class="timeline-card" data-props-for="visibility"&gt;...&lt;/article&gt;
+
+.timeline-card {
+  opacity: calc(0.35 + (var(--live-visible, 0) * 0.65));
+  filter: blur(calc((1 - var(--live-visible, 0)) * 6px));
+  transform: translateY(calc((1 - var(--live-visible, 0)) * 1.75rem));
+}
+
+.timeline-card {
+  border-color: color-mix(in srgb,
+    var(--theme-accent) calc(var(--const-has-entered, 0) * 44%),
+    var(--line-soft));
+}</code></pre>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="code-shell h-100">
+            <div class="code-shell-toolbar">
+              <span class="language-tag">Range-driven theme</span>
+              <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftThemeRecipe" type="button">Copy</button>
+            </div>
+<pre class="m-0"><code id="pftThemeRecipe" class="language-css">.theme-lab[data-props-for="range"] {
+  --theme-hue: calc(180 + (var(--live-value-pct, 0.5) * 140));
+}
+
+.theme-lab-card {
+  transform: scale(var(--pft-depth, 1));
+  border-color: hsl(var(--theme-hue) 80% 60% / 0.45);
+  background: linear-gradient(140deg, hsl(var(--theme-hue) 90% 55% / 0.16), transparent);
+}</code></pre>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="code-shell h-100">
+            <div class="code-shell-toolbar">
+              <span class="language-tag">Checklist progress</span>
+              <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftChecklistRecipe" type="button">Copy</button>
+            </div>
+<pre class="m-0"><code id="pftChecklistRecipe" class="language-html">&lt;form class="task-board" data-props-for="field-state form-state"&gt;
+  &lt;label class="task-row" data-props-for="field field-state"&gt;
+    &lt;input type="checkbox" required /&gt;
+    &lt;span&gt;Create tokens&lt;/span&gt;
+  &lt;/label&gt;
+&lt;/form&gt;
+
+.task-board .bar {
+  transform: scaleX(var(--live-completion, 0));
+}
+
+.task-row {
+  background: color-mix(in srgb,
+    #10b981 calc(var(--live-valid, 0) * 16%),
+    var(--bg-elevated));
+}</code></pre>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="code-shell h-100">
+            <div class="code-shell-toolbar">
+              <span class="language-tag">Image color tokens</span>
+              <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftGalleryRecipe" type="button">Copy</button>
+            </div>
+<pre class="m-0"><code id="pftGalleryRecipe" class="language-css">.art-card {
+  --live-img: #102038;
+  --live-img-accent: #59d9ff;
+}
+
+.art-card {
+  border-color: color-mix(in srgb, var(--live-img-accent) 36%, var(--line-soft));
+  background: linear-gradient(160deg,
+    color-mix(in srgb, var(--live-img, #102038) 30%, #08111f),
+    #08111f);
+}
+
+.art-card .cta {
+  background: color-mix(in srgb, var(--live-img-accent, #59d9ff) 70%, white);
+  color: color-mix(in srgb, var(--live-img-dark, #102038) 86%, black);
+}</code></pre>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="code-shell h-100">
+            <div class="code-shell-toolbar">
+              <span class="language-tag">Progressive enhancement fallback</span>
+              <button class="btn btn-sm btn-outline-primary" data-copy-target="#pftFallbackRecipe" type="button">Copy</button>
+            </div>
+<pre class="m-0"><code id="pftFallbackRecipe" class="language-css">.metric-card,
+.art-card,
+.task-board,
+.theme-lab-card {
+  --live-local-pointer-x-ratio: 0.5;
+  --live-local-pointer-y-ratio: 0.5;
+  --live-img-accent: #59d9ff;
+  --live-completion: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .metric-card,
+  .timeline-card,
+  .art-card,
+  .theme-lab-card {
+    transform: none;
+    filter: none;
+  }
+}</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="row g-3 mb-5" data-reveal>
+      <div class="col-lg-6">
+        <div class="callout callout-info h-100">
+          <h2 class="h5">Architecture Notes</h2>
+          <p class="mb-2"><strong>Accessibility:</strong> Respect <code>prefers-reduced-motion</code>, keep essential information visible without animation, and preserve normal focus states.</p>
+          <p class="mb-2"><strong>Performance:</strong> Prefer transform, opacity, filter, and gradient adjustments over layout-heavy properties. Keep expensive blur and glow effects bounded.</p>
+          <p class="mb-0"><strong>Maintainability:</strong> Isolate page-specific selectors, use semantic class names, and keep generic utilities reusable outside this demo.</p>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="callout callout-warning h-100">
+          <h2 class="h5">Fallback Strategy</h2>
+          <p class="mb-2">Define sensible default CSS variable values so the page still looks composed before the module loads or if JavaScript fails.</p>
+          <p class="mb-2">Do not couple essential workflow logic to custom properties. The page must remain readable and operable with plain HTML and CSS.</p>
+          <p class="mb-0">For lower-end devices, reduce effect count, lower blur strength, and reserve high-frequency motion for a few high-value surfaces.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container-xl site-footer">
+    <div class="d-flex flex-wrap justify-content-between gap-2">
+      <span>Razor UI Patterns</span>
+      <span>prop-for-that shows how far a static Razor-friendly page can push runtime CSS without a build step.</span>
+    </div>
+  </footer>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script src="../assets/vendor/prism/prism-css.min.js"></script>
+  <script src="../assets/vendor/prism/prism-javascript.min.js"></script>
+  <script type="module">import "prop-for-that/auto";</script>
+  <script type="module" src="../assets/js/site.js"></script>
+  <script type="module" src="../assets/js/prop-for-that-demo.js"></script>
+</body>
+</html>

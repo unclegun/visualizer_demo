@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Abstract spectrum artwork</title>
+  <desc id="desc">An abstract composition of saturated geometric gradients used for image color extraction demos.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#081324" />
+      <stop offset="55%" stop-color="#102848" />
+      <stop offset="100%" stop-color="#040912" />
+    </linearGradient>
+    <linearGradient id="beamA" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#61e6ff" />
+      <stop offset="100%" stop-color="#1b8dff" />
+    </linearGradient>
+    <linearGradient id="beamB" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0%" stop-color="#7c5cff" />
+      <stop offset="100%" stop-color="#ff5db1" />
+    </linearGradient>
+    <radialGradient id="sun" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#ffe891" />
+      <stop offset="45%" stop-color="#ff9b54" />
+      <stop offset="100%" stop-color="#ff5c67" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg)" rx="44" />
+  <g opacity="0.85">
+    <circle cx="255" cy="190" r="210" fill="url(#sun)" />
+    <circle cx="960" cy="195" r="180" fill="#2ef2d4" fill-opacity="0.18" />
+    <circle cx="1000" cy="570" r="240" fill="#6f63ff" fill-opacity="0.22" />
+  </g>
+  <g fill="none" stroke-linecap="round" stroke-width="20" opacity="0.9">
+    <path d="M120 610C270 470 375 390 545 365" stroke="url(#beamA)" />
+    <path d="M245 720C460 545 635 430 920 360" stroke="url(#beamB)" />
+    <path d="M500 160C685 220 830 315 1080 530" stroke="#9bf0ff" stroke-opacity="0.38" />
+  </g>
+  <g>
+    <polygon points="690,110 1030,160 930,420 605,355" fill="#1be8ff" fill-opacity="0.18" />
+    <polygon points="180,325 420,260 560,560 300,635" fill="#7b5cff" fill-opacity="0.22" />
+    <polygon points="760,420 1120,490 1020,720 650,660" fill="#ff5db1" fill-opacity="0.2" />
+  </g>
+  <g fill="#ffffff" fill-opacity="0.2">
+    <circle cx="635" cy="250" r="6" />
+    <circle cx="710" cy="215" r="5" />
+    <circle cx="756" cy="275" r="4" />
+    <circle cx="868" cy="616" r="7" />
+    <circle cx="328" cy="535" r="5" />
+    <circle cx="240" cy="206" r="4" />
+  </g>
+</svg>
