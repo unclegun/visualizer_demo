@@ -36,6 +36,14 @@
   --radius-sm: 0.5rem;
   --radius-xl: 1.35rem;
 
+  --site-max: 1120px;
+  --site-max-narrow: 960px;
+  --site-max-wide: 1280px;
+
+  --space-section: clamp(3rem, 6vw, 5rem);
+  --space-section-sm: clamp(2rem, 4vw, 3rem);
+  --space-card: clamp(1rem, 2vw, 1.5rem);
+
   --dur-fast: 160ms;
   --dur-med: 280ms;
   --dur-slow: 480ms;

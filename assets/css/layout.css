@@ -1,12 +1,12 @@
 .page-shell {
   padding-top: 1.25rem;
-  padding-bottom: 2.5rem;
+  padding-bottom: var(--space-section);
 }
 
 .site-hero {
   border: 1px solid color-mix(in srgb, var(--theme-primary) 18%, var(--line-soft));
-  border-radius: 1.3rem;
-  padding: 2rem;
+  border-radius: var(--radius-xl);
+  padding: clamp(1.2rem, 2.2vw, 2rem);
   background:
     linear-gradient(128deg, color-mix(in srgb, var(--theme-primary) 18%, transparent), transparent 55%),
     linear-gradient(180deg, color-mix(in srgb, white 92%, var(--bg-elevated)), var(--bg-elevated));
@@ -19,7 +19,7 @@
 
 .section-subtitle {
   color: var(--text-muted);
-  margin-bottom: 1.3rem;
+  margin-bottom: 1rem;
 }
 
 .site-footer {
@@ -32,7 +32,7 @@
 .page-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 1.1rem;
+  gap: var(--space-card);
 }
 
 @media (min-width: 992px) {

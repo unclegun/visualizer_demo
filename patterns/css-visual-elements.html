@@ -46,7 +46,17 @@
       <p class="text-muted mb-0">What it is: reusable decorative systems built only with CSS. Problem solved: flat interfaces with no visual hierarchy around priority sections.</p>
     </section>
 
-    <section class="row g-3 mb-4">
+        <section class="page-toc p-3 mb-4" data-reveal>
+            <h2 class="page-toc__title mb-2">On This Page</h2>
+            <div class="row g-2">
+                <div class="col-md-6 col-xl-3"><a class="page-toc__link list-group-item list-group-item-action px-2" href="#visual-primitives">Visual Primitives</a></div>
+                <div class="col-md-6 col-xl-3"><a class="page-toc__link list-group-item list-group-item-action px-2" href="#visual-snippet">Copyable CSS Snippet</a></div>
+                <div class="col-md-6 col-xl-3"><a class="page-toc__link list-group-item list-group-item-action px-2" href="#razor-adaptation">Razor Adaptation</a></div>
+                <div class="col-md-6 col-xl-3"><a class="page-toc__link list-group-item list-group-item-action px-2" href="#element-style-designer">Element Style Designer</a></div>
+            </div>
+        </section>
+
+        <section id="visual-primitives" class="row g-3 mb-4">
       <div class="col-lg-6" data-reveal>
         <article class="section-shell sweep-accent h-100">
           <h2 class="h5">Mesh / aurora panel</h2>
@@ -65,7 +75,7 @@
       </div>
     </section>
 
-    <section class="code-shell mb-4" data-reveal>
+    <section id="visual-snippet" class="code-shell mb-4" data-reveal>
       <div class="code-shell-toolbar">
         <span class="language-tag">CSS Only</span>
         <button class="btn btn-sm btn-outline-primary" data-copy-target="#visualSnippet" type="button">Copy</button>
@@ -81,7 +91,7 @@
 }</code></pre>
     </section>
 
-    <section class="section-shell mb-5" data-reveal>
+    <section id="razor-adaptation" class="section-shell mb-5" data-reveal>
       <h2 class="h5">Razor Pages adaptation</h2>
       <ul class="mb-0">
         <li>Best in shared section partials and dashboard modules.</li>
