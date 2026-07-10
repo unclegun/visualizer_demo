@@ -20,6 +20,7 @@ import { initializeMicrointeractionsDemo } from "./patterns/microinteractions.js
 import { initializeDataDisplayDemo } from "./patterns/data-display.js";
 import { initializeFormsFiltersDemo } from "./patterns/forms-filters.js";
 import { initializeDashboardMotionDemo } from "./patterns/dashboard-motion.js";
+import { initializeFocusPullHeroDemo } from "./patterns/focus-pull-hero.js";
 
 async function initializeChartsIfPresent() {
   if (!document.querySelector("[data-chart-page]")) {
@@ -144,4 +145,5 @@ document.addEventListener("DOMContentLoaded", async () => {
   initializeDataDisplayDemo();
   initializeFormsFiltersDemo();
   initializeDashboardMotionDemo();
+  initializeFocusPullHeroDemo();
 });
