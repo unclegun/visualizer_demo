@@ -16,9 +16,10 @@
 import { prefersReducedMotion } from "../core/motion.js";
 
 // ── Timings ────────────────────────────────────────────────────────
-const HOLD_MS = 3200;       // Time each focus region is held
-const TRANSITION_MS = 1800; // Crossfade duration (must match CSS transition)
-const LABEL_FADE_MS = 280;  // Label text crossfade speed
+const HOLD_MS = 3200;            // Time each focus region is held
+const TRANSITION_MS = 1800;      // Crossfade duration (must match CSS transition)
+const TRANSITION_BUFFER_MS = 150; // Extra settling time after transition completes
+const LABEL_FADE_MS = 280;       // Label text crossfade speed
 
 // ── Default focus marks ────────────────────────────────────────────
 /**
@@ -28,10 +29,10 @@ const LABEL_FADE_MS = 280;  // Label text crossfade speed
  *   label — human-readable name for debug / UI display
  */
 export const focusMarks = [
-  { id: "alpha", x: "22%", y: "44%", w: "44%", h: "54%", label: "\u03b1-Helix Cluster" },
-  { id: "beta",  x: "62%", y: "30%", w: "40%", h: "50%", label: "\u03b2-Sheet Network" },
-  { id: "gamma", x: "76%", y: "58%", w: "38%", h: "48%", label: "\u03b3-Node Junction" },
-  { id: "delta", x: "44%", y: "58%", w: "36%", h: "46%", label: "\u03b4-Bridge Cluster" },
+  { id: "alpha", x: "22%", y: "44%", w: "44%", h: "54%", label: "α-Helix Cluster" },
+  { id: "beta",  x: "62%", y: "30%", w: "40%", h: "50%", label: "β-Sheet Network" },
+  { id: "gamma", x: "76%", y: "58%", w: "38%", h: "48%", label: "γ-Node Junction" },
+  { id: "delta", x: "44%", y: "58%", w: "36%", h: "46%", label: "δ-Bridge Cluster" },
 ];
 
 // ── Utility: build a mask-image gradient for a focus mark ─────────
@@ -153,7 +154,7 @@ class FocusPullHero {
       this._markIndex = nextIndex;
       this._activeSlot = incoming;
       this._scheduleNext();
-    }, TRANSITION_MS + 150);
+    }, TRANSITION_MS + TRANSITION_BUFFER_MS);
   }
 
   /** Fade the active-label text to the new value. */
