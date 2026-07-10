@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Focus-Pull Hero Background | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/callouts.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/advanced-ui.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/focus-pull-hero.css" />
+</head>
+<body data-site-root=".." data-nav-section="advanced-ui">
+  <div class="scroll-progress"><span data-scroll-progress></span></div>
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../docs/htmx-spike.html">HTMX Spike</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+
+    <!-- ── Page hero ──────────────────────────────────────────── -->
+    <section class="site-hero mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">Pattern Category: Advanced Hero Background</p>
+      <h1 class="display-6 fw-bold mb-3">Focus-Pull / Rack-Focus Hero Background</h1>
+      <p class="text-muted mb-0">What it is: a background image rendered in layered depth — blurred base + masked sharp focus regions — crossfading between areas to simulate a camera changing focus. Problem solved: static hero images that fail to communicate scientific complexity or premium craft.</p>
+    </section>
+
+    <!-- ── A. JS-animated live demo ───────────────────────────── -->
+    <section class="mb-4" data-reveal="zoom">
+      <p class="pattern-hero-kicker mb-2">A. JS-Animated</p>
+      <h2 class="h4 mb-3">Rack-Focus Hero — Live Demo</h2>
+
+      <div class="fph-hero"
+           data-focus-pull-hero
+           id="focusPullHeroDemo"
+           style="--fph-image: url('../assets/img/molecular-hero.svg')"
+           aria-label="Animated hero background — molecular strand rack-focus effect">
+
+        <!-- Controls -->
+        <div class="fph-controls" role="group" aria-label="Hero motion controls">
+          <button class="fph-btn" data-fph-pause type="button" aria-pressed="false">
+            <i class="fas fa-pause me-1" aria-hidden="true"></i>Pause motion
+          </button>
+          <button class="fph-btn" data-fph-debug type="button" aria-pressed="false">
+            <i class="fas fa-crosshairs me-1" aria-hidden="true"></i>Debug
+          </button>
+        </div>
+
+        <!-- Image layers (populated by CSS via --fph-image variable) -->
+        <div class="fph-layer fph-base"    data-fph-base    aria-hidden="true"></div>
+        <div class="fph-layer fph-focus-a" data-fph-layer-a aria-hidden="true"></div>
+        <div class="fph-layer fph-focus-b" data-fph-layer-b aria-hidden="true"></div>
+
+        <!-- Debug overlay (hidden by default; toggled by .is-debug class) -->
+        <div class="fph-debug-labels" data-fph-debug-labels aria-hidden="true"></div>
+
+        <!-- Text readability gradient -->
+        <div class="fph-overlay" aria-hidden="true"></div>
+
+        <!-- Content -->
+        <div class="fph-content">
+          <p class="fph-eyebrow mb-2">
+            Focus region: <span class="fph-active-region" data-fph-active-label>α-Helix Cluster</span>
+          </p>
+          <h2 class="fph-title display-6 fw-bold mb-3">Molecular Strand Architecture</h2>
+          <p class="fph-lead mb-4">
+            The lens shifts focus across protein domains — a static scientific image made to feel alive through depth and deliberate attention, without distracting from primary content.
+          </p>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-primary" type="button">Explore Structure</button>
+            <button class="btn btn-outline-light" type="button">View Details</button>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-muted small mt-2 mb-0">
+        <i class="fas fa-info-circle me-1" aria-hidden="true"></i>
+        The camera shifts focus to a new region every few seconds. Click <strong>Pause motion</strong> to freeze the effect, or <strong>Debug</strong> to overlay the focus region boundaries.
+      </p>
+    </section>
+
+    <!-- ── B. CSS-only simplified version ─────────────────────── -->
+    <section class="mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">B. CSS-Only</p>
+      <h2 class="h4 mb-3">Simplified CSS Animation — Zero JavaScript</h2>
+
+      <div class="fph-hero fph-css-hero"
+           style="--fph-image: url('../assets/img/molecular-hero.svg')"
+           aria-label="CSS-only hero background with animated focus regions">
+
+        <div class="fph-layer fph-base"    aria-hidden="true"></div>
+        <div class="fph-layer fph-focus-a" aria-hidden="true"></div>
+        <div class="fph-layer fph-focus-b" aria-hidden="true"></div>
+        <div class="fph-overlay"           aria-hidden="true"></div>
+
+        <div class="fph-content">
+          <p class="fph-eyebrow mb-2">CSS-only variant</p>
+          <h2 class="fph-title h3 fw-bold mb-3">Zero-JS Rack Focus</h2>
+          <p class="fph-lead">Two fixed focus regions crossfade using only CSS <code>@keyframes</code> on opacity. No JavaScript required — suitable for teams with strict CSP policies or minimal JS constraints.</p>
+        </div>
+      </div>
+
+      <p class="text-muted small mt-2 mb-0">
+        <i class="fas fa-info-circle me-1" aria-hidden="true"></i>
+        Mask positions are hard-coded in CSS. Tradeoff: cannot dynamically reposition focus or display labels.
+      </p>
+    </section>
+
+    <!-- ── C. Static reduced-motion fallback ──────────────────── -->
+    <section class="mb-4" data-reveal>
+      <p class="pattern-hero-kicker mb-2">C. Static Fallback</p>
+      <h2 class="h4 mb-3">Reduced-Motion / No-Animation Fallback</h2>
+
+      <div class="fph-hero fph-static-hero"
+           style="--fph-image: url('../assets/img/molecular-hero.svg')"
+           aria-label="Static hero background with dark overlay">
+
+        <div class="fph-layer fph-base" aria-hidden="true"></div>
+        <div class="fph-overlay"        aria-hidden="true"></div>
+
+        <div class="fph-content">
+          <p class="fph-eyebrow mb-2">Reduced-motion fallback</p>
+          <h2 class="fph-title h3 fw-bold mb-3">Static Background Mode</h2>
+          <p class="fph-lead">When <code>prefers-reduced-motion: reduce</code> is detected, the base blurred layer stays static. No animation, no crossfade — just a stable dark hero. All content remains legible.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr class="aurora-divider my-2" />
+
+    <!-- ── Documentation ──────────────────────────────────────── -->
+    <section class="mb-4" data-reveal>
+      <h2 class="h4 mb-4">Documentation</h2>
+      <div class="row g-3">
+
+        <!-- What this pattern solves -->
+        <div class="col-lg-6" data-reveal="left">
+          <div class="callout callout-info h-100">
+            <h3 class="h5">What this pattern solves</h3>
+            <p class="mb-0">Scientific, biotech, and research product pages often have high-quality microscopy or visualization images that look flat or static in a hero. The focus-pull pattern makes a single image feel spatially rich and premium without adding motion that competes with the headline or calls to action.</p>
+          </div>
+        </div>
+
+        <!-- When to use it -->
+        <div class="col-lg-6" data-reveal="right">
+          <div class="callout callout-note h-100">
+            <h3 class="h5">When to use it</h3>
+            <ul class="mb-0">
+              <li>Biotech or pharma product landing pages</li>
+              <li>Data visualization or scientific analytics portals</li>
+              <li>Enterprise dashboards where one hero image must communicate depth</li>
+              <li>Any dark-themed page needing ambient motion without distraction</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- How the effect works -->
+        <div class="col-12" data-reveal>
+          <div class="section-shell">
+            <h3 class="h5 mb-3">How the focus-pull effect works</h3>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <p class="fw-semibold mb-1">1. Layer stack</p>
+                <p class="text-muted small mb-0">Three image layers share the same background SVG/image. The bottom layer is blurred and darkened (out-of-focus world). Two focus layers sit above it, each masked to a different region.</p>
+              </div>
+              <div class="col-md-4">
+                <p class="fw-semibold mb-1">2. CSS masking</p>
+                <p class="text-muted small mb-0">Each focus layer uses a <code>radial-gradient</code> mask — sharp in the center of the ellipse, feathered to transparent at the edges. The JavaScript updates the mask position by setting <code>mask-image</code> directly on the element.</p>
+              </div>
+              <div class="col-md-4">
+                <p class="fw-semibold mb-1">3. Crossfade loop</p>
+                <p class="text-muted small mb-0">Focus A is held at full opacity while focus B is pre-positioned at the next mark. After a hold delay, a CSS <code>transition: opacity</code> fades A out while B fades in — a true rack-focus crossfade, never a moving spotlight.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Layer structure -->
+        <div class="col-lg-6" data-reveal="left">
+          <div class="section-shell h-100">
+            <h3 class="h5 mb-3">Layer structure</h3>
+            <ol class="mb-0 ps-3">
+              <li class="mb-1"><strong>Base layer</strong> (<code>.fph-base</code>) — blurred, darkened, slow Ken Burns drift</li>
+              <li class="mb-1"><strong>Focus layer A</strong> (<code>.fph-focus-a</code>) — sharp, elliptical mask, transitions opacity</li>
+              <li class="mb-1"><strong>Focus layer B</strong> (<code>.fph-focus-b</code>) — sharp, elliptical mask, transitions opacity</li>
+              <li class="mb-1"><strong>Overlay</strong> (<code>.fph-overlay</code>) — dark gradient for text readability</li>
+              <li><strong>Content</strong> (<code>.fph-content</code>) — headline, lead text, actions</li>
+            </ol>
+          </div>
+        </div>
+
+        <!-- Performance notes -->
+        <div class="col-lg-6" data-reveal="right">
+          <div class="callout callout-warning h-100">
+            <h3 class="h5">Performance notes</h3>
+            <ul class="mb-0">
+              <li>All animation uses <code>opacity</code> and <code>transform</code> — GPU-composited, no layout reflow</li>
+              <li>Mask changes update only paint, not layout</li>
+              <li>The SVG background is inline-loaded by the browser once, then composited per layer without refetch</li>
+              <li>Ken Burns uses <code>will-change: transform</code> to promote the layer to its own compositor layer</li>
+              <li>The CSS-only variant removes all JavaScript overhead entirely</li>
+              <li>Avoid using a large raster image (PNG/JPEG) if the hero is large — SVG scales at zero cost</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Accessibility notes -->
+        <div class="col-lg-6" data-reveal="left">
+          <div class="callout callout-success h-100">
+            <h3 class="h5">Accessibility notes</h3>
+            <ul class="mb-0">
+              <li><code>prefers-reduced-motion</code> is checked in JS before starting the animation loop; the static fallback activates automatically</li>
+              <li>The global <code>@media (prefers-reduced-motion)</code> rule in <code>base.css</code> also disables CSS animations, covering the CSS-only variant</li>
+              <li>A visible <strong>Pause motion</strong> control is always present for users who prefer to stop the effect without a system-level setting</li>
+              <li>All decorative image layers use <code>aria-hidden="true"</code></li>
+              <li>Text contrast meets WCAG AA — the dark overlay ensures a legible background regardless of image content</li>
+              <li>No information is conveyed through the animation; the hero text is independent of motion state</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Razor Pages mapping -->
+        <div class="col-lg-6" data-reveal="right">
+          <div class="section-shell h-100">
+            <h3 class="h5 mb-3">Razor Pages mapping</h3>
+            <ul class="mb-0">
+              <li class="mb-1"><strong><code>_Layout.cshtml</code></strong> — add <code>&lt;link&gt;</code> for <code>focus-pull-hero.css</code> and (optionally) the JS module <code>&lt;script type="module"&gt;</code></li>
+              <li class="mb-1"><strong><code>Views/Shared/_FocusPullHero.cshtml</code></strong> — the HTML layer stack partial, accepting model properties for image URL, title, lead, and button text</li>
+              <li class="mb-1"><strong><code>wwwroot/js/focus-pull-hero.js</code></strong> — copy <code>assets/js/patterns/focus-pull-hero.js</code>; adjust the import path for <code>motion.js</code> utilities or inline the <code>prefersReducedMotion</code> helper</li>
+              <li><strong><code>wwwroot/css/focus-pull-hero.css</code></strong> — copy <code>assets/css/patterns/focus-pull-hero.css</code> into the shared CSS bundle or include as a scoped stylesheet</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Tuning focus marks ──────────────────────────────────── -->
+    <section class="mb-4" data-reveal>
+      <h2 class="h4 mb-3">Tuning focus marks</h2>
+      <p class="text-muted mb-3">Each entry in <code>focusMarks</code> defines where the camera "looks". Adjust these to match the interesting regions of your own background image.</p>
+      <div class="code-shell mb-3">
+        <div class="code-shell-toolbar">
+          <span class="language-tag">JavaScript</span>
+          <button class="btn btn-sm btn-outline-primary" data-copy-target="#focusMarksSnippet" type="button">Copy</button>
+        </div>
+<pre class="m-0"><code id="focusMarksSnippet" class="language-js">export const focusMarks = [
+  // x, y  = center of the focus ellipse (% of the hero element)
+  // w, h  = ellipse radii (% of hero width / height)
+  // label = displayed in the eyebrow and debug overlay
+  { id: "alpha", x: "22%", y: "44%", w: "44%", h: "54%", label: "α-Helix Cluster"  },
+  { id: "beta",  x: "62%", y: "30%", w: "40%", h: "50%", label: "β-Sheet Network"   },
+  { id: "gamma", x: "76%", y: "58%", w: "38%", h: "48%", label: "γ-Node Junction"  },
+  { id: "delta", x: "44%", y: "58%", w: "36%", h: "46%", label: "δ-Bridge Cluster" },
+];
+
+// To override per-page:
+animateFocusPull(document.querySelector("[data-focus-pull-hero]"), [
+  { id: "left",  x: "20%", y: "50%", w: "38%", h: "52%", label: "Left region"  },
+  { id: "right", x: "75%", y: "50%", w: "38%", h: "52%", label: "Right region" },
+]);</code></pre>
+      </div>
+
+      <p class="text-muted mb-0 small">
+        Use the <strong>Debug</strong> button on the live demo to visualise region boundaries as dashed ellipses — adjust <code>x</code>/<code>y</code>/<code>w</code>/<code>h</code> until each ellipse encloses the feature you want in focus.
+      </p>
+    </section>
+
+    <!-- ── Replacing the background image ─────────────────────── -->
+    <section class="mb-4" data-reveal>
+      <h2 class="h4 mb-3">Replacing the background image</h2>
+      <p class="text-muted mb-3">The image URL is set via the CSS custom property <code>--fph-image</code> on the hero element. Change it in the HTML without touching the CSS or JS:</p>
+      <div class="code-shell mb-3">
+        <div class="code-shell-toolbar">
+          <span class="language-tag">HTML</span>
+          <button class="btn btn-sm btn-outline-primary" data-copy-target="#imageReplaceSnippet" type="button">Copy</button>
+        </div>
+<pre class="m-0"><code id="imageReplaceSnippet" class="language-html">&lt;!-- Replace the SVG with any image format --&gt;
+&lt;div class="fph-hero"
+     data-focus-pull-hero
+     style="--fph-image: url('/images/my-background.jpg')"&gt;
+  ...
+&lt;/div&gt;
+
+&lt;!-- Razor Pages equivalent --&gt;
+&lt;div class="fph-hero"
+     data-focus-pull-hero
+     style="--fph-image: url('@Url.Content("~/images/my-background.jpg")')"&gt;
+  ...
+&lt;/div&gt;</code></pre>
+      </div>
+      <p class="text-muted small mb-0">Use SVG for illustrations and icons (infinite resolution, no refetch cost). Use WebP/AVIF for photographic images. The dark overlay layer will mask poor contrast regardless of image content.</p>
+    </section>
+
+    <!-- ── Copy-paste starter snippet ─────────────────────────── -->
+    <section class="mb-4" data-reveal>
+      <h2 class="h4 mb-3">Copy-paste starter snippet</h2>
+      <p class="text-muted mb-3">Minimal markup needed to get the JS-animated version running:</p>
+      <div class="code-shell mb-3">
+        <div class="code-shell-toolbar">
+          <span class="language-tag">HTML</span>
+          <button class="btn btn-sm btn-outline-primary" data-copy-target="#starterSnippet" type="button">Copy</button>
+        </div>
+<pre class="m-0"><code id="starterSnippet" class="language-html">&lt;!-- 1. CSS --&gt;
+&lt;link rel="stylesheet" href="/css/focus-pull-hero.css" /&gt;
+
+&lt;!-- 2. HTML --&gt;
+&lt;div class="fph-hero"
+     data-focus-pull-hero
+     style="--fph-image: url('/img/molecular-hero.svg')"
+     aria-label="Animated hero background"&gt;
+
+  &lt;!-- Controls --&gt;
+  &lt;div class="fph-controls"&gt;
+    &lt;button class="fph-btn" data-fph-pause type="button" aria-pressed="false"&gt;Pause motion&lt;/button&gt;
+    &lt;button class="fph-btn" data-fph-debug type="button" aria-pressed="false"&gt;Debug&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;!-- Image layers --&gt;
+  &lt;div class="fph-layer fph-base"    data-fph-base    aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;div class="fph-layer fph-focus-a" data-fph-layer-a aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;div class="fph-layer fph-focus-b" data-fph-layer-b aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;div class="fph-debug-labels"      data-fph-debug-labels aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;div class="fph-overlay"           aria-hidden="true"&gt;&lt;/div&gt;
+
+  &lt;!-- Content --&gt;
+  &lt;div class="fph-content"&gt;
+    &lt;p class="fph-eyebrow"&gt;Focus region: &lt;span data-fph-active-label&gt;&lt;/span&gt;&lt;/p&gt;
+    &lt;h1 class="fph-title"&gt;Your headline&lt;/h1&gt;
+    &lt;p class="fph-lead"&gt;Your lead text.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- 3. JavaScript (ES module) --&gt;
+&lt;script type="module"&gt;
+  import { initializeFocusPullHeroDemo } from "/js/focus-pull-hero.js";
+  initializeFocusPullHeroDemo();
+&lt;/script&gt;</code></pre>
+      </div>
+    </section>
+
+    <!-- ── Razor Pages partial mapping ────────────────────────── -->
+    <section class="mb-4" data-reveal>
+      <h2 class="h4 mb-3">Razor Pages partial: <code>_FocusPullHero.cshtml</code></h2>
+      <p class="text-muted mb-3">A reusable partial that accepts model data for the image URL, headline, and lead text:</p>
+      <div class="code-shell mb-3">
+        <div class="code-shell-toolbar">
+          <span class="language-tag">Razor / C#</span>
+          <button class="btn btn-sm btn-outline-primary" data-copy-target="#razorSnippet" type="button">Copy</button>
+        </div>
+<pre class="m-0"><code id="razorSnippet" class="language-html">@* Views/Shared/_FocusPullHero.cshtml *@
+@model FocusPullHeroModel
+
+&lt;div class="fph-hero"
+     data-focus-pull-hero
+     style="--fph-image: url('@Url.Content(Model.ImageUrl)')"
+     aria-label="@Model.AriaLabel"&gt;
+
+  &lt;div class="fph-controls"&gt;
+    &lt;button class="fph-btn" data-fph-pause type="button" aria-pressed="false"&gt;Pause motion&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class="fph-layer fph-base"    data-fph-base    aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;div class="fph-layer fph-focus-a" data-fph-layer-a aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;div class="fph-layer fph-focus-b" data-fph-layer-b aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;div class="fph-debug-labels"      data-fph-debug-labels aria-hidden="true"&gt;&lt;/div&gt;
+  &lt;div class="fph-overlay"           aria-hidden="true"&gt;&lt;/div&gt;
+
+  &lt;div class="fph-content"&gt;
+    @if (!string.IsNullOrEmpty(Model.Eyebrow))
+    {
+      &lt;p class="fph-eyebrow mb-2"&gt;@Model.Eyebrow&lt;/p&gt;
+    }
+    &lt;h1 class="fph-title display-6 fw-bold mb-3"&gt;@Model.Title&lt;/h1&gt;
+    &lt;p class="fph-lead mb-4"&gt;@Model.Lead&lt;/p&gt;
+    @if (Model.Actions != null)
+    {
+      &lt;div class="d-flex flex-wrap gap-2"&gt;
+        @foreach (var action in Model.Actions)
+        {
+          &lt;a class="btn @action.CssClass" href="@action.Url"&gt;@action.Label&lt;/a&gt;
+        }
+      &lt;/div&gt;
+    }
+  &lt;/div&gt;
+&lt;/div&gt;
+
+@* _Layout.cshtml — add before closing &lt;/body&gt; *@
+@* &lt;script type="module" src="~/js/focus-pull-hero.js"&gt;&lt;/script&gt; *@</code></pre>
+      </div>
+    </section>
+
+    <!-- ── Disabling or reducing motion ───────────────────────── -->
+    <section class="row g-3 mb-4" data-reveal>
+      <div class="col-lg-6" data-reveal="left">
+        <div class="callout callout-note h-100">
+          <h3 class="h5">How to disable motion</h3>
+          <ul class="mb-0">
+            <li><strong>User-level:</strong> enable <code>prefers-reduced-motion</code> in OS settings — both CSS animations and JS loop are automatically disabled</li>
+            <li><strong>Page-level:</strong> add <code>data-fph-pause</code> attribute to a button with initial <code>aria-pressed="true"</code> and the JS will start in the paused state</li>
+            <li><strong>Global:</strong> to strip all motion permanently, use <code>fph-static-hero</code> class instead of the animated markup</li>
+            <li><strong>CSS-only:</strong> override <code>.fph-base { animation: none; }</code> in your own stylesheet</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-lg-6" data-reveal="right">
+        <div class="callout callout-warning h-100">
+          <h3 class="h5">When not to use this pattern</h3>
+          <ul class="mb-0">
+            <li>High-frequency CRUD screens where users need fast focus on controls</li>
+            <li>Accessibility-first pages where any background motion would be a distraction even for users without vestibular sensitivity</li>
+            <li>Pages that already have significant foreground animation (chart entrances, data transitions)</li>
+            <li>Mobile-only contexts with limited GPU bandwidth — test on target devices</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Related patterns ────────────────────────────────────── -->
+    <section class="row g-3" data-reveal>
+      <div class="col-12">
+        <h2 class="h5 mb-3">Related patterns</h2>
+      </div>
+      <div class="col-md-4">
+        <div class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">Headers</span>
+          <h3 class="h6">Technical Aurora Hero</h3>
+          <p class="text-muted small mb-3">CSS-generated layered hero with mesh drift and orbital accent. No image file required.</p>
+          <a class="pattern-link" href="./advanced-headers.html">Open pattern</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">Motion</span>
+          <h3 class="h6">Dashboard Motion System</h3>
+          <p class="text-muted small mb-3">Staggered reveal, count-up metrics, and status strip transitions for enterprise dashboards.</p>
+          <a class="pattern-link" href="./dashboard-motion.html">Open pattern</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card pattern-card p-3 h-100">
+          <span class="badge badge-soft mb-2">CSS-only</span>
+          <h3 class="h6">Visual Elements</h3>
+          <p class="text-muted small mb-3">Aurora panels, glow dividers, and focus framing with no JS dependency.</p>
+          <a class="pattern-link" href="./css-visual-elements.html">Open pattern</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="container-xl site-footer mt-4">
+    <div class="d-flex flex-wrap justify-content-between gap-2">
+      <span>Razor UI Patterns</span>
+      <a href="./advanced-ui.html" class="text-muted small">&larr; Back to Advanced UI</a>
+    </div>
+  </footer>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

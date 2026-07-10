@@ -1,0 +1,272 @@
+/* ================================================================
+   Focus-Pull Hero — rack-focus / camera depth-of-field pattern
+   ================================================================ */
+
+/* ── Container ─────────────────────────────────────────────────── */
+.fph-hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  min-height: 30rem;
+  background: #060d18;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid rgba(96, 165, 250, 0.14);
+}
+
+/* ── Shared image layer base ────────────────────────────────────── */
+.fph-layer {
+  position: absolute;
+  inset: 0;
+  background-image: var(--fph-image);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ── Base layer: blurred, darkened, Ken Burns drift ────────────── */
+.fph-base {
+  filter: blur(9px) brightness(0.48) saturate(0.9);
+  /* Scale up to prevent blur edge artifacts */
+  transform: scale(1.12);
+  transform-origin: center;
+  animation: fph-ken-burns 48s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* ── Focus layers: sharp, masked to a region ───────────────────── */
+.fph-focus-a,
+.fph-focus-b {
+  filter: brightness(0.80) saturate(1.1);
+  transition: opacity 1.8s ease-in-out;
+  will-change: opacity, mask-image;
+  /* mask-image and opacity are set by JS */
+}
+
+/* ── Dark overlay for text readability ─────────────────────────── */
+.fph-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(4, 10, 22, 0.78) 0%, rgba(4, 10, 22, 0.44) 52%, rgba(4, 10, 22, 0.22) 100%),
+    linear-gradient(to bottom, rgba(4, 10, 22, 0.22) 0%, rgba(4, 10, 22, 0.66) 100%);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* ── Hero content (text + buttons) ─────────────────────────────── */
+.fph-content {
+  position: relative;
+  z-index: 4;
+  max-width: 44rem;
+  padding: clamp(1.6rem, 3vw, 2.8rem);
+  color: #e2e8f0;
+}
+
+.fph-eyebrow {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(147, 197, 253, 0.88);
+  font-weight: 700;
+  font-family: var(--font-heading);
+}
+
+.fph-title {
+  color: #f1f5f9;
+}
+
+.fph-lead {
+  color: rgba(203, 213, 225, 0.90);
+  line-height: 1.64;
+}
+
+/* ── Controls (pause / debug) ───────────────────────────────────── */
+.fph-controls {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 5;
+  display: flex;
+  gap: 0.45rem;
+}
+
+.fph-btn {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-sm);
+  padding: 0.3rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.fph-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.fph-btn:focus-visible {
+  outline: 2px solid rgba(96, 165, 250, 0.7);
+  outline-offset: 2px;
+}
+
+.fph-btn[aria-pressed="true"],
+.fph-btn.is-active {
+  background: rgba(96, 165, 250, 0.22);
+  border-color: rgba(96, 165, 250, 0.52);
+  color: #93c5fd;
+}
+
+/* ── Active label indicator ─────────────────────────────────────── */
+.fph-active-region {
+  display: inline-block;
+  font-weight: 700;
+  transition: opacity 0.4s ease;
+}
+
+.fph-active-region.is-fading {
+  opacity: 0;
+}
+
+/* ── Debug mode: show focus region borders ──────────────────────── */
+.fph-debug-labels {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  display: none;
+}
+
+.fph-hero.is-debug .fph-debug-labels {
+  display: block;
+}
+
+.fph-debug-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 1.5px dashed rgba(252, 211, 77, 0.72);
+  border-radius: 50%;
+  transition: opacity 0.4s ease;
+}
+
+.fph-debug-label-text {
+  position: absolute;
+  top: calc(50% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fcd34d;
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+  padding: 0.14rem 0.42rem;
+  border-radius: 3px;
+  margin-top: 0.5em;
+}
+
+.fph-debug-label.is-active-region {
+  border-color: rgba(167, 139, 250, 0.88);
+  border-style: solid;
+}
+
+.fph-debug-label.is-active-region .fph-debug-label-text {
+  color: #c4b5fd;
+}
+
+/* ── Ken Burns base layer animation ────────────────────────────── */
+@keyframes fph-ken-burns {
+  from {
+    transform: scale(1.12) translate(0, 0);
+  }
+  to {
+    transform: scale(1.18) translate(-1.4%, 0.9%);
+  }
+}
+
+/* ── Paused state ───────────────────────────────────────────────── */
+.fph-hero.is-paused .fph-base {
+  animation-play-state: paused;
+}
+
+/* ── CSS-only variant ───────────────────────────────────────────── */
+.fph-css-hero {
+  min-height: 22rem;
+}
+
+.fph-css-hero .fph-focus-a {
+  -webkit-mask-image: radial-gradient(ellipse 44% 54% at 22% 44%, black 42%, rgba(0, 0, 0, 0.35) 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse 44% 54% at 22% 44%, black 42%, rgba(0, 0, 0, 0.35) 68%, transparent 100%);
+  opacity: 0;
+  animation: fph-css-cycle-a 16s ease-in-out infinite;
+  /* Override transition so CSS animation controls opacity */
+  transition: none;
+}
+
+.fph-css-hero .fph-focus-b {
+  -webkit-mask-image: radial-gradient(ellipse 40% 50% at 62% 30%, black 42%, rgba(0, 0, 0, 0.35) 68%, transparent 100%);
+  mask-image: radial-gradient(ellipse 40% 50% at 62% 30%, black 42%, rgba(0, 0, 0, 0.35) 68%, transparent 100%);
+  opacity: 1;
+  animation: fph-css-cycle-b 16s ease-in-out infinite;
+  transition: none;
+}
+
+@keyframes fph-css-cycle-a {
+  0%, 8% { opacity: 0; }
+  20%, 45% { opacity: 1; }
+  55%, 100% { opacity: 0; }
+}
+
+@keyframes fph-css-cycle-b {
+  0%, 8% { opacity: 1; }
+  20%, 45% { opacity: 0; }
+  55%, 100% { opacity: 1; }
+}
+
+/* ── Static fallback (reduced motion / no-JS display) ───────────── */
+.fph-static-hero {
+  min-height: 20rem;
+}
+
+.fph-static-hero .fph-base {
+  animation: none;
+  filter: blur(0) brightness(0.65);
+  transform: none;
+}
+
+.fph-static-hero .fph-focus-a,
+.fph-static-hero .fph-focus-b {
+  display: none;
+}
+
+/* ── Reduced motion overrides ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .fph-base {
+    animation: none;
+    transform: scale(1.04); /* Keep slight scale for blur edge coverage */
+  }
+
+  .fph-focus-a,
+  .fph-focus-b {
+    transition: none;
+  }
+
+  .fph-css-hero .fph-focus-a,
+  .fph-css-hero .fph-focus-b {
+    animation: none;
+  }
+
+  /* Show a static focused region instead of animating */
+  .fph-css-hero .fph-focus-a {
+    opacity: 1;
+  }
+  .fph-css-hero .fph-focus-b {
+    opacity: 0;
+  }
+}
