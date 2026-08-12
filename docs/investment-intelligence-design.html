@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Market Compass technical and product design for an evidence-based investment research workbench built with Pine Script, ASP.NET Core, quantitative analysis, and point-in-time RAG." />
+  <title>Market Compass Design | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/motion.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/navigation.css" />
+  <link rel="stylesheet" href="../assets/css/components/cards.css" />
+  <link rel="stylesheet" href="../assets/css/components/callouts.css" />
+  <link rel="stylesheet" href="../assets/css/components/code-blocks.css" />
+  <link rel="stylesheet" href="../assets/css/patterns/investment-intelligence-design.css" />
+</head>
+<body data-site-root=".." class="market-compass-page">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../patterns/chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="../patterns/advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./conventions.html">Conventions</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./htmx-spike.html">HTMX Spike</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button"><i class="fas fa-moon me-1" aria-hidden="true"></i>Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="site-hero mb-4">
+      <p class="pattern-hero-kicker mb-2">Technical product case study · Working title</p>
+      <h1 class="display-5 fw-bold mb-3" id="overview">Market Compass</h1>
+      <p class="lead text-muted mb-3">An incremental research platform that detects market conditions, measures historical outcomes, assembles point-in-time evidence, and helps investors inspect a thesis before making a decision.</p>
+      <div class="callout callout-warning mb-3"><strong>Research, not a recommendation.</strong> Market Compass is a planning and learning project. It does not predict markets, guarantee returns, place trades, or replace qualified financial advice.</div>
+      <div class="mc-hero-grid mb-3" aria-label="Product priorities">
+        <div class="mc-stat"><span class="mc-kicker">Principle</span><strong>Evidence over prediction</strong><span class="text-muted">Show what supports and contradicts an interpretation.</span></div>
+        <div class="mc-stat"><span class="mc-kicker">Integrity</span><strong>Point-in-time knowledge</strong><span class="text-muted">Use only information available at the evaluation date.</span></div>
+        <div class="mc-stat"><span class="mc-kicker">Outcome</span><strong>Traceable reasoning</strong><span class="text-muted">Remember what was believed, decided, and learned.</span></div>
+      </div>
+      <div class="d-flex flex-wrap gap-2 page-hero__actions">
+        <a class="btn btn-primary" href="#product-thesis">Explore the product thesis</a>
+        <a class="btn btn-outline-primary" href="#roadmap">View the roadmap</a>
+      </div>
+    </section>
+
+    <section class="row g-4">
+      <aside class="col-lg-3">
+        <div class="spike-toc spike-toc-sticky p-3" aria-label="On this page">
+          <h2 class="h6 text-uppercase mb-3">On this page</h2>
+          <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action px-2" href="#executive-summary">Executive summary</a>
+            <a class="list-group-item list-group-item-action px-2" href="#pine-primer">Pine Script primer</a>
+            <a class="list-group-item list-group-item-action px-2" href="#market-concepts">Finance for developers</a>
+            <a class="list-group-item list-group-item-action px-2" href="#product-thesis">Product thesis</a>
+            <a class="list-group-item list-group-item-action px-2" href="#building-blocks">Building blocks</a>
+            <a class="list-group-item list-group-item-action px-2" href="#analytics">Deterministic analytics</a>
+            <a class="list-group-item list-group-item-action px-2" href="#evidence-system">RAG and evidence</a>
+            <a class="list-group-item list-group-item-action px-2" href="#thesis-decisions">Theses and decisions</a>
+            <a class="list-group-item list-group-item-action px-2" href="#data-sources">Data sources</a>
+            <a class="list-group-item list-group-item-action px-2" href="#data-architecture">Data architecture</a>
+            <a class="list-group-item list-group-item-action px-2" href="#existing-repository">Repository fit</a>
+            <a class="list-group-item list-group-item-action px-2" href="#product-experience">Product experience</a>
+            <a class="list-group-item list-group-item-action px-2" href="#roadmap">Roadmap</a>
+            <a class="list-group-item list-group-item-action px-2" href="#risks-testing">Risks and testing</a>
+            <a class="list-group-item list-group-item-action px-2" href="#references">References</a>
+          </div>
+        </div>
+      </aside>
+
+      <div class="col-lg-9">
+        <section class="doc-section p-4 mb-3 spike-anchor" id="executive-summary">
+          <span class="mc-kicker">Executive summary</span>
+          <h2 class="h3 mt-1">A workbench for inspectable investment reasoning</h2>
+          <p>The long-term thesis is simple: detect a meaningful condition, assemble relevant quantitative and qualitative evidence, compare the present with historical observations, and show what deserves deeper investigation. The system should answer <em>what changed, why it may matter, what supports the idea, what contradicts it, and what would invalidate it</em>—not collapse uncertainty into a magic score.</p>
+          <blockquote class="callout callout-info mb-3">“Detect meaningful market conditions, assemble relevant evidence, compare the current situation with history, and help the investor decide what deserves deeper investigation.”</blockquote>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">For the developer</h3><p class="mb-0 text-muted">A modular, testable path from Pine experiments to ASP.NET Core, PostgreSQL, deterministic analysis, temporal retrieval, and a citation-first research UI.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">For the investor</h3><p class="mb-0 text-muted">A guided way to understand conditions, test hypotheses, record decisions before outcomes, and learn without confusing correlation with certainty.</p></div></div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="pine-primer">
+          <span class="mc-kicker">Part 1</span>
+          <h2 class="h3 mt-1">Pine Script v6 for a .NET developer</h2>
+          <p><a href="https://www.tradingview.com/pine-script-docs/welcome/" target="_blank" rel="noopener">Pine Script v6</a> is TradingView’s cloud-based, domain-specific language for calculations on financial time series. It is designed for indicators, chart visualization, strategies and historical backtests, alerts, multi-timeframe analysis, condition detection, and reusable libraries. It is not a general application platform: databases, arbitrary file I/O, broad REST integration, distributed workflows, and full web applications belong in .NET or another general-purpose environment.</p>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">Traditional application</h3><pre class="mb-2"><code class="language-csharp">foreach (var candle in candles)
+{
+    Analyze(candle);
+}</code></pre><p class="mb-0 text-muted">Explicit control flow: request → business logic → response.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">Pine’s mental model</h3><pre class="mb-2"><code class="language-plaintext">Bar → evaluate state → plot/signal
+Bar → evaluate state → plot/signal
+Bar → evaluate state → plot/signal</code></pre><p class="mb-0 text-muted"><code>close</code>, <code>high</code>, <code>low</code>, and <code>volume</code> are series whose value changes across chart bars.</p></div></div>
+          </div>
+          <pre><code class="language-plaintext">close       current bar value
+close[1]    previous bar value
+close[10]   value ten bars ago</code></pre>
+          <p>This series-first execution model makes Pine an excellent learning and visualization environment. It lets a developer see whether an MA, RSI, volatility, or breakout calculation behaves sensibly on a chart before implementing a durable, testable equivalent in .NET.</p>
+
+          <h3 class="h4 mt-4">Pine’s bounded role</h3>
+          <div class="mc-architecture mb-3" role="img" aria-label="TradingView Pine Script detects conditions and sends alerts through a webhook to an ASP.NET Core API, which stores data and launches analysis and evidence workflows for a research user interface.">
+            <div class="mc-node mc-node--accent"><span class="mc-kicker">Experiment</span><strong>TradingView + Pine</strong><ul class="small mb-0"><li>Trend and momentum</li><li>Volume and volatility</li><li>Breakouts and alerts</li></ul></div>
+            <div class="mc-node"><span class="mc-kicker">Ingress</span><strong>Webhook event</strong><p class="small text-muted">Validated JSON POST; acknowledge quickly.</p></div>
+            <div class="mc-node mc-node--accent"><span class="mc-kicker">Application</span><strong>ASP.NET Core API</strong><p class="small text-muted">Authenticate, deduplicate, persist, and enqueue.</p></div>
+            <div class="mc-node"><strong>PostgreSQL</strong><p class="small text-muted">Bars, events, snapshots, provenance.</p></div>
+            <div class="mc-node"><strong>Analysis modules</strong><p class="small text-muted">Deterministic calculations and historical outcomes.</p></div>
+            <div class="mc-node"><strong>Evidence pipeline</strong><p class="small text-muted">Point-in-time retrieval, citations, and briefs.</p></div>
+            <div class="mc-node mc-node--wide mc-node--accent text-center"><strong>Razor/React research workbench</strong><p class="small text-muted">Inspect conditions, evidence, contradictions, theses, decisions, and outcomes.</p></div>
+          </div>
+          <div class="callout callout-note"><strong>Webhook design note:</strong> TradingView sends alert messages by HTTP POST and uses JSON content type when the body is valid JSON. The receiver should use HTTPS, authenticate the source, reject malformed or replayed events, create an idempotency key, persist/enqueue within the short response window, and monitor retries and dead letters. Never place secrets in alert bodies.</div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="market-concepts">
+          <span class="mc-kicker">Part 2</span>
+          <h2 class="h3 mt-1">Market concepts in developer language</h2>
+          <p>This is the minimum financial vocabulary needed to understand the system. None of these measurements independently predicts the future.</p>
+          <div class="row g-3">
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Asset / security</dt><dd><strong>Meaning:</strong> Something tradable; MSFT is company stock and SPY is an ETF tracking the S&amp;P 500.</dd><dd><strong>Developer analogy:</strong> The entity key around which observations are grouped.</dd><dd><strong>Why it matters:</strong> Every bar, event, thesis, and decision needs an unambiguous instrument identity.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Index and benchmark</dt><dd><strong>Meaning:</strong> An index measures a group of securities. The S&amp;P 500 represents large U.S. companies; SPY is a commonly studied tradable proxy.</dd><dd><strong>Developer analogy:</strong> A baseline integration test.</dd><dd><strong>Why it matters:</strong> A +12% result underperformed if SPY returned +18%.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Price / OHLC</dt><dd><strong>Meaning:</strong> Open, high, low, and close summarize a trading interval.</dd><dd><strong>Developer analogy:</strong> A time-stamped record: <code>{ open, high, low, close, volume }</code>.</dd><dd><strong>Why it matters:</strong> It is the base time series for indicators, outcomes, and charts.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Volume</dt><dd><strong>Meaning:</strong> The amount traded during an interval; it describes participation, not direction.</dd><dd><strong>Developer analogy:</strong> Request throughput accompanying a state change.</dd><dd><strong>Why it matters:</strong> A move with unusual participation may deserve different investigation than a thinly traded move.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Moving average</dt><dd><strong>Meaning:</strong> A rolling mean over N observations. MA20, MA50, and MA200 approximate short, intermediate, and long horizons.</dd><dd><strong>Developer analogy:</strong> A sliding-window aggregate.</dd><dd><strong>Why it matters:</strong> Price above a rising MA200 is one explainable—not infallible—description of positive long-term trend.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Trend</dt><dd><strong>Meaning:</strong> Whether general price direction is upward, downward, or flat over a stated horizon.</dd><dd><strong>Developer analogy:</strong> The slope and state of a monitored metric.</dd><dd><strong>Why it matters:</strong> Short- and long-term trends can disagree and create distinct historical conditions.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Momentum and RSI</dt><dd><strong>Meaning:</strong> Momentum describes recent movement strength. RSI is a bounded momentum oscillator, not an automatic command.</dd><dd><strong>Developer analogy:</strong> Rate-of-change telemetry normalized into a range.</dd><dd><strong>Why it matters:</strong> It helps describe whether a move is accelerating, weakening, or extended.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Volatility and VIX</dt><dd><strong>Meaning:</strong> Volatility measures the size and speed of price variation. VIX reflects option-implied expectations for S&amp;P 500 volatility.</dd><dd><strong>Developer analogy:</strong> Variance and instability, not positive or negative direction.</dd><dd><strong>Why it matters:</strong> Risk conditions alter outcome distributions; universal VIX thresholds should be avoided.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Market breadth</dt><dd><strong>Meaning:</strong> How many securities participate in a market move.</dd><dd><strong>Developer analogy:</strong> Fleet health versus one large server’s health.</dd><dd><strong>Why it matters:</strong> An index led by a few large companies differs from a broadly advancing market.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Relative strength</dt><dd><strong>Meaning:</strong> Performance compared with another asset or benchmark—not RSI. If SPY is +8%, technology +12%, and MSFT +17%, MSFT leads both.</dd><dd><strong>Developer analogy:</strong> Comparative performance against control groups.</dd><dd><strong>Why it matters:</strong> It locates where strength or weakness is concentrated.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Return and drawdown</dt><dd><strong>Meaning:</strong> Return is price change over a defined horizon; drawdown is decline from a previous peak (100 to 80 = −20%).</dd><dd><strong>Developer analogy:</strong> Throughput gain plus worst degradation from peak capacity.</dd><dd><strong>Why it matters:</strong> 1-day, 30-day, 90-day, and 1-year returns need risk context. Median is often less distorted than average by extremes.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Fundamentals</dt><dd><strong>Meaning:</strong> Business performance: revenue, earnings, growth, free cash flow, margins, debt, and shares outstanding.</dd><dd><strong>Developer analogy:</strong> Service internals rather than the market’s externally observed latency.</dd><dd><strong>Why it matters:</strong> A stock price and the underlying company can tell different stories.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Valuation</dt><dd><strong>Meaning:</strong> Price relative to business measures; P/E compares share price with earnings per share.</dd><dd><strong>Developer analogy:</strong> Acquisition cost relative to generated capacity.</dd><dd><strong>Why it matters:</strong> A great company is not automatically a good investment at every price.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Market regime</dt><dd><strong>Meaning:</strong> An explainable classification such as Strong Bull, Bull, Cautious, Correction, Bear, or Recovery.</dd><dd><strong>Developer analogy:</strong> A configuration-driven state machine.</dd><dd><strong>Why it matters:</strong> The same signal can produce different outcome distributions in different environments.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Backtesting</dt><dd><strong>Meaning:</strong> Apply fixed rules to historical data and observe how they would have behaved.</dd><dd><strong>Developer analogy:</strong> Replay production traffic against an old release.</dd><dd><strong>Why it matters:</strong> It generates evidence, but overfitting, look-ahead and survivorship bias, data quality, regime change, and costs can invalidate results.</dd></dl></div>
+            <div class="col-md-6"><dl class="card h-100 p-3 mc-term-card"><dt>Correlation versus causation</dt><dd><strong>Meaning:</strong> “Rates fell and technology rose” does not prove that falling rates caused the rise.</dd><dd><strong>Developer analogy:</strong> Correlated alerts do not establish a dependency graph.</dd><dd><strong>Why it matters:</strong> The UI must label observed relationships, possible drivers, supporting evidence, and contradictions without inventing certainty.</dd></dl></div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="product-thesis">
+          <span class="mc-kicker">Parts 3 and 27–28</span>
+          <h2 class="h3 mt-1">From observation to learning</h2>
+          <div class="mc-flow mb-3" role="img" aria-label="Observe, measure, compare, test, explain, form a thesis, decide, review the outcome, and learn.">
+            <div class="mc-stage"><strong>Observe</strong></div><span class="mc-arrow">→</span>
+            <div class="mc-stage"><strong>Measure</strong></div><span class="mc-arrow">→</span>
+            <div class="mc-stage"><strong>Compare</strong></div><span class="mc-arrow">→</span>
+            <div class="mc-stage"><strong>Test</strong></div><span class="mc-arrow">→</span>
+            <div class="mc-stage"><strong>Explain</strong></div><span class="mc-arrow">→</span>
+            <div class="mc-stage"><strong>Thesis</strong></div><span class="mc-arrow">→</span>
+            <div class="mc-stage"><strong>Decide</strong></div><span class="mc-arrow">→</span>
+            <div class="mc-stage"><strong>Review</strong></div><span class="mc-arrow">→</span>
+            <div class="mc-stage"><strong>Learn</strong></div>
+          </div>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><ol class="card h-100 p-3 ps-5 mb-0"><li><strong>What is happening?</strong></li><li><strong>Is it unusual?</strong></li><li><strong>What usually happened afterward?</strong></li><li><strong>What other conditions matter?</strong></li></ol></div>
+            <div class="col-md-6"><ol class="card h-100 p-3 ps-5 mb-0" start="5"><li><strong>What supports or contradicts the thesis?</strong></li><li><strong>How does it fit the portfolio?</strong></li><li><strong>What can previous decisions teach?</strong></li></ol></div>
+          </div>
+          <h3 class="h4">Project principles</h3>
+          <div class="row g-2">
+            <div class="col-md-6"><div class="callout callout-success h-100"><strong>Evidence over prediction.</strong> Describe uncertainty; do not pretend to know the future.</div></div>
+            <div class="col-md-6"><div class="callout callout-info h-100"><strong>Explain every signal.</strong> Every state must expose inputs and rules.</div></div>
+            <div class="col-md-6"><div class="callout callout-note h-100"><strong>Point-in-time integrity.</strong> Historical analysis cannot use future knowledge.</div></div>
+            <div class="col-md-6"><div class="callout callout-note h-100"><strong>Source everything.</strong> Material claims retain provenance and citations.</div></div>
+            <div class="col-md-6"><div class="callout callout-info h-100"><strong>Separate data from interpretation.</strong> Code computes facts; LLMs explain supplied facts.</div></div>
+            <div class="col-md-6"><div class="callout callout-success h-100"><strong>Record before outcomes.</strong> Immutable decision snapshots reduce hindsight bias.</div></div>
+            <div class="col-md-6"><div class="callout callout-warning h-100"><strong>Seek contradiction.</strong> Do not build a confirmation engine.</div></div>
+            <div class="col-md-6"><div class="callout h-100"><strong>Complexity earns its place.</strong> Begin with a modular monolith and measurable needs.</div></div>
+          </div>
+          <p class="mt-3 mb-0">Charting, indicators, news, fundamentals, and AI summaries already exist elsewhere. The potential differentiation is their combination with point-in-time retrieval, provenance, historical analogues, structured theses, immutable decisions, and outcome review: <strong>Git history + observability + hypothesis testing for investment decisions.</strong></p>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="building-blocks">
+          <span class="mc-kicker">Parts 4 and 25</span>
+          <h2 class="h3 mt-1">A modular monolith first</h2>
+          <p>Use one ASP.NET Core deployable with strong module boundaries, PostgreSQL as the system of record, pgvector only when semantic retrieval arrives, and a .NET worker, Hangfire, or Quartz only after scheduling and retry requirements are known. Docker makes the runtime reproducible. Pine remains a laboratory and event source; Python is reserved for statistical workflows that are materially easier than C#.</p>
+          <p>Start the UI with Razor Pages and the repository’s existing HTMX patterns when server-rendered drill-downs are sufficient. Choose React only if the workbench develops dense client-side state, linked panels, or exploratory interactions that become awkward in server-rendered fragments; either UI should consume the same application contracts.</p>
+          <div class="mc-architecture mb-3" role="img" aria-label="External data and TradingView feed an ASP.NET Core modular monolith containing analysis, evidence, thesis, decision, and research modules over PostgreSQL and optional pgvector, presented in a research workbench.">
+            <div class="mc-node"><strong>TradingView</strong><p class="small text-muted">Pine prototypes and alerts</p></div>
+            <div class="mc-node"><strong>External providers</strong><p class="small text-muted">Market, filings, macro, news</p></div>
+            <div class="mc-node"><strong>Background intake</strong><p class="small text-muted">Scheduled and event-driven work</p></div>
+            <div class="mc-node mc-node--wide mc-node--accent"><span class="mc-kicker">ASP.NET Core modular monolith</span><strong>Market data · Technical analysis · Regimes · Historical outcomes · Fundamentals · Events · Evidence · Theses · Decisions · Portfolio · Research assistant</strong></div>
+            <div class="mc-node"><strong>PostgreSQL</strong><p class="small text-muted">Relational and time-series records</p></div>
+            <div class="mc-node"><strong>pgvector, later</strong><p class="small text-muted">Semantic retrieval beside metadata filters</p></div>
+            <div class="mc-node"><strong>Razor/React UI</strong><p class="small text-muted">Choose based on interaction complexity</p></div>
+          </div>
+          <div class="table-responsive">
+            <table class="table mc-table">
+              <thead><tr><th>Module</th><th>Purpose / financial concept</th><th>Input → output</th><th>Dependencies</th><th>Phase</th></tr></thead>
+              <tbody>
+                <tr><td>MarketData</td><td>Normalize assets, bars, and corporate actions.</td><td>Provider payloads → canonical observations</td><td>Provider adapters</td><td>2</td></tr>
+                <tr><td>TechnicalAnalysis</td><td>Explain trend, momentum, volume, volatility.</td><td>Price bars → indicator snapshots</td><td>MarketData</td><td>2</td></tr>
+                <tr><td>HistoricalAnalysis</td><td>Measure outcomes after comparable conditions.</td><td>States + horizons → distributions</td><td>MarketData, Technical</td><td>3</td></tr>
+                <tr><td>MarketRegimes</td><td>Classify environment as a testable state.</td><td>Snapshots + rules → regime + reasons</td><td>Technical, macro later</td><td>4</td></tr>
+                <tr><td>RelativeStrength</td><td>Compare market, sector, industry, company.</td><td>Comparable returns → ranked relationships</td><td>MarketData</td><td>6</td></tr>
+                <tr><td>Fundamental / Valuation</td><td>Separate business performance from market price.</td><td>Filings/facts + price → observations</td><td>SEC/provider adapters</td><td>7–8</td></tr>
+                <tr><td>EventDetection</td><td>Capture meaningful changes rather than static values.</td><td>Signals/filings/releases → MarketEvent</td><td>All intake modules</td><td>8</td></tr>
+                <tr><td>EvidenceRetrieval</td><td>Retrieve source-backed, time-valid material.</td><td>Question + AsOf → EvidenceBundle</td><td>Documents, vectors, relationships</td><td>9–10</td></tr>
+                <tr><td>ThesisManagement</td><td>Make investment assumptions falsifiable.</td><td>User hypothesis + evidence → thesis state</td><td>Evidence, fundamentals</td><td>11</td></tr>
+                <tr><td>DecisionJournal</td><td>Record reasoning before outcomes are known.</td><td>Decision + snapshots → immutable record</td><td>Theses, analytics</td><td>12</td></tr>
+                <tr><td>ResearchAssistant</td><td>Explain deterministic results and retrieved evidence.</td><td>Evidence bundle → cited brief</td><td>All read models</td><td>13</td></tr>
+                <tr><td>PortfolioAnalysis</td><td>Evaluate concentration and exposure context.</td><td>Positions + candidate → exposure impact</td><td>MarketData, theses</td><td>16</td></tr>
+                <tr><td>DiscoveryEngine</td><td>Test candidate relationships with out-of-sample controls.</td><td>Features + outcomes → hypotheses</td><td>Mature historical store</td><td>17</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="analytics">
+          <span class="mc-kicker">Parts 5–9, 19–20</span>
+          <h2 class="h3 mt-1">Deterministic market and outcome engines</h2>
+          <h3 class="h4">Start with an explainable SPY market state</h3>
+          <div class="mc-mockup mb-3">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-2"><div><span class="mc-kicker">Market state</span><h4 class="h4 mb-0">Bullish / Cautious</h4></div><span class="badge badge-soft">As of 2027-03-03</span></div>
+            <div class="mc-signal-row"><strong>Long-term trend</strong><span class="mc-value--positive">Positive</span><span class="text-muted">SPY is above a rising MA200.</span></div>
+            <div class="mc-signal-row"><strong>Short-term trend</strong><span class="mc-value--positive">Positive</span><span class="text-muted">Price and MA20 are above MA50.</span></div>
+            <div class="mc-signal-row"><strong>Momentum</strong><span>Moderate</span><span class="text-muted">RSI is positive but not treated as a command.</span></div>
+            <div class="mc-signal-row"><strong>Volatility</strong><span class="mc-value--caution">Elevated</span><span class="text-muted">Recent realized volatility is above its trailing distribution.</span></div>
+            <div class="mc-signal-row"><strong>Breadth</strong><span class="mc-value--caution">Weakening</span><span class="text-muted">Fewer constituents participate in the advance.</span></div>
+          </div>
+          <p>Regime definitions are versioned configuration, not eternal truths. Generalize only after SPY calculations agree with known reference data and visual TradingView checks:</p>
+          <pre><code class="language-csharp">public interface IAssetStateAnalyzer
+{
+    Task&lt;AssetState&gt; AnalyzeAsync(Symbol symbol, DateTimeOffset asOf);
+}</code></pre>
+          <p>An asset state can describe MSFT’s trend, momentum, volume, volatility, relative strength, sector context, and market regime. It still cannot answer whether MSFT is a good investment; fundamentals, valuation, thesis horizon, and alternatives remain separate questions.</p>
+
+          <h3 class="h4 mt-4">Historical outcome engine</h3>
+          <div class="row g-3 mb-3">
+            <div class="col-md-5"><div class="card h-100 p-3"><h4 class="h6">Condition query</h4><ul class="mb-0"><li>Price &gt; MA200</li><li>RSI from 40 to 50</li><li>Broad market bullish</li><li>183 observations</li></ul></div></div>
+            <div class="col-md-7"><div class="card h-100 p-3"><h4 class="h6">30-day outcomes</h4><div class="mc-signal-row"><strong>Positive</strong><span>69%</span><span class="text-muted">Share above zero</span></div><div class="mc-signal-row"><strong>Median / average</strong><span>+2.7% / +3.1%</span><span class="text-muted">Center and skew</span></div><div class="mc-signal-row"><strong>Worst / best decile</strong><span>−5.8% / +10.4%</span><span class="text-muted">Distribution tails</span></div><div class="mc-signal-row"><strong>Benchmark median</strong><span>+1.9%</span><span class="text-muted">SPY comparison</span></div></div></div>
+          </div>
+          <p>Show sample size, return distribution, median, average, percent positive, drawdown, benchmark, data coverage, and a confidence description derived from explicit completeness and sample rules. Do not label a result statistically significant unless a defined test actually produced that result.</p>
+          <h3 class="h4 mt-4">Events and analogues</h3>
+          <pre><code class="language-csharp">public sealed record MarketEvent(
+    string EventType,
+    string EntityId,
+    DateTimeOffset Timestamp,
+    string Severity,
+    IReadOnlyDictionary&lt;string, decimal&gt; NumericContext,
+    SourceRef Source,
+    IReadOnlyDictionary&lt;string, string&gt; Metadata);</code></pre>
+          <p>Events such as a rapid VIX change, a yield move, weakening breadth, an MA200 cross, an 8-K, or earnings release can initiate deeper analysis. Quantitative similarity searches structured historical states. Semantic similarity proposes qualitative candidate periods. In both cases, deterministic code—not an LLM’s memory—calculates subsequent returns.</p>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="evidence-system">
+          <span class="mc-kicker">Parts 14–18, 22–23</span>
+          <h2 class="h3 mt-1">RAG as structured evidence retrieval</h2>
+          <p>The research assistant sits above deterministic systems. It does not turn random vector results into an opinion; it builds an auditable evidence bundle.</p>
+          <div class="mc-architecture mb-3" role="img" aria-label="A research question is answered through structured data, semantic search, and relationship data, which combine into an evidence bundle used by a reasoning layer to create a cited research brief.">
+            <div class="mc-node mc-node--wide mc-node--accent text-center"><strong>Research question + entity + AsOf date</strong></div>
+            <div class="mc-node"><strong>Structured data</strong><p class="small text-muted">SQL and provider APIs</p></div>
+            <div class="mc-node"><strong>Semantic search</strong><p class="small text-muted">Metadata-filtered vector retrieval</p></div>
+            <div class="mc-node"><strong>Relationship data</strong><p class="small text-muted">Relational evidence graph</p></div>
+            <div class="mc-node mc-node--wide"><strong>Evidence bundle</strong><p class="small text-muted">Claims, numeric facts, citations, time validity, contradictions, and missing information</p></div>
+            <div class="mc-node mc-node--wide mc-node--accent text-center"><strong>Reasoning layer → cited research brief</strong></div>
+          </div>
+          <h3 class="h4">Point-in-time knowledge is an invariant</h3>
+          <pre><code class="language-sql">WHERE evidence.published_at &lt;= :analysis_as_of
+  AND evidence.available_at &lt;= :analysis_as_of</code></pre>
+          <p>If the question asks about MSFT on March 1, 2021, the system must exclude later filings, revisions, articles, and commentary. Track <code>PublishedAt</code>, <code>EffectiveAt</code>, <code>AvailableAt</code>, and <code>RetrievedAt</code>; use vintage-aware macro data such as ALFRED when revisions matter. Violating this rule creates look-ahead bias.</p>
+          <h3 class="h4 mt-4">Evidence model and convergence</h3>
+          <pre><code class="language-csharp">public sealed record Evidence(
+    Guid Id,
+    string EntityId,
+    string EvidenceType,
+    string Claim,
+    EvidenceDirection Direction, // Supports, Contradicts, Neutral, Unknown
+    ConfidenceBasis Confidence,
+    Citation Citation,
+    DateTimeOffset PublishedAt,
+    DateTimeOffset? EffectiveAt,
+    DateTimeOffset AvailableAt,
+    Guid? ThesisId);</code></pre>
+          <div class="mc-evidence-grid mb-3" aria-label="Evidence convergence example for an AI infrastructure demand thesis">
+            <div class="mc-evidence" data-direction="supports"><span class="mc-direction mc-direction--supports">Supports</span><strong class="d-block mt-2">Revenue growth</strong><p class="text-muted small">Company facts show continued segment expansion.</p></div>
+            <div class="mc-evidence" data-direction="supports"><span class="mc-direction mc-direction--supports">Supports</span><strong class="d-block mt-2">Hyperscaler capital spending</strong><p class="text-muted small">Cited guidance indicates continued infrastructure investment.</p></div>
+            <div class="mc-evidence" data-direction="contradicts"><span class="mc-direction mc-direction--contradicts">Contradicts</span><strong class="d-block mt-2">Valuation</strong><p class="text-muted small">Price implies demanding expectations relative to history.</p></div>
+            <div class="mc-evidence" data-direction="contradicts"><span class="mc-direction mc-direction--contradicts">Contradicts</span><strong class="d-block mt-2">Margin trend</strong><p class="text-muted small">Recent observations weakened despite revenue growth.</p></div>
+          </div>
+          <p>Display <strong>evidence agreement: high</strong>, <strong>contradictory evidence: moderate</strong>, and <strong>historical support: moderate</strong> only when each label links to a documented derivation. Material qualitative claims link to the originating source and document chunk.</p>
+          <h3 class="h4 mt-4">Evidence graph without a graph database</h3>
+          <p>Model relationships such as “NVDA belongs to semiconductors,” “hyperscalers invest in AI infrastructure,” and “capital expenditure may influence semiconductor demand” in relational entity and relationship tables first. Add Neo4j or another graph store only after measured traversal needs exceed relational queries.</p>
+          <h3 class="h4 mt-4">The Why Engine</h3>
+          <div class="mc-why-grid mb-3" role="img" aria-label="Research interest drills into technical conditions, explicit calculations, historical relevance, supporting and contradictory evidence, and invalidation criteria.">
+            <div class="mc-node"><span class="mc-kicker">Interest</span><strong>NVDA: high</strong><p class="small text-muted">Why?</p></div>
+            <div class="mc-node"><span class="mc-kicker">Condition</span><strong>Technical strength</strong><p class="small text-muted">Why?</p></div>
+            <div class="mc-node"><span class="mc-kicker">Calculation</span><strong>MA + relative strength</strong><p class="small text-muted">Why does it matter?</p></div>
+            <div class="mc-node"><span class="mc-kicker">Evidence</span><strong>History + fundamentals</strong><p class="small text-muted">What contradicts it?</p></div>
+            <div class="mc-node"><span class="mc-kicker">Thesis</span><strong>Invalidation criteria</strong><p class="small text-muted">What would change the view?</p></div>
+          </div>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="callout callout-success h-100"><strong>LLM may:</strong> summarize retrieved text, classify claims, compare evidence, surface contradictions, explain deterministic analytics, and propose research questions.</div></div>
+            <div class="col-md-6"><div class="callout callout-warning h-100"><strong>LLM may not authoritatively supply:</strong> prices, financial values, filing dates, historical returns, portfolio balances, regime calculations, or backtest results.</div></div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="thesis-decisions">
+          <span class="mc-kicker">Parts 11–13</span>
+          <h2 class="h3 mt-1">Thesis, decision, outcome, lesson</h2>
+          <p>A thesis is structured data rather than a note. It contains a security, hypothesis, horizon, assumptions, risks, invalidation criteria, linked evidence, and status. New evidence is classified as supporting, contradicting, neutral, or unknown; the user remains responsible for interpretation.</p>
+          <pre><code class="language-plaintext">MSFT thesis
+Hypothesis: Azure and AI demand sustain above-market growth for 3–5 years.
+Assumptions: cloud demand remains strong; AI monetization grows; margins endure.
+Risks: capex returns disappoint; cloud growth slows; valuation becomes excessive.
+Invalidation: define measurable conditions before the outcome is known.</code></pre>
+          <p>A decision record captures the state of the world at that moment. Market, technical, fundamental, valuation, and evidence snapshots are immutable; corrections append new records rather than silently rewriting history.</p>
+          <div class="mc-loop mb-3" role="img" aria-label="A decision is followed by an outcome, a decision review, and a durable lesson that informs future research.">
+            <div class="mc-stage"><span class="mc-kicker">1</span><strong>Decision</strong><p class="small text-muted">Reason and confidence recorded</p></div>
+            <div class="mc-stage"><span class="mc-kicker">2</span><strong>Outcome</strong><p class="small text-muted">Observed after defined horizon</p></div>
+            <div class="mc-stage"><span class="mc-kicker">3</span><strong>Review</strong><p class="small text-muted">Process separated from luck</p></div>
+            <div class="mc-stage"><span class="mc-kicker">4</span><strong>Lesson</strong><p class="small text-muted">Applied to future questions</p></div>
+          </div>
+          <div class="callout callout-info"><strong>Decision quality ≠ outcome quality.</strong> Track good decision + good outcome, good decision + bad outcome, bad decision + good outcome, and bad decision + bad outcome. Probabilistic reasoning can produce an unfavorable result; luck can reward a weak process.</div>
+          <p class="mt-3 mb-0">Personal analytics can eventually surface recurring situations, concentration, thesis drift, momentum chasing, and overconfidence. Present them as observations until sample size and methodology justify stronger claims; never call them an investor’s “edge” prematurely.</p>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="data-sources">
+          <span class="mc-kicker">Part 14 · Verified August 11, 2026</span>
+          <h2 class="h3 mt-1">Provider landscape and licensing boundaries</h2>
+          <p>Provider capabilities, plans, limits, and redistribution rights change. Re-verify official documentation and terms before implementation or commercial release. Keep domain models provider-neutral.</p>
+          <div class="table-responsive mb-3">
+            <table class="table mc-table">
+              <thead><tr><th>Source</th><th>Access class</th><th>Best use</th><th>Key constraints</th><th>Architecture note</th></tr></thead>
+              <tbody>
+                <tr><td>SEC EDGAR</td><td>Public; no API key for data.sec.gov</td><td>Submissions, 10-K/10-Q/8-K, XBRL company facts</td><td>Fair-access policy, user agent, filing taxonomy/context</td><td>Store filings and facts with CIK, period, filed/available dates, URL</td></tr>
+                <tr><td>FRED / ALFRED</td><td>Free with registered API key</td><td>Macro series and vintage-aware history</td><td>Rate limits, terms, revisions, required attribution</td><td>Structured time series first; embed release narrative only</td></tr>
+                <tr><td>Federal Reserve</td><td>Public documents/data</td><td>FOMC statements, projections, speeches</td><td>Document normalization and publication timing</td><td>Qualitative macro evidence with original citations</td></tr>
+                <tr><td>BLS</td><td>Public v1; registered v2</td><td>CPI, employment, wages</td><td>Tier limits and revised observations</td><td>Preserve series IDs, period, vintage, and release date</td></tr>
+                <tr><td>BEA</td><td>Free with registration/API key</td><td>GDP, consumption, economic accounts</td><td>Dataset-specific parameters and revisions</td><td>Normalize structured observations and release metadata</td></tr>
+                <tr><td>Company investor relations</td><td>Public; terms vary</td><td>Releases, presentations, guidance</td><td>Site variability, revisions, link decay, reuse rights</td><td>Prefer feeds/APIs and archive provenance; no indiscriminate scraping</td></tr>
+                <tr><td>Earnings transcripts</td><td>Often commercial/licensing-sensitive</td><td>Management commentary and Q&amp;A</td><td>Copyright, availability, redistribution</td><td>Use a licensed swappable provider</td></tr>
+                <tr><td>Stooq</td><td>Free/public-facing data</td><td>Delayed daily research prototypes</td><td>Depth, corporate actions, reliability, redistribution require validation</td><td>Existing experiment only; not a production commitment</td></tr>
+                <tr><td>Yahoo fallback</td><td>Unofficial endpoint</td><td>Best-effort prototype fallback</td><td>Throttle/block risk and unclear production rights</td><td>Replace before dependable production use</td></tr>
+                <tr><td>Alpha Vantage</td><td>Free key + commercial plans</td><td>Time series, indicators, fundamentals</td><td>Plan rate limits, depth, premium endpoints, redistribution</td><td>Evaluate via adapter and adjusted-data tests</td></tr>
+                <tr><td>Polygon, Finnhub, Twelve Data, Tiingo, Nasdaq Data Link</td><td>Registration and commercial tiers</td><td>Market/fundamental data at varying latency and depth</td><td>Exchange entitlements, real-time use, corporate actions, display/redistribution</td><td>Run a requirements-based proof of concept; avoid vendor fields in domain types</td></tr>
+                <tr><td>News providers</td><td>Commercial or licensing-sensitive</td><td>Event context and cited reporting</td><td>Copyright, retention, display, model-training restrictions</td><td>Use <code>INewsProvider</code>; never depend on unauthorized publisher scraping</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <pre><code class="language-csharp">public interface IMarketDataProvider
+{
+    Task&lt;IReadOnlyList&lt;PriceBar&gt;&gt; GetBarsAsync(
+        Symbol symbol, Timeframe timeframe, DateRange range,
+        AdjustmentMode adjustmentMode, CancellationToken cancellationToken);
+}
+
+public interface INewsProvider
+{
+    Task&lt;IReadOnlyList&lt;NewsItem&gt;&gt; SearchAsync(
+        ResearchQuery query, DateTimeOffset asOf, CancellationToken cancellationToken);
+}</code></pre>
+          <p>Compare candidates on cost, historical depth, adjusted and unadjusted OHLC, splits/dividends, intraday and real-time entitlements, rate limits, fundamentals, uptime, corrections, and production redistribution. The right answer depends on validated requirements, not brand popularity.</p>
+          <h3 class="h4 mt-4">SEC document flow</h3>
+          <div class="mc-flow" role="img" aria-label="SEC filings are fetched, normalized, sectioned, chunked, enriched with metadata, embedded, and stored.">
+            <div class="mc-stage"><strong>Fetch</strong></div><span class="mc-arrow">→</span><div class="mc-stage"><strong>Normalize</strong></div><span class="mc-arrow">→</span><div class="mc-stage"><strong>Extract</strong></div><span class="mc-arrow">→</span><div class="mc-stage"><strong>Chunk</strong></div><span class="mc-arrow">→</span><div class="mc-stage"><strong>Metadata</strong></div><span class="mc-arrow">→</span><div class="mc-stage"><strong>Embed</strong></div><span class="mc-arrow">→</span><div class="mc-stage"><strong>Store</strong></div>
+          </div>
+          <p class="small text-muted mt-2 mb-0">Metadata includes company, ticker, CIK, document type, filing date, reporting period, section, source URL, retrieved time, and availability time.</p>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="data-architecture">
+          <span class="mc-kicker">Parts 16, 19, 24, 31</span>
+          <h2 class="h3 mt-1">Data architecture, provenance, and reproducibility</h2>
+          <div class="table-responsive mb-3">
+            <table class="table mc-table">
+              <thead><tr><th>Data class</th><th>Entities</th><th>Mutation policy</th><th>Reproducibility</th></tr></thead>
+              <tbody>
+                <tr><td>Immutable source history</td><td>Security identity versions, PriceBar, EconomicObservation, FundamentalObservation, Document, MarketEvent</td><td>Append corrections with source/version context</td><td>Provider, source timestamp, availability, retrieval time</td></tr>
+                <tr><td>Derived / recomputable</td><td>TechnicalSnapshot, MarketState, MarketRegime, HistoricalOutcome</td><td>Recalculate under a new version; retain prior results used by decisions</td><td>Inputs, calculation version, AsOf, CalculatedAt</td></tr>
+                <tr><td>User-authored</td><td>InvestmentThesis, ThesisEvidence, InvestmentDecision, Portfolio</td><td>Version theses; decisions and snapshots are append-only</td><td>Actor, timestamp, source snapshot IDs</td></tr>
+                <tr><td>Cached / regenerable</td><td>DocumentChunk embedding, retrieval result, ResearchBrief</td><td>Expire or rebuild while retaining published brief provenance</td><td>Model/prompt version, query, filters, evidence IDs</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Core entities include <code>Security</code>, <code>PriceBar</code>, <code>TechnicalSnapshot</code>, <code>MarketState</code>, <code>MarketRegime</code>, <code>EconomicObservation</code>, <code>FundamentalObservation</code>, <code>Document</code>, <code>DocumentChunk</code>, <code>Evidence</code>, <code>MarketEvent</code>, <code>HistoricalOutcome</code>, <code>InvestmentThesis</code>, <code>InvestmentDecision</code>, <code>DecisionSnapshot</code>, <code>PortfolioPosition</code>, and <code>ResearchBrief</code>.</p>
+          <pre><code class="language-csharp">public sealed record PriceBar(Symbol Symbol, DateTimeOffset Time,
+    decimal Open, decimal High, decimal Low, decimal Close, long Volume,
+    AdjustmentMode Adjustment, SourceRef Source, DateTimeOffset AvailableAt);
+
+public sealed record InvestmentThesis(Guid Id, Symbol Security,
+    string Hypothesis, TimeSpan Horizon, IReadOnlyList&lt;Assumption&gt; Assumptions,
+    IReadOnlyList&lt;Risk&gt; Risks, IReadOnlyList&lt;Criterion&gt; InvalidationCriteria,
+    ThesisStatus Status, int Version);
+
+public sealed record InvestmentDecision(Guid Id, Symbol Security,
+    DateTimeOffset Timestamp, DecisionAction Action, Guid? ThesisId,
+    Guid DecisionSnapshotId, string ExpectedOutcome, ConfidenceBasis Confidence,
+    string Notes);</code></pre>
+          <pre><code class="language-plaintext">Required provenance envelope
+Source · SourceTimestamp · AvailableAt · RetrievedAt · AsOf
+CalculationVersion · CalculatedAt · PromptVersion · ModelVersion
+RetrievalQuery · RetrievalFilters · RetrievedEvidenceIds · GeneratedAt</code></pre>
+          <p class="mb-0">A historical brief should be explainable and, when underlying licensed data remains available, reproducible. Store raw-source identifiers and deterministic input snapshots; never rely on a rendered narrative as the sole record of a calculation.</p>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="existing-repository">
+          <span class="mc-kicker">Part 35</span>
+          <h2 class="h3 mt-1">How the existing experiments fit</h2>
+          <p>The current penny-stock watchlist and combined market-signal dashboard are useful early experiments in ingestion, normalization, scheduled analysis, JSON snapshots, and static visualization. They are not the proposed platform’s final domain model or evidence standard.</p>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><span class="mc-direction mc-direction--supports">Reusable now</span><ul class="mt-2 mb-0"><li>GitHub Actions scheduling</li><li>Static dashboard presentation</li><li>Normalized JSON outputs</li><li>Isolated provider failures</li><li>Dated historical snapshots</li></ul></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><span class="mc-direction mc-direction--neutral">Reusable later</span><ul class="mt-2 mb-0"><li>Indicator calculation concepts</li><li>Provider adapter boundaries</li><li>Normalization patterns</li><li>Only after golden tests and provenance</li></ul></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><span class="mc-direction mc-direction--neutral">Prototype only</span><ul class="mt-2 mb-0"><li>Heuristic penny-stock scores</li><li>Prediction-market composite score</li><li>Delayed/free-source assumptions</li><li>Candidate and confidence labels</li></ul></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><span class="mc-direction mc-direction--contradicts">Replace or harden</span><ul class="mt-2 mb-0"><li>Unofficial Yahoo fallback</li><li>Hard-coded thresholds</li><li>Short/unadjusted histories</li><li>Recommendation-like language</li><li>Missing corporate-action handling</li></ul></div></div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="product-experience">
+          <span class="mc-kicker">Parts 17, 21, 32</span>
+          <h2 class="h3 mt-1">Sample product experience</h2>
+          <div class="row g-3">
+            <div class="col-xl-6"><article class="mc-mockup h-100"><span class="mc-kicker">Dashboard</span><h3 class="h4">Market environment</h3><p class="h5">Bullish / Cautious</p><div class="mc-signal-row"><strong>Trend</strong><span class="mc-value--positive">Positive</span><span></span></div><div class="mc-signal-row"><strong>Breadth</strong><span class="mc-value--caution">Weakening</span><span></span></div><div class="mc-signal-row"><strong>Volatility</strong><span class="mc-value--caution">Rising</span><span></span></div><p class="mt-3"><strong>What changed:</strong> Participation deteriorated while the index stayed near recent highs.</p><p class="mb-0"><strong>Evidence quality:</strong> Moderate—based on breadth history with stated sample size.</p></article></div>
+            <div class="col-xl-6"><article class="mc-mockup h-100"><span class="mc-kicker">Stock research</span><h3 class="h4">MSFT</h3><div class="mc-signal-row"><strong>Business quality</strong><span class="mc-value--positive">Strong</span><span></span></div><div class="mc-signal-row"><strong>Valuation</strong><span class="mc-value--caution">Elevated</span><span></span></div><div class="mc-signal-row"><strong>Relative strength</strong><span class="mc-value--positive">Strong</span><span></span></div><p class="mt-3 mb-0"><strong>Research status:</strong> Interesting; valuation review required. Open Why, Historical Evidence, Support, Contradictions, Thesis, or Risks.</p></article></div>
+            <div class="col-xl-6"><article class="mc-mockup h-100"><span class="mc-kicker">Thesis review</span><h3 class="h4">What changed?</h3><p><strong>Original thesis:</strong> Azure + AI sustains above-market growth.</p><div class="mc-signal-row"><strong>Azure growth</strong><span class="mc-value--positive">Improved</span><span></span></div><div class="mc-signal-row"><strong>Margins</strong><span class="mc-value--caution">Slightly weaker</span><span></span></div><div class="mc-signal-row"><strong>Valuation</strong><span class="mc-value--negative">Much higher</span><span></span></div><p class="mb-0"><strong>Interpretation:</strong> Business thesis strengthened; valuation thesis weakened.</p></article></div>
+            <div class="col-xl-6"><article class="mc-mockup h-100"><span class="mc-kicker">Decision review</span><h3 class="h4">PASS · 12-month outcome +28%</h3><p><strong>Original reason:</strong> Valuation too high.</p><p><strong>Was the decision necessarily wrong?</strong> No. The concern remained valid, but earnings accelerated faster than modeled.</p><p class="mb-0"><strong>Potential lesson:</strong> Improve treatment of earnings acceleration during high-growth regimes.</p></article></div>
+          </div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="roadmap">
+          <span class="mc-kicker">Part 26</span>
+          <h2 class="h3 mt-1">Incremental learning and delivery roadmap</h2>
+          <p>Each phase teaches a financial idea, produces working software, and preserves useful infrastructure. A phase advances only after its validation gate passes.</p>
+          <div class="mc-roadmap">
+            <article class="mc-roadmap-item"><h3 class="h5">0 · Documentation foundation</h3><dl><dt>Learn/build</dt><dd>Glossary, principles, architecture, provider research, UI mockups, ADRs.</dd><dt>Gate</dt><dd>Scope, sources, disclaimers, and architecture reviewed.</dd><dt>Retain</dt><dd>Shared language and decisions.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">1 · Pine market thermometer</h3><dl><dt>Learn/build</dt><dd>Bars, OHLC, MA, RSI, volatility; an explainable SPY indicator.</dd><dt>Gate</dt><dd>Visual checks on known chart periods and no repainting surprises.</dd><dt>Retain</dt><dd>Definitions, alert contract, reference cases.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">2 · Market State API</h3><dl><dt>Learn/build</dt><dd>.NET TechnicalAnalysis and MarketStateAnalyzer with daily snapshots.</dd><dt>Gate</dt><dd>Golden datasets match reference calculations within tolerance.</dd><dt>Retain</dt><dd>Canonical bars, snapshots, provenance.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">3 · Historical outcomes</h3><dl><dt>Learn/build</dt><dd>Returns, medians, distributions, drawdowns, benchmarks, sample sizes.</dd><dt>Gate</dt><dd>No leakage; known scenarios and horizons independently verified.</dd><dt>Retain</dt><dd>Outcome query engine.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">4 · Market regimes</h3><dl><dt>Learn/build</dt><dd>Configuration-driven Strong Bull through Recovery classifications.</dd><dt>Gate</dt><dd>Every regime lists reasons and boundary tests pass.</dd><dt>Retain</dt><dd>Versioned regime snapshots.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">5–6 · Asset analyzer and relative strength</h3><dl><dt>Learn/build</dt><dd>Generalize to stocks/ETFs; compare market → sector → industry → company.</dd><dt>Gate</dt><dd>Benchmark alignment, calendar handling, and symbol mapping verified.</dd><dt>Retain</dt><dd>Provider-neutral asset analysis.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">7–8 · Fundamentals, SEC, and macro</h3><dl><dt>Learn/build</dt><dd>Business performance, valuation, SEC facts/filings, FRED and releases.</dd><dt>Gate</dt><dd>Units, periods, amendments, revisions, and availability dates tested.</dd><dt>Retain</dt><dd>Point-in-time observation and document stores.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">9–10 · RAG MVP and Evidence Engine</h3><dl><dt>Learn/build</dt><dd>SEC, selected Fed, and IR documents; chunks, pgvector, citations, evidence direction.</dd><dt>Gate</dt><dd>Temporal exclusion, citation match, contradiction, and abstention tests pass.</dd><dt>Retain</dt><dd>Evidence bundles and provenance.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">11–12 · Thesis tracker and decision journal</h3><dl><dt>Learn/build</dt><dd>Falsifiable assumptions, invalidation, versioned theses, immutable decisions.</dd><dt>Gate</dt><dd>State transitions and append-only snapshot rules verified.</dd><dt>Retain</dt><dd>Persistent reasoning history.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">13 · Research assistant</h3><dl><dt>Learn/build</dt><dd>Cited Q&amp;A over structured analytics, evidence, theses, and decisions.</dd><dt>Gate</dt><dd>Source attribution, uncertainty, and numeric-grounding evaluations pass.</dd><dt>Retain</dt><dd>Prompt/model/retrieval audit trail.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">14 · Historical analogues</h3><dl><dt>Learn/build</dt><dd>Quantitative similarity first; semantic candidate discovery second.</dd><dt>Gate</dt><dd>Outcomes calculated only by deterministic code with time-safe candidates.</dd><dt>Retain</dt><dd>Similarity features and evaluated analogues.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">15–16 · Investor and portfolio intelligence</h3><dl><dt>Learn/build</dt><dd>Decision patterns, thesis drift, exposure, concentration, and candidate fit.</dd><dt>Gate</dt><dd>Minimum history, transparent rules, privacy, and non-judgmental language.</dd><dt>Retain</dt><dd>Personal learning and exposure models.</dd></dl></article>
+            <article class="mc-roadmap-item"><h3 class="h5">17 · Discovery Engine</h3><dl><dt>Learn/build</dt><dd>Research combinations associated with unusual subsequent outcomes.</dd><dt>Gate</dt><dd>Train/test separation, out-of-sample results, benchmark, sample minimums, and overfitting controls.</dd><dt>Retain</dt><dd>Only hypotheses that survive documented evaluation.</dd></dl></article>
+          </div>
+          <div class="callout callout-warning mt-3 mb-0"><strong>Explicitly out of scope now:</strong> brokerage integrations, live trading, automated orders, authentication, production databases or RAG, portfolio synchronization, and commercial subscriptions.</div>
+        </section>
+
+        <section class="doc-section p-4 mb-3 spike-anchor" id="risks-testing">
+          <span class="mc-kicker">Parts 29–31</span>
+          <h2 class="h3 mt-1">Failure modes, tests, and operational evidence</h2>
+          <div class="row g-3 mb-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">Research risks</h3><p class="mb-0 text-muted">Overfitting, hindsight and survivorship bias, look-ahead bias, data snooping, small samples, regime change, misleading correlations, and ignored transaction costs.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">Data risks</h3><p class="mb-0 text-muted">Outages, stale or revised data, adjusted/unadjusted confusion, corporate actions, symbol changes, duplicates, rate limits, licensing, and missing availability timestamps.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">AI risks</h3><p class="mb-0 text-muted">Hallucination, causal invention, citation mismatch, omitted contradictions, temporal contamination, summarization loss, and confidence inflation.</p></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">Product risks</h3><p class="mb-0 text-muted">Appearing to give regulated personalized advice, presenting probability as certainty, encouraging blind score-following, opaque algorithms, and inadequate disclosures.</p></div></div>
+          </div>
+          <div class="callout callout-warning mb-3">Obtain qualified legal and compliance advice before any commercial release involving personalized investment recommendations, licensed market data, or publisher content.</div>
+          <h3 class="h4">Testing pyramid for research integrity</h3>
+          <div class="table-responsive mb-3">
+            <table class="table mc-table">
+              <thead><tr><th>Test area</th><th>Representative test</th><th>Acceptance</th></tr></thead>
+              <tbody>
+                <tr><td>Financial formulas</td><td>MA, RSI, volatility, returns, drawdown against golden OHLC datasets</td><td>Matches independent reference within defined numeric tolerance</td></tr>
+                <tr><td>Regime rules</td><td>Boundary and transition fixtures</td><td>Classification and explanation are deterministic</td></tr>
+                <tr><td>Corporate actions</td><td>Split/dividend and symbol-change histories</td><td>Adjusted/unadjusted semantics remain explicit</td></tr>
+                <tr><td>Historical outcomes</td><td>Known condition dates and forward horizons</td><td>No overlapping future values or delisted-asset omission</td></tr>
+                <tr><td>Point-in-time retrieval</td><td>Seed future filing/article after AsOf</td><td>Future item is never retrieved</td></tr>
+                <tr><td>Citations</td><td>Claim-to-chunk and chunk-to-source evaluation</td><td>Material claims resolve to supporting text or abstain</td></tr>
+                <tr><td>Evidence extraction</td><td>Support, contradict, neutral, and ambiguous fixtures</td><td>Direction includes rationale and uncertainty</td></tr>
+                <tr><td>Thesis/decision state</td><td>Edit, supersede, decide, review transitions</td><td>Past decision snapshots cannot be silently changed</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <pre><code class="language-plaintext">Given known OHLC history
+When MA200 is calculated
+Then the result matches the reference implementation
+within the documented tolerance
+And the calculation records version, inputs, AsOf, and timestamp.</code></pre>
+          <p class="mb-0">Operationally track provider freshness, ingestion lag, failure/retry counts, duplicate events, calculation versions, temporal-filter exclusions, retrieval queries, citation coverage, model/prompt versions, and brief generation latency. The system must always be able to answer: <strong>Why did it produce this result?</strong></p>
+        </section>
+
+        <section class="doc-section p-4 spike-anchor mc-source-list" id="references">
+          <span class="mc-kicker">Part 34</span>
+          <h2 class="h3 mt-1">Primary references</h2>
+          <p>Product and provider details were reviewed against primary sources on August 11, 2026. Recheck terms and technical limits before implementation.</p>
+          <div class="row g-3">
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">Pine and TradingView</h3><ul class="mb-0"><li><a href="https://www.tradingview.com/pine-script-docs/welcome/" target="_blank" rel="noopener">Pine Script v6 documentation</a></li><li><a href="https://www.tradingview.com/pine-script-reference/v6/" target="_blank" rel="noopener">Pine Script v6 reference</a></li><li><a href="https://www.tradingview.com/support/solutions/43000529348-how-to-configure-webhook-alerts/" target="_blank" rel="noopener">TradingView webhook alerts</a></li><li><a href="https://www.tradingview.com/support/solutions/43000680459-webhook-authentication/" target="_blank" rel="noopener">Webhook authentication</a></li></ul></div></div>
+            <div class="col-md-6"><div class="card h-100 p-3"><h3 class="h5">Filings and macro data</h3><ul class="mb-0"><li><a href="https://www.sec.gov/search-filings/edgar-application-programming-interfaces" target="_blank" rel="noopener">SEC EDGAR data APIs</a></li><li><a href="https://www.sec.gov/os/accessing-edgar-data" target="_blank" rel="noopener">SEC fair access guidance</a></li><li><a href="https://fred.stlouisfed.org/docs/api/fred/overview.html" target="_blank" rel="noopener">FRED/ALFRED API</a></li><li><a href="https://www.bls.gov/developers/home.htm" target="_blank" rel="noopener">BLS Public Data API</a></li><li><a href="https://apps.bea.gov/api/signup/" target="_blank" rel="noopener">BEA API</a></li><li><a href="https://www.federalreserve.gov/data.htm" target="_blank" rel="noopener">Federal Reserve data</a></li></ul></div></div>
+            <div class="col-12"><div class="callout callout-note mb-0"><strong>Future provider evaluation:</strong> use official documentation and contract terms for Alpha Vantage, Polygon, Finnhub, Twelve Data, Tiingo, Nasdaq Data Link, and any news/transcript provider. Marketing feature lists are not sufficient evidence of historical completeness or redistribution rights.</div></div>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container-xl site-footer"><div class="d-flex flex-wrap justify-content-between gap-2"><span>Market Compass · technical product design</span><span>Research and education only · not financial advice</span></div></footer>
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>
