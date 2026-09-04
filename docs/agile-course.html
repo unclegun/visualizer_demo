@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Agile Transition Course | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../assets/css/theme.css" />
+  <link rel="stylesheet" href="../assets/css/base.css" />
+  <link rel="stylesheet" href="../assets/css/layout.css" />
+  <link rel="stylesheet" href="../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../assets/css/components/agile-course.css" />
+</head>
+<body data-site-root="..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top">
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../patterns/chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="../patterns/advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./conventions.html">Conventions</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="./htmx-spike.html">HTMX Spike</a></li>
+          <li class="nav-item"><a class="nav-link active" data-nav href="./agile-course.html">Agile Course</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="course-hero mb-4">
+      <p class="pattern-hero-kicker mb-2">Scrum Transition Course</p>
+      <h1 class="display-6 fw-bold mb-2">Agile for software teams moving to Scrum on October 1</h1>
+      <p class="lead text-muted mb-3">A practical three-week course designed to help team leads and developers learn the same concepts at different depth while transitioning from informal standups and ad hoc work tracking into a visible, repeatable Scrum system.</p>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <span class="agile-pill">3 weeks</span>
+        <span class="agile-pill">6 sessions</span>
+        <span class="agile-pill">Azure DevOps</span>
+        <span class="agile-pill">TFVC + shelvesets</span>
+        <span class="agile-pill">October 1 launch</span>
+      </div>
+      <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-primary" href="#session-overview">Review the schedule</a>
+        <a class="btn btn-outline-primary" href="./agile/session-01.html">Start with Session 1</a>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Course purpose</h2>
+      <p class="section-subtitle">This training exists for two audiences at once: team leads need enough depth to facilitate Scrum and teach the team, while developers need tactical guidance on what changes in daily work.</p>
+      <div class="course-overview-grid">
+        <div class="agile-card">
+          <h3>For team leads</h3>
+          <ul>
+            <li>Explain the purpose and lifecycle of a sprint.</li>
+            <li>Facilitate backlog refinement, planning, and retrospectives.</li>
+            <li>Coach the team through flow, ownership, and review quality.</li>
+          </ul>
+        </div>
+        <div class="agile-card">
+          <h3>For developers</h3>
+          <ul>
+            <li>Understand what changes on October 1.</li>
+            <li>Work from a visible backlog and board.</li>
+            <li>Use shelvesets, work-item association, and UAT in the Scrum flow.</li>
+          </ul>
+        </div>
+        <div class="agile-card">
+          <h3>Shared expectation</h3>
+          <ul>
+            <li>Agile does not remove design review, code review, UAT, or release control.</li>
+            <li>It places those controls inside a shorter, visible, iterative workflow.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">September to October 1 timeline</h2>
+      <div class="agile-timeline">
+        <div class="agile-card">
+          <h3>Week of Sep 7–11</h3>
+          <p class="mb-0 text-muted">Sessions 1–2: establish the Scrum model, clarify ownership, and make Azure Boards work visible.</p>
+        </div>
+        <div class="agile-card">
+          <h3>Week of Sep 14–18</h3>
+          <p class="mb-0 text-muted">Sessions 3–4: practice backlog refinement, forecasting, and sprint planning.</p>
+        </div>
+        <div class="agile-card">
+          <h3>Week of Sep 21–25</h3>
+          <p class="mb-0 text-muted">Sessions 5–6: run the sprint, improve standups, and apply TFVC review and Definition of Done.</p>
+        </div>
+        <div class="agile-card">
+          <h3>Sep 28–30</h3>
+          <p class="mb-0 text-muted">Launch readiness: confirm backlog, board states, roles, Definition of Done, and support coverage.</p>
+        </div>
+        <div class="agile-card">
+          <h3>October 1</h3>
+          <p class="mb-0 text-muted">Official start of backlog, board, sprint tracking, and team-level Scrum operating rhythm.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">How this fits the program</h2>
+      <p class="section-subtitle">The Phased Sprint Delivery Plan adds an Agile team layer to existing contract and governance accountability. These are complementary layers, not competing processes.</p>
+      <div class="course-overview-grid">
+        <div class="agile-card"><h3>Program level</h3><p>Program Managers protect contract scope, deliverables, resources, risks, and reporting. The Government Lead / TPOC directs approved priorities at the epic and sprint level.</p></div>
+        <div class="agile-card"><h3>Team level</h3><p>Team Leads coordinate ceremonies, feature progress, technical review, defect management, board health, and day-to-day execution. Developers own their stories and work items daily.</p></div>
+        <div class="agile-card"><h3>Traceability</h3><p>Use the Azure DevOps hierarchy: <strong>Epic → Feature → User Story / Work Item</strong>. Every deliverable should trace back to an approved program objective.</p></div>
+      </div>
+      <div class="agile-callout warning mt-3"><strong>Scope rule:</strong> document every request in Azure DevOps, assess it, route it to the Government Lead for decision, and begin only after approval is recorded. Major efforts require epic-level review; urgency does not bypass change control.</div>
+      <p class="mt-3 mb-0"><a class="btn btn-outline-primary" href="./agile/program-context.html">Open full program context reference</a></p>
+    </section>
+
+    <section id="session-overview" class="mb-5">
+      <h2 class="section-title h3">3-week schedule</h2>
+      <div class="session-grid">
+        <a class="agile-session-link" href="./agile/session-01.html">
+          <article class="agile-card">
+            <span class="agile-pill">Week 1 · Session 1</span>
+            <h3>Agile, Scrum, and What Changes October 1</h3>
+            <p class="text-muted mb-0">Foundation, terminology, and why design review, code review, UAT, and release still exist inside Scrum.</p>
+          </article>
+        </a>
+        <a class="agile-session-link" href="./agile/session-02.html">
+          <article class="agile-card">
+            <span class="agile-pill">Week 1 · Session 2</span>
+            <h3>Roles, Responsibilities, and Ownership</h3>
+            <p class="text-muted mb-0">Product Owner, Scrum Master, developers, stakeholders, and distinctions between facilitation and command-and-control.</p>
+          </article>
+        </a>
+        <a class="agile-session-link" href="./agile/session-03.html">
+          <article class="agile-card">
+            <span class="agile-pill">Week 2 · Session 3</span>
+            <h3>Backlogs, Work Items, and Refinement</h3>
+            <p class="text-muted mb-0">How to structure Azure Boards work and split work into valuable, reviewable units.</p>
+          </article>
+        </a>
+        <a class="agile-session-link" href="./agile/session-04.html">
+          <article class="agile-card">
+            <span class="agile-pill">Week 2 · Session 4</span>
+            <h3>Estimation and Sprint Planning</h3>
+            <p class="text-muted mb-0">Capacity, relative estimation, story points, and planning without creating personal productivity scores.</p>
+          </article>
+        </a>
+        <a class="agile-session-link" href="./agile/session-05.html">
+          <article class="agile-card">
+            <span class="agile-pill">Week 3 · Session 5</span>
+            <h3>Running the Sprint and Daily Scrum</h3>
+            <p class="text-muted mb-0">Use Azure Boards to inspect progress, surface blockers, and adapt toward the Sprint Goal.</p>
+          </article>
+        </a>
+        <a class="agile-session-link" href="./agile/session-06.html">
+          <article class="agile-card">
+            <span class="agile-pill">Week 3 · Session 6</span>
+            <h3>TFVC, Code Review, and Definition of Done</h3>
+            <p class="text-muted mb-0">Apply work-item association, shelvesets, lead review, check-in, UAT, and completion standards.</p>
+          </article>
+        </a>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Facilitator field notes</h2>
+      <p class="section-subtitle">Use these prompts to keep each session grounded in the Phased Sprint Delivery Plan and in the work developers do every day.</p>
+      <div class="agile-table-shell">
+        <table>
+          <thead><tr><th>Session</th><th>Lead context</th><th>Developer outcome</th><th>Leave with</th></tr></thead>
+          <tbody>
+            <tr><td>1. Agile and Scrum</td><td>Connect team-level Scrum to program-level deliverables, scope, and October 1 visibility.</td><td>Explain what changes in planning, board use, and daily coordination.</td><td>A mapped current item and shared lifecycle.</td></tr>
+            <tr><td>2. Roles and ownership</td><td>Clarify Program Manager, Government Lead/TPOC, Team Lead, Developer, and customer boundaries.</td><td>Know who prioritizes, who implements, who accepts, and where risks go.</td><td>A responsibility scenario decision.</td></tr>
+            <tr><td>3. Backlog and refinement</td><td>Teach Epic → Feature → User Story / Work Item traceability and acceptance criteria before In Progress.</td><td>Create visible, estimable work and split oversized requests.</td><td>One refined item linked to an approved objective.</td></tr>
+            <tr><td>4. Estimation and planning</td><td>Use team estimates with the 50% major, 25% minor, 25% meetings/admin capacity model.</td><td>Forecast around priority, capacity, PTO, and sustainment rather than individual output.</td><td>A Sprint Goal and capacity-based forecast.</td></tr>
+            <tr><td>5. Sprint and Daily Scrum</td><td>Reinforce daily ADO accuracy, same-day blockers, five-business-day aging escalation, and early risk communication.</td><td>Run a board-driven standup focused on movement and the Sprint Goal.</td><td>An updated board and named blocker owner.</td></tr>
+            <tr><td>6. Quality and simulation</td><td>Practice change control, TFVC shelveset review, UAT, release timing, and retrospective improvement.</td><td>Make review, acceptance, and scope tradeoffs visible under pressure.</td><td>A complete workflow decision and one improvement action.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Lead Prep vs Team Session</h2>
+      <div class="two-up">
+        <div class="agile-card">
+          <h3>Lead Prep — Learn It</h3>
+          <p>Leads learn the reasoning, facilitation flow, terminology, and common traps before they teach the team. This is the deeper study layer.</p>
+          <ul>
+            <li>Background and rationale</li>
+            <li>Common mistakes and tradeoffs</li>
+            <li>Facilitation prompts and leadership questions</li>
+          </ul>
+        </div>
+        <div class="agile-card">
+          <h3>Team Session — Teach It</h3>
+          <p>Developers get a 45–60 minute lunch-and-learn focused on what changes in the way work is planned, tracked, reviewed, and accepted.</p>
+          <ul>
+            <li>Objectives and examples from our environment</li>
+            <li>Hands-on practice or discussion</li>
+            <li>Rules, takeaways, and key facilitator questions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Printable course materials</h2>
+      <p class="section-subtitle">Use these focused packets during the three-week rollout or print them for the October 1 launch.</p>
+      <p><a class="btn btn-outline-primary" href="./agile/printable-packets.html">Open printable packet index</a></p>
+      <p><a class="btn btn-outline-primary" href="./agile/facilitator-scripts.html">Open full facilitator scripts</a></p>
+      <div class="course-summary-grid">
+        <a class="agile-session-link" href="agile/printable-reference.html"><article class="agile-card"><h3>Quick reference</h3><p class="text-muted mb-0">Lifecycle, ceremony cheat sheet, Definition of Done, and glossary.</p></article></a>
+        <a class="agile-session-link" href="agile/lead-packet.html"><article class="agile-card"><h3>Lead course packet</h3><p class="text-muted mb-0">Three-week delivery plan, readiness checklist, facilitation stance, and scenario prompts.</p></article></a>
+        <a class="agile-session-link" href="agile/developer-packet.html"><article class="agile-card"><h3>Developer course packet</h3><p class="text-muted mb-0">Daily work flow, TFVC review steps, standup prompts, and response rules for common changes.</p></article></a>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Scrum lifecycle</h2>
+      <div class="agile-card">
+        <div class="lifecycle-flow" aria-label="Scrum lifecycle workflow">
+          <span class="lifecycle-step">Backlog</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">Refinement</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">Sprint Planning</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">Sprint</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">Development</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">Lead Review</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">UAT / Acceptance</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">Done</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">Release / Go Live</span>
+          <span class="lifecycle-arrow">→</span>
+          <span class="lifecycle-step">Retrospective</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Our October 1 operating model</h2>
+      <div class="agile-card">
+        <p class="mb-3">This course tailors the Scrum model to our current environment rather than assuming a perfect textbook setup.</p>
+        <div class="agile-metrics">
+          <div class="metric-box"><span class="metric-label">Platform</span><span class="metric-value">Azure DevOps</span></div>
+          <div class="metric-box"><span class="metric-label">Source control</span><span class="metric-value">TFVC</span></div>
+          <div class="metric-box"><span class="metric-label">Teams</span><span class="metric-value">2 teams</span></div>
+          <div class="metric-box"><span class="metric-label">Developers</span><span class="metric-value">3 per team</span></div>
+          <div class="metric-box"><span class="metric-label">Cadence</span><span class="metric-value">2-week sprints</span></div>
+          <div class="metric-box"><span class="metric-label">Workflow</span><span class="metric-value">Board + backlog</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Quick reference glossary</h2>
+      <div class="course-glossary-grid">
+        <div class="agile-card"><strong>Agile</strong><p class="text-muted mb-0">A mindset centered on iterative value delivery, learning, and adaptation.</p></div>
+        <div class="agile-card"><strong>Scrum</strong><p class="text-muted mb-0">A lightweight Agile framework with roles, events, and artifacts.</p></div>
+        <div class="agile-card"><strong>Sprint</strong><p class="text-muted mb-0">A short, time-boxed period in which planned work is completed and reviewed.</p></div>
+        <div class="agile-card"><strong>Sprint Goal</strong><p class="text-muted mb-0">The specific value or outcome the team intends to deliver in a sprint.</p></div>
+        <div class="agile-card"><strong>Product Backlog</strong><p class="text-muted mb-0">The ordered list of work needed to deliver and improve the product.</p></div>
+        <div class="agile-card"><strong>Sprint Backlog</strong><p class="text-muted mb-0">The subset of work selected and committed to within the sprint.</p></div>
+        <div class="agile-card"><strong>Increment</strong><p class="text-muted mb-0">The sum of completed work at a point in time that is potentially releasable.</p></div>
+        <div class="agile-card"><strong>Definition of Done</strong><p class="text-muted mb-0">The shared standard for when work is truly complete.</p></div>
+        <div class="agile-card"><strong>Story Points</strong><p class="text-muted mb-0">A relative estimate of effort, complexity, and uncertainty—not a personal score.</p></div>
+        <div class="agile-card"><strong>Velocity</strong><p class="text-muted mb-0">The rate at which a team delivers relative points over time.</p></div>
+        <div class="agile-card"><strong>Daily Scrum</strong><p class="text-muted mb-0">A time-boxed check-in to inspect progress toward the Sprint Goal and adapt.</p></div>
+        <div class="agile-card"><strong>TFVC shelveset</strong><p class="text-muted mb-0">A reviewable, check-in-safe way to share work before formal check-in in TFVC.</p></div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Lead readiness checklist</h2>
+      <div class="agile-checklist">
+        <ul>
+          <li>Can I explain the purpose of a sprint?</li>
+          <li>Can I explain the Sprint Goal?</li>
+          <li>Can I distinguish Product Backlog from Sprint Backlog?</li>
+          <li>Can I facilitate refinement and sprint planning?</li>
+          <li>Can I run a useful Daily Scrum?</li>
+          <li>Can I explain what happens to unfinished work?</li>
+          <li>Can I handle urgent work during a sprint?</li>
+          <li>Can I distinguish Sprint Review, UAT, and Retrospective?</li>
+          <li>Can I describe our Definition of Done?</li>
+          <li>Can I explain how TFVC code review fits the workflow?</li>
+          <li>Can I explain why story points are not an individual performance metric?</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="mb-4">
+      <h2 class="section-title h3">Key course principle</h2>
+      <div class="agile-callout">
+        <p class="mb-0"><strong>Agile is not a replacement for design review, code review, UAT, or release control.</strong> It places those quality gates inside a shorter, visible, iterative workflow so the team learns earlier and reduces risk sooner.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container-xl site-footer">
+    <div class="d-flex flex-wrap justify-content-between gap-2">
+      <span>Agile transition course</span>
+      <span>Built for Azure DevOps + TFVC teams moving to Scrum on October 1</span>
+    </div>
+  </footer>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+</body>
+</html>

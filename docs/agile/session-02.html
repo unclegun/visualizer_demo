@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Session 2 | Agile Transition Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <link rel="stylesheet" href="../../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../../assets/css/components/agile-course.css" />
+</head>
+<body data-site-root="../..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top">
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../../patterns/chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="../../patterns/advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../conventions.html">Conventions</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../htmx-spike.html">HTMX Spike</a></li>
+          <li class="nav-item"><a class="nav-link active" data-nav href="../agile-course.html">Agile Course</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <div class="print-toolbar"><a class="btn btn-outline-primary" href="../agile-course.html">Back to course</a><button class="btn btn-primary" type="button" onclick="window.print()">Print complete session</button></div>
+    <section class="course-hero mb-4">
+      <p class="pattern-hero-kicker mb-2">Session 2</p>
+      <h1 class="display-6 fw-bold mb-2">Roles, Responsibilities, and Ownership</h1>
+      <div class="agile-session-meta">
+        <span class="pill">Why it matters</span>
+        <span class="pill">Lead prep: 45–60 min</span>
+        <span class="pill">Team session: 45–60 min</span>
+      </div>
+    </section>
+
+    <section class="course-layout mb-5">
+      <div>
+        <div class="agile-callout mb-3">
+          <strong>Why it matters:</strong> Without clarity about who owns priorities, who owns the technical solution, and how leaders facilitate rather than command, teams drift into confusion and silent rework.
+        </div>
+
+        <ul class="nav nav-tabs course-tabs" role="tablist">
+          <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#lead-session-02" type="button" role="tab" aria-selected="true">Lead Prep — Learn It</button></li>
+          <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#team-session-02" type="button" role="tab" aria-selected="false">Team Session — Teach It</button></li>
+        </ul>
+
+        <div class="tab-content course-tab-panel">
+          <div class="tab-pane fade show active" id="lead-session-02" role="tabpanel">
+            <div class="agile-lesson mb-3">
+              <h3>Scrum roles and responsibilities</h3>
+              <div class="two-up">
+                <div class="agile-card">
+                  <h3>Product Owner</h3>
+                  <ul>
+                    <li>Owns product value and priority.</li>
+                    <li>Defines outcomes and clarifies requirements.</li>
+                    <li>Accepts work as it meets agreed value and criteria.</li>
+                  </ul>
+                </div>
+                <div class="agile-card">
+                  <h3>Scrum Master</h3>
+                  <ul>
+                    <li>Facilitates the process, not the work itself.</li>
+                    <li>Helps remove impediments and improve the team’s effectiveness.</li>
+                    <li>Protects the sprint and encourages healthy routines.</li>
+                  </ul>
+                </div>
+                <div class="agile-card">
+                  <h3>Developers</h3>
+                  <ul>
+                    <li>Own technical execution.</li>
+                    <li>Estimate work and commit to sprint goals.</li>
+                    <li>Deliver and validate the increment.</li>
+                  </ul>
+                </div>
+                <div class="agile-card">
+                  <h3>Stakeholders</h3>
+                  <ul>
+                    <li>Provide context, feedback, and acceptance decisions.</li>
+                    <li>Do not direct the daily work of the team.</li>
+                    <li>Engage during review and release conversations.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>How this applies here</h3>
+              <p>Our organization may not have perfect textbook roles. In a small team, the team lead may be both a developer and the functional facilitator. That is okay as long as responsibilities remain clear: the team owns delivery; the lead supports and coaches the process without becoming a command-and-control bottleneck.</p>
+              <p><strong>Program context:</strong> The Program Manager protects contract scope, resources, and reporting. The Government Lead / TPOC sets macro priorities within approved scope. The Team Lead manages team-level execution, while developers own their stories and work items daily.</p>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>Technical lead vs Scrum Master</h3>
+              <ul>
+                <li><strong>Technical lead:</strong> owns engineering quality, implementation approach, and review decisions.</li>
+                <li><strong>Scrum Master:</strong> helps the team inspect and adapt its process and removes friction.</li>
+                <li>These are not the same job, even when the same person is doing both in a small team.</li>
+              </ul>
+            </div>
+
+            <div class="agile-lesson">
+              <h3>Facilitation vs command-and-control</h3>
+              <ul>
+                <li>Ask questions and surface tradeoffs rather than simply assign tasks.</li>
+                <li>Keep the Sprint Goal visible; do not chase every emergent request without discussion.</li>
+                <li>Coach the team to decide and own the work, while leadership still sets outcomes and priorities.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="team-session-02" role="tabpanel">
+            <div class="agile-lesson mb-3">
+              <h3>Learning objectives</h3>
+              <ul>
+                <li>Know who decides what matters most.</li>
+                <li>Know who decides how the work is implemented.</li>
+                <li>Know who accepts the work and how to escalate blockers.</li>
+              </ul>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>Who does what?</h3>
+              <div class="agile-table-shell">
+                <table>
+                  <thead>
+                    <tr><th>Question</th><th>Typical owner</th><th>How it works in our environment</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>What work is most important?</td><td>Government Lead / TPOC</td><td>Epic- and sprint-level priorities are directed within approved contract scope; the customer and team shape exact sprint scope.</td></tr>
+                    <tr><td>How should it be built?</td><td>Developers + team lead</td><td>Implementation decisions come from the team, with technical guidance.</td></tr>
+                    <tr><td>Is the work acceptable?</td><td>Stakeholders / customer / UAT owner</td><td>Acceptance happens through UAT and review.</td></tr>
+                    <tr><td>How do we remove blockers?</td><td>Team Lead → Government Lead / PM</td><td>Escalate schedule, technical, scope, and dependency risks immediately rather than waiting for a status review.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>Exercise: realistic responsibility scenarios</h3>
+              <ol>
+                <li>A user requests an item not in the sprint plan. Who decides whether it changes priority?</li>
+                <li>A developer disagrees with the technical approach. Who decides the final implementation path?</li>
+                <li>A bug arises in production during the sprint. Who owns the urgent response and how is the Sprint Goal adjusted?</li>
+              </ol>
+            </div>
+
+            <div class="agile-lesson">
+              <h3>Key rules / takeaways</h3>
+              <ul>
+                <li>Prioritization is not the same as technical execution.</li>
+                <li>Team leads are still developers; they do not become a separate “boss” layer unless the process requires it.</li>
+                <li>Ownership should be explicit enough that blockers do not disappear into silence.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="course-toc">
+        <h2 class="h5 mb-3">On this page</h2>
+        <a href="#lead-session-02">Lead Prep — Learn It</a>
+        <a href="#team-session-02">Team Session — Teach It</a>
+        <a href="#key-takeaways-02">Key takeaways</a>
+      </aside>
+    </section>
+
+    <section id="key-takeaways-02" class="mb-4">
+      <h2 class="section-title h3">Key takeaways</h2>
+      <div class="agile-callout success">
+        <p class="mb-0">Clear ownership reduces confusion. Scrum does not mean every person self-directs with no accountability; it means the team operates with visible roles, shared goals, and transparent decision-making.</p>
+      </div>
+    </section>
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
+      <a class="btn btn-outline-primary" href="session-01.html">Previous: Session 1</a>
+      <a class="btn btn-outline-primary" href="../agile-course.html">Return to course</a>
+      <a class="btn btn-primary" href="session-03.html">Next: Session 3</a>
+    </div>
+  </main>
+
+  <footer class="container-xl site-footer">
+    <div class="d-flex flex-wrap justify-content-between gap-2">
+      <span>Session 2</span>
+      <span>Agile transition course</span>
+    </div>
+  </footer>
+
+  <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../../assets/js/site.js"></script>
+</body>
+</html>

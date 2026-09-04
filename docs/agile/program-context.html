@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Program Context | Agile Transition Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <link rel="stylesheet" href="../../assets/css/components/agile-course.css" />
+</head>
+<body data-site-root="../..">
+  <main class="container-xl page-shell print-page">
+    <div class="print-toolbar"><a class="btn btn-outline-primary" href="../agile-course.html">Back to course</a><button class="btn btn-primary" type="button" onclick="window.print()">Print context</button></div>
+    <header class="course-hero mb-4">
+      <p class="pattern-hero-kicker mb-2">Course context</p>
+      <h1 class="display-6 fw-bold mb-2">Phased Sprint Delivery Plan</h1>
+      <p class="lead text-muted mb-0">The governance context behind this Agile transition: program accountability and team-level Scrum work together to answer different questions.</p>
+    </header>
+    <section class="mb-4">
+      <h2 class="section-title h3">Two complementary levels</h2>
+      <div class="two-up">
+        <div class="agile-card"><h3>Program level</h3><p><strong>Managed by the Program Manager.</strong> Contract deliverables, milestones, government reporting, risk management, scope adherence, resource management, and the contractor escalation path.</p><p class="mb-0"><strong>Question:</strong> Are we delivering the agreed-upon outcomes?</p></div>
+        <div class="agile-card"><h3>Team level (Agile)</h3><p><strong>Managed day to day by Team Leads and developers.</strong> Sprint execution, standups, backlog and feature progress, change control, work-item tracking, technical reviews, defect management, and continuous improvement.</p><p class="mb-0"><strong>Question:</strong> How are we completing the work?</p></div>
+      </div>
+    </section>
+    <section class="mb-4">
+      <h2 class="section-title h3">Azure DevOps traceability</h2>
+      <div class="agile-callout success"><strong>Every deliverable should trace to an approved program objective.</strong> Use the three-tier hierarchy: <strong>Epic → Feature → User Story / Work Item</strong>.</div>
+      <div class="agile-table-shell"><table><thead><tr><th>Tier</th><th>Represents</th><th>Example</th><th>Primary owner</th></tr></thead><tbody><tr><td>Epic</td><td>Contract deliverable, major objective, or government priority</td><td>Application modernization</td><td>Government Lead reviews status</td></tr><tr><td>Feature</td><td>Major capability, functional requirement, or planned release</td><td>Audit logging</td><td>Team Lead manages progress</td></tr><tr><td>User Story / Work Item</td><td>Development task, enhancement, defect, or technical work</td><td>Add MFA; fix dashboard filter</td><td>Developer owns daily updates</td></tr></tbody></table></div>
+    </section>
+    <section class="mb-4">
+      <h2 class="section-title h3">Board standards</h2>
+      <div class="two-up"><div class="agile-card"><h3>Feature/request board</h3><p><strong>Backlog → In Progress → In Review → Done</strong>. This supports status reporting and government visibility.</p><ul><li>ADO is the single source of truth.</li><li>Update every business day.</li><li>Move cards when the real status changes.</li><li>Acceptance criteria exist before In Progress.</li></ul></div><div class="agile-card"><h3>Task-level execution</h3><p>Teams may use <strong>Backlog → In Progress → Done</strong> beneath each feature, with a Blocked flag for daily execution.</p><ul><li>Document blockers the same day.</li><li>Escalate items In Progress more than five business days without an update.</li><li>The board should answer what is active, blocked, complete, and next.</li></ul></div></div>
+    </section>
+    <section class="mb-4"><h2 class="section-title h3">Roles and escalation</h2><div class="agile-table-shell"><table><thead><tr><th>Role</th><th>Course emphasis</th></tr></thead><tbody><tr><td>Program Manager</td><td>Protects contract scope, staffing/resources, reporting, and formal contractor escalation.</td></tr><tr><td>Government Lead / TPOC</td><td>Directs priorities within approved scope, reviews epic/sprint progress, and confirms government expectations.</td></tr><tr><td>Team Lead</td><td>Facilitates Scrum Master activities, leads technical review, maintains board health, and escalates risks to Government Lead and PM.</td></tr><tr><td>Developer</td><td>Owns work items, estimates, daily ADO updates, refinement participation, and early risk communication.</td></tr></tbody></table></div><div class="agile-callout warning mt-3"><strong>Escalate immediately:</strong> schedule, technical, scope, and dependency risks go from Team Lead to Government Lead / TPOC and Program Manager. Early communication gives the team options; late communication creates emergencies.</div></section>
+    <section class="mb-4"><h2 class="section-title h3">Scope and capacity rules</h2><div class="agile-card"><ol><li><strong>Document:</strong> add every request to ADO with requestor, description, date, and estimate.</li><li><strong>Assess:</strong> Team Lead evaluates schedule, resource, and priority impact.</li><li><strong>Review:</strong> route it to the Government Lead before work begins.</li><li><strong>Decide:</strong> approve, defer, or reject, with the decision recorded in ADO.</li><li><strong>Execute:</strong> update backlog and sprint priorities only after approval.</li></ol><p><strong>Capacity planning:</strong> use the program allocation of 50% major work, 25% minor work, and 25% meetings/administration, then account for PTO and sustainment support.</p><p class="mb-0"><strong>Major efforts</strong> require epic-level review and the full phased delivery process. Scope discipline applies to changes to existing functionality as well as new features.</p></div></section>
+    <section class="mb-4"><h2 class="section-title h3">Review cadence and success signals</h2><div class="agile-table-shell"><table><thead><tr><th>Cadence</th><th>Review</th><th>Focus</th></tr></thead><tbody><tr><td>Daily</td><td>Team standup</td><td>Blockers, risks, and coordination</td></tr><tr><td>Bi-weekly</td><td>Program review</td><td>Epic/Feature progress, risks, resources, board health, aging items, milestones</td></tr><tr><td>Monthly</td><td>Government status review</td><td>Accomplishments, deliverables, risks, and planned activities</td></tr></tbody></table></div><p class="mt-3 mb-0">Success means risks surface before delivery impact, ADO is current without prompting, no unapproved work begins, completion becomes more predictable, and stakeholders have data-driven visibility.</p></section>
+    <section class="agile-callout success"><strong>How to use this page:</strong> Read it before Sessions 2–6, use it when discussing ownership or scope, and keep it with the lead and developer packets as the program-specific reference. The change-control path is reviewed in bi-weekly program reviews and monthly government status reviews.</section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Session 1 | Agile Transition Course</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../assets/vendor/bootstrap/bootstrap.min.css" />
+  <link rel="stylesheet" href="../../assets/vendor/fontawesome/all.min.css" />
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="../../assets/css/base.css" />
+  <link rel="stylesheet" href="../../assets/css/layout.css" />
+  <link rel="stylesheet" href="../../assets/css/components/navbar.css" />
+  <link rel="stylesheet" href="../../assets/css/components/agile-course.css" />
+</head>
+<body data-site-root="../..">
+  <nav class="navbar navbar-expand-lg site-navbar sticky-top">
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../../index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../../patterns/chartjs-dashboard.html">Patterns</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="../../patterns/advanced-ui.html">Advanced UI</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../razor-pages-mapping.html">Razor Pages</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../snippets.html">Snippets</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../conventions.html">Conventions</a></li>
+          <li class="nav-item"><a class="nav-link" data-nav href="../htmx-spike.html">HTMX Spike</a></li>
+          <li class="nav-item"><a class="nav-link active" data-nav href="../agile-course.html">Agile Course</a></li>
+        </ul>
+        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <div class="print-toolbar"><a class="btn btn-outline-primary" href="../agile-course.html">Back to course</a><button class="btn btn-primary" type="button" onclick="window.print()">Print complete session</button></div>
+    <section class="course-hero mb-4">
+      <p class="pattern-hero-kicker mb-2">Session 1</p>
+      <h1 class="display-6 fw-bold mb-2">Agile, Scrum, and What Changes October 1</h1>
+      <div class="agile-session-meta">
+        <span class="pill">Why it matters</span>
+        <span class="pill">Lead prep: 45–60 min</span>
+        <span class="pill">Team session: 45–60 min</span>
+      </div>
+    </section>
+
+    <section class="course-layout mb-5">
+      <div>
+        <div class="agile-callout mb-3">
+          <strong>Why it matters:</strong> Teams need a shared mental model before the October 1 launch. Without it, they will treat Scrum as a new label for old work rather than a visible workflow for planning, review, and learning.
+        </div>
+
+        <ul class="nav nav-tabs course-tabs" role="tablist">
+          <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#lead-session-01" type="button" role="tab" aria-selected="true">Lead Prep — Learn It</button></li>
+          <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#team-session-01" type="button" role="tab" aria-selected="false">Team Session — Teach It</button></li>
+        </ul>
+
+        <div class="tab-content course-tab-panel">
+          <div class="tab-pane fade show active" id="lead-session-01" role="tabpanel">
+            <div class="agile-lesson mb-3">
+              <h3>Agile vs Scrum</h3>
+              <p>Agile is a broader mindset that values working software, customer feedback, and adaptation. Scrum is a specific framework that gives a team roles, time-boxed work, and a repeatable cadence.</p>
+              <div class="agile-table-shell">
+                <table>
+                  <thead>
+                    <tr><th>Concept</th><th>Agile</th><th>Scrum</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Scope</td><td>Mindset and principles</td><td>Specific framework</td></tr>
+                    <tr><td>Cadence</td><td>Iterations can vary</td><td>Time-boxed sprints</td></tr>
+                    <tr><td>Roles</td><td>May be informal</td><td>Defined roles with responsibilities</td></tr>
+                    <tr><td>Artifacts</td><td>Can be loose</td><td>Backlog, sprint backlog, increment</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>Transparency, inspection, adaptation</h3>
+              <ul>
+                <li><strong>Transparency:</strong> visible work, priorities, and status.</li>
+                <li><strong>Inspection:</strong> review progress at sprint boundaries and during standups.</li>
+                <li><strong>Adaptation:</strong> change the plan when reality differs from assumptions.</li>
+              </ul>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>Why the current controls still matter</h3>
+              <p>Design review, lead code review, UAT, and release controls are not “anti-Agile.” They remain necessary governance and quality steps. Scrum makes them visible and time-boxed rather than hidden at the end of a long cycle.</p>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>Common misconceptions</h3>
+              <ul>
+                <li>“No documentation or design work.” Not true.</li>
+                <li>“We can skip review and quality gates.” Not true.</li>
+                <li>“The team should do whatever is urgent and ignore planning.” Not true.</li>
+                <li>“Scrum means no managers or no technical leadership.” Not true.</li>
+              </ul>
+            </div>
+
+            <div class="agile-lesson">
+              <h3>Lead questions to be ready to answer</h3>
+              <ul>
+                <li>What changes in the way work is organized and visible?</li>
+                <li>What stays the same in design, review, and UAT?</li>
+                <li>Why is the Sprint Goal important when work can still be urgent?</li>
+                <li>How do we use the board to support transparency and adaptation?</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="tab-pane fade" id="team-session-01" role="tabpanel">
+            <div class="agile-lesson mb-3">
+              <h3>Learning objectives</h3>
+              <ul>
+                <li>Explain what changes on October 1.</li>
+                <li>Recognize the new Scrum lifecycle and key events.</li>
+                <li>Map current work into backlog, refinement, sprint, review, and retrospective flow.</li>
+              </ul>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>10–15 minute concept explanation</h3>
+              <p>Historically, work flows from Design Review → Development → Code Review → UAT → Go Live. Scrum does not eliminate this; it makes the work visible in a shorter cadence with a backlog, board, and sprint goal.</p>
+              <div class="agile-callout success">
+                <strong>Old model:</strong> wait until a big block of work is mostly complete, then review and validate.<br />
+                <strong>New model:</strong> plan small slices of value, inspect progress often, and adapt based on evidence.
+              </div>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>Examples from our environment</h3>
+              <ul>
+                <li>Design review remains a quality gate, but becomes part of the planned work and visible in the board.</li>
+                <li>Lead code review is part of the sprint flow, not an after-the-fact cleanup step.</li>
+                <li>UAT happens against the increment and remains required.</li>
+                <li>Go-live may occur before or after a sprint boundary, but the sprint should still show the work that was completed.</li>
+              </ul>
+            </div>
+
+            <div class="agile-lesson mb-3">
+              <h3>Hands-on exercise</h3>
+              <p>Take a current project, defect, or enhancement and map it to the new lifecycle:</p>
+              <ol>
+                <li>What is the backlog item?</li>
+                <li>What part is in refinement?</li>
+                <li>What work is selected for the sprint?</li>
+                <li>What board state changes during development and review?</li>
+                <li>When does UAT or acceptance happen?</li>
+                <li>What makes the work Done?</li>
+              </ol>
+            </div>
+
+            <div class="agile-lesson">
+              <h3>Key rules / takeaways</h3>
+              <ul>
+                <li>Backlog and board become the source of truth for work in progress.</li>
+                <li>Standups become board-driven instead of personal status reports.</li>
+                <li>Done still requires evidence: review, validation, and accurate board updates.</li>
+                <li>Scrum does not mean “no process”; it means visible and inspectable process.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="course-toc">
+        <h2 class="h5 mb-3">On this page</h2>
+        <a href="#lead-session-01">Lead Prep — Learn It</a>
+        <a href="#team-session-01">Team Session — Teach It</a>
+        <a href="#key-takeaways-01">Key takeaways</a>
+      </aside>
+    </section>
+
+    <section id="key-takeaways-01" class="mb-4">
+      <h2 class="section-title h3">Key takeaways</h2>
+      <div class="agile-callout success">
+        <p class="mb-0">Scrum is a way to make planning, review, and learning visible inside a short work cycle. It is not a promise that we stop doing design, code review, UAT, or release governance; it is a way to integrate those controls into a healthier cadence.</p>
+      </div>
+    </section>
+
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
+      <a class="btn btn-outline-primary" href="../agile-course.html">Return to course</a>
+      <a class="btn btn-primary" href="session-02.html">Next: Session 2</a>
+    </div>
+  </main>
+
+  <footer class="container-xl site-footer">
+    <div class="d-flex flex-wrap justify-content-between gap-2">
+      <span>Session 1</span>
+      <span>Agile transition course</span>
+    </div>
+  </footer>
+
+  <script src="../../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script type="module" src="../../assets/js/site.js"></script>
+</body>
+</html>

@@ -1,0 +1,411 @@
+:root {
+  --agile-surface: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+  --agile-border: color-mix(in srgb, var(--theme-primary) 24%, var(--line-soft));
+  --agile-soft: color-mix(in srgb, var(--theme-primary) 10%, var(--bg-elevated));
+  --agile-success: color-mix(in srgb, #10b981 14%, var(--bg-elevated));
+  --agile-warning: color-mix(in srgb, #f59e0b 12%, var(--bg-elevated));
+}
+
+.course-hero {
+  border: 1px solid var(--agile-border);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.3rem, 2.5vw, 2.2rem);
+  background:
+    linear-gradient(140deg, color-mix(in srgb, var(--theme-primary) 18%, transparent), transparent 52%),
+    linear-gradient(180deg, color-mix(in srgb, white 90%, var(--bg-elevated)), var(--bg-elevated));
+  box-shadow: var(--shadow-md);
+}
+
+.course-overview-grid,
+.course-summary-grid,
+.session-grid,
+.course-glossary-grid,
+.two-up,
+.agile-timeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.course-overview-grid,
+.course-summary-grid,
+.session-grid,
+.course-glossary-grid,
+.two-up {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.agile-timeline {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.agile-card,
+.agile-callout,
+.agile-lesson,
+.agile-table-shell,
+.agile-checklist,
+.agile-scenario {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.agile-card,
+.agile-lesson,
+.agile-table-shell,
+.agile-checklist,
+.agile-scenario {
+  padding: 1rem 1.1rem;
+}
+
+.agile-card h3,
+.agile-lesson h3,
+.agile-scenario h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1.08rem;
+}
+
+.agile-session-link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.agile-session-link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.agile-session-link .agile-card {
+  height: 100%;
+  transition: transform var(--dur-fast) var(--ease-standard), border-color var(--dur-fast) var(--ease-standard), box-shadow var(--dur-fast) var(--ease-standard);
+}
+
+.agile-session-link:hover .agile-card,
+.agile-session-link:focus-visible .agile-card {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--theme-primary) 36%, var(--line-soft));
+  box-shadow: var(--shadow-md);
+}
+
+.agile-pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line-soft);
+  background: var(--agile-soft);
+  color: var(--text-main);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.lifecycle-flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.lifecycle-step {
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: var(--agile-soft);
+  padding: 0.5rem 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.lifecycle-arrow {
+  color: var(--theme-primary);
+  font-size: 1.15rem;
+}
+
+.agile-callout {
+  padding: 1rem 1.1rem;
+  border-left: 4px solid var(--theme-primary);
+  background: color-mix(in srgb, var(--theme-primary) 8%, var(--bg-elevated));
+}
+
+.agile-callout.success {
+  border-left-color: #10b981;
+  background: var(--agile-success);
+}
+
+.agile-callout.warning {
+  border-left-color: #f59e0b;
+  background: var(--agile-warning);
+}
+
+.course-tabs .nav-link {
+  border-radius: 0.75rem 0.75rem 0 0;
+  border-color: var(--line-soft);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.course-tabs .nav-link.active {
+  background: var(--bg-elevated);
+  border-color: var(--line-soft) var(--line-soft) transparent;
+  color: var(--theme-primary);
+}
+
+.course-tab-panel {
+  border: 1px solid var(--line-soft);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  background: var(--bg-elevated);
+  padding: 1.1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.course-toc {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem;
+}
+
+.course-toc a {
+  display: block;
+  padding: 0.45rem 0.5rem;
+  border-radius: 0.5rem;
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.course-toc a:hover,
+.course-toc a:focus-visible {
+  background: color-mix(in srgb, var(--theme-primary) 8%, var(--bg-elevated));
+  color: var(--theme-primary);
+}
+
+.agile-table-shell table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.75rem;
+}
+
+.agile-table-shell th,
+.agile-table-shell td {
+  border-bottom: 1px solid var(--line-soft);
+  padding: 0.65rem 0.7rem;
+  vertical-align: top;
+  text-align: left;
+}
+
+.agile-table-shell th {
+  background: color-mix(in srgb, var(--theme-primary) 8%, var(--bg-elevated));
+  font-weight: 700;
+}
+
+.agile-checklist ul,
+.agile-lesson ul,
+.agile-card ul,
+.agile-scenario ul,
+.course-hero ul,
+.agile-session-body ul {
+  margin-bottom: 0;
+  padding-left: 1.1rem;
+}
+
+.agile-checklist li,
+.agile-lesson li,
+.agile-card li,
+.agile-scenario li,
+.course-hero li {
+  margin-bottom: 0.35rem;
+}
+
+.agile-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.85rem;
+  margin-top: 0.75rem;
+}
+
+.metric-box {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--agile-soft);
+  padding: 0.8rem;
+}
+
+.metric-label {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+}
+
+.agile-session-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.75rem;
+}
+
+.agile-session-meta .pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: var(--bg-muted);
+  border: 1px solid var(--line-soft);
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.print-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+@media print {
+  @page {
+    margin: 0.6in;
+  }
+
+  :root {
+    color-scheme: light;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+  }
+
+  .print-toolbar,
+  .site-navbar,
+  .site-footer {
+    display: none !important;
+  }
+
+  .print-page {
+    max-width: none;
+    padding: 0;
+  }
+
+  .course-layout {
+    display: block !important;
+  }
+
+  .course-toc {
+    display: none !important;
+  }
+
+  .course-tabs {
+    display: none !important;
+  }
+
+  .course-tab-panel {
+    border-top: 1px solid var(--line-soft);
+  }
+
+  .course-tab-panel .tab-pane {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    break-before: auto;
+  }
+
+  .course-tab-panel .tab-pane::before {
+    display: block;
+    margin: 0 0 1rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 2px solid #333;
+    color: #111;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  .course-tab-panel .tab-pane[id^="lead-session-"]::before {
+    content: "Lead Prep - Learn It";
+  }
+
+  .course-tab-panel .tab-pane[id^="team-session-"]::before {
+    content: "Team Session - Teach It";
+    break-before: page;
+  }
+
+  .course-hero,
+  .agile-card,
+  .agile-lesson,
+  .agile-table-shell,
+  .agile-checklist,
+  .agile-scenario,
+  .agile-callout {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .course-hero {
+    border-color: #999;
+    background: #fff;
+  }
+
+  .agile-table-shell {
+    overflow: visible;
+  }
+
+  .agile-table-shell table {
+    page-break-inside: auto;
+  }
+
+  .agile-table-shell tr {
+    break-inside: avoid;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  a {
+    color: #111 !important;
+    text-decoration: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .course-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 260px);
+    gap: 1.25rem;
+    align-items: start;
+  }
+
+  .course-toc {
+    position: sticky;
+    top: 5.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .course-tab-panel {
+    padding: 0.85rem;
+  }
+
+  .agile-session-meta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

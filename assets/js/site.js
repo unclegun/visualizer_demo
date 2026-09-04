@@ -120,9 +120,24 @@ function normalizePrimitiveClasses() {
   document.querySelectorAll(".demo-shell").forEach((panel) => panel.classList.add("demo-panel"));
 }
 
+function initializeAgileSessionPrintControl() {
+  const tabs = document.querySelector(".course-tabs");
+  const main = document.querySelector("main.page-shell, main.container-xl");
+  if (!tabs || !main || main.querySelector(".print-toolbar")) {
+    return;
+  }
+
+  const toolbar = document.createElement("div");
+  toolbar.className = "print-toolbar";
+  toolbar.innerHTML = '<a class="btn btn-outline-primary" href="../agile-course.html">Back to course</a><button class="btn btn-primary" type="button">Print complete session</button>';
+  toolbar.querySelector("button").addEventListener("click", () => window.print());
+  main.prepend(toolbar);
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   normalizePageShell();
   normalizePrimitiveClasses();
+  initializeAgileSessionPrintControl();
   initializeNavigation();
   initializeStickyNavbarState();
   initializeScrollProgress();
