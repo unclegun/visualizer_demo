@@ -42,7 +42,7 @@
     <section class="course-hero mb-4">
       <p class="pattern-hero-kicker mb-2">Scrum Transition Course</p>
       <h1 class="display-6 fw-bold mb-2">Agile for software teams moving to Scrum on October 1</h1>
-      <p class="lead text-muted mb-3">A practical three-week course designed to help team leads and developers learn the same concepts at different depth while transitioning from informal standups and ad hoc work tracking into a visible, repeatable Scrum system.</p>
+      <p class="lead text-muted mb-3">A condensed train-the-trainer course for Team Leads and developers. Leads learn the why, facilitation, governance, and coaching depth; developers receive practical 45–60 minute lunch-and-learns. The Phased Sprint Delivery Plan remains the authority for local operating rules.</p>
       <div class="d-flex flex-wrap gap-2 mb-3">
         <span class="agile-pill">3 weeks</span>
         <span class="agile-pill">6 sessions</span>
@@ -65,7 +65,8 @@
           <ul>
             <li>Explain the purpose and lifecycle of a sprint.</li>
             <li>Facilitate backlog refinement, planning, and retrospectives.</li>
-            <li>Coach the team through flow, ownership, and review quality.</li>
+            <li>Coach developers through flow, ownership, review quality, and risk escalation.</li>
+            <li>Teach local rules without presenting them as generic Scrum.</li>
           </ul>
         </div>
         <div class="agile-card">
@@ -73,7 +74,7 @@
           <ul>
             <li>Understand what changes on October 1.</li>
             <li>Work from a visible backlog and board.</li>
-            <li>Use shelvesets, work-item association, and UAT in the Scrum flow.</li>
+            <li>Use TFVC shelvesets, work-item association, UAT, and daily ADO updates.</li>
           </ul>
         </div>
         <div class="agile-card">
@@ -81,6 +82,7 @@
           <ul>
             <li>Agile does not remove design review, code review, UAT, or release control.</li>
             <li>It places those controls inside a shorter, visible, iterative workflow.</li>
+            <li>Success is predictable delivery and early communication—not individual scoring.</li>
           </ul>
         </div>
       </div>
@@ -116,12 +118,12 @@
       <h2 class="section-title h3">How this fits the program</h2>
       <p class="section-subtitle">The Phased Sprint Delivery Plan adds an Agile team layer to existing contract and governance accountability. These are complementary layers, not competing processes.</p>
       <div class="course-overview-grid">
-        <div class="agile-card"><h3>Program level</h3><p>Program Managers protect contract scope, deliverables, resources, risks, and reporting. The Government Lead / TPOC directs approved priorities at the epic and sprint level.</p></div>
-        <div class="agile-card"><h3>Team level</h3><p>Team Leads coordinate ceremonies, feature progress, technical review, defect management, board health, and day-to-day execution. Developers own their stories and work items daily.</p></div>
-        <div class="agile-card"><h3>Traceability</h3><p>Use the Azure DevOps hierarchy: <strong>Epic → Feature → User Story / Work Item</strong>. Every deliverable should trace back to an approved program objective.</p></div>
+        <div class="agile-card"><span class="agile-pill">Program Rule</span><h3>Program level</h3><p>Managed by the Program Manager: contract deliverables, milestones, government reporting, risk management, and scope adherence.</p><p class="mb-0"><strong>Question:</strong> Are we delivering the agreed-upon outcomes?</p></div>
+        <div class="agile-card"><span class="agile-pill">Scrum Practice</span><h3>Team level</h3><p>Team Leads operationally manage sprint execution, standups, backlog prioritization, change control, technical reviews, defects, and improvement; developers own daily work-item accuracy.</p><p class="mb-0"><strong>Question:</strong> How are we completing the work?</p></div>
+        <div class="agile-card"><span class="agile-pill">Program Rule</span><h3>Traceability</h3><p><strong>Epic → Feature → User Story / Work Item</strong>. Every item traces to an approved objective. Government Lead reviews Epics, Team Lead manages Features, and developers update work items.</p></div>
       </div>
-      <div class="agile-callout warning mt-3"><strong>Scope rule:</strong> document every request in Azure DevOps, assess it, route it to the Government Lead for decision, and begin only after approval is recorded. Major efforts require epic-level review; urgency does not bypass change control.</div>
-      <p class="mt-3 mb-0"><a class="btn btn-outline-primary" href="./agile/program-context.html">Open full program context reference</a></p>
+      <div class="agile-callout warning mt-3"><span class="agile-pill">Program Rule</span> <strong>Scope rule:</strong> document every request in ADO, assess schedule/resource/priority impact, obtain the Government Lead decision, record it, then execute. Work already inside an approved sprint does not need a new approval for every implementation task; sprint-level changes and new Epics do.</div>
+      <p class="mt-3 mb-0"><a class="btn btn-outline-primary" href="./agile/program-context.html">Open full program context reference</a> <a class="btn btn-outline-primary" href="./agile/launch-readiness.html">Sep 28–30 launch readiness</a></p>
     </section>
 
     <section id="session-overview" class="mb-5">
@@ -144,31 +146,46 @@
         <a class="agile-session-link" href="./agile/session-03.html">
           <article class="agile-card">
             <span class="agile-pill">Week 2 · Session 3</span>
-            <h3>Backlogs, Work Items, and Refinement</h3>
+            <h3>Backlogs, Work Items, Refinement, and Board Standards</h3>
             <p class="text-muted mb-0">How to structure Azure Boards work and split work into valuable, reviewable units.</p>
           </article>
         </a>
         <a class="agile-session-link" href="./agile/session-04.html">
           <article class="agile-card">
             <span class="agile-pill">Week 2 · Session 4</span>
-            <h3>Estimation and Sprint Planning</h3>
+            <h3>Estimation, Capacity, Sprint Planning, and Change Control</h3>
             <p class="text-muted mb-0">Capacity, relative estimation, story points, and planning without creating personal productivity scores.</p>
           </article>
         </a>
         <a class="agile-session-link" href="./agile/session-05.html">
           <article class="agile-card">
             <span class="agile-pill">Week 3 · Session 5</span>
-            <h3>Running the Sprint and Daily Scrum</h3>
+            <h3>Running the Sprint, Daily Scrum, Risks, and Escalation</h3>
             <p class="text-muted mb-0">Use Azure Boards to inspect progress, surface blockers, and adapt toward the Sprint Goal.</p>
           </article>
         </a>
         <a class="agile-session-link" href="./agile/session-06.html">
           <article class="agile-card">
             <span class="agile-pill">Week 3 · Session 6</span>
-            <h3>TFVC, Code Review, and Definition of Done</h3>
+            <h3>Quality Flow, Review, UAT, Release, Retrospective, and Simulation</h3>
             <p class="text-muted mb-0">Apply work-item association, shelvesets, lead review, check-in, UAT, and completion standards.</p>
           </article>
         </a>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Local standards at a glance</h2>
+      <div class="agile-table-shell">
+        <table>
+          <thead><tr><th>Label</th><th>Local standard</th></tr></thead>
+          <tbody>
+            <tr><td><span class="agile-pill">Program Rule</span></td><td>ADO updates every business day; blockers same day; acceptance criteria before In Progress; escalate In Progress items with no update after 5 business days.</td></tr>
+            <tr><td><span class="agile-pill">Program Capacity Allocation</span></td><td>50% major work, 25% minor work, 25% meetings/admin, adjusted for PTO, sustainment, dependencies, and production issues.</td></tr>
+            <tr><td><span class="agile-pill">Engineering Practice</span></td><td>Work Item → Development → TFVC Shelveset → Team Lead Review → Check-in → validation → UAT where required → Done. No Git or PR workflow.</td></tr>
+            <tr><td><span class="agile-pill">Future Maturity</span></td><td>Unit tests, CI, automated quality gates, and sophisticated branching are future goals, not current requirements.</td></tr>
+          </tbody>
+        </table>
       </div>
     </section>
 
@@ -188,6 +205,27 @@
           </tbody>
         </table>
       </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Supplemental / Required Program Resources</h2>
+      <p class="section-subtitle">This lunch-and-learn supplements required Phased Sprint Delivery Plan training; it does not replace it.</p>
+      <div class="agile-table-shell">
+        <table>
+          <thead><tr><th>Resource</th><th>Audience</th><th>Completion target</th></tr></thead>
+          <tbody>
+            <tr><td>Microsoft Learn: Work Item Management</td><td>Developers and Team Leads</td><td>Before Session 3</td></tr>
+            <tr><td>Microsoft Learn: Backlog and Sprint Management</td><td>Team Leads</td><td>Before Session 4</td></tr>
+            <tr><td>Azure DevOps Boards Fundamentals; Azure DevOps Zero to Hero</td><td>Developers and Team Leads</td><td>Before October 1</td></tr>
+            <tr><td>Free Agile Courses / Udemy; Agile Scrum Full Course; Scrum Fundamentals</td><td>Team Leads (developers as assigned)</td><td>Before launch readiness</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Success criteria</h2>
+      <div class="agile-callout success"><ul class="mb-0"><li>Risks and blockers surface before delivery impact.</li><li>ADO stays current without prompting and unauthorized work does not start.</li><li>Sprint completion becomes more predictable with fewer schedule surprises.</li><li>Government receives data-driven visibility.</li><li>Team Leads and developers understand both <strong>how</strong> and <strong>why</strong>.</li></ul></div>
     </section>
 
     <section class="mb-5">
