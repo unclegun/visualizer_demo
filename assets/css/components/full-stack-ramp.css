@@ -1,0 +1,203 @@
+/* Hero and flow-diagram visuals are shared with agile-course.css (.course-hero, .flow-diagram/.lifecycle-flow). */
+
+.ramp-progress-track {
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--bg-muted);
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+}
+
+.ramp-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--theme-primary), var(--theme-accent));
+  transition: width 0.25s ease;
+}
+
+.ramp-progress-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* Color values shared with agile-course.css's .agile-callout.warning */
+.not-yet-callout {
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.1rem;
+}
+
+.not-yet-callout ul {
+  columns: 2;
+  column-gap: 2rem;
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.not-yet-callout li {
+  break-inside: avoid;
+  margin-bottom: 0.3rem;
+}
+
+.lab-card {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.1rem;
+  overflow: hidden;
+}
+
+.lab-summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--theme-accent) 10%, var(--bg-elevated)), var(--bg-elevated));
+}
+
+.lab-summary::-webkit-details-marker {
+  display: none;
+}
+
+.lab-summary::before {
+  content: "▸";
+  color: var(--theme-primary);
+  font-size: 1rem;
+  transition: transform 0.15s ease;
+}
+
+.lab-card[open] > .lab-summary::before {
+  transform: rotate(90deg);
+}
+
+.lab-index {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  background: var(--agile-soft, var(--bg-muted));
+  border: 1px solid var(--line-soft);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lab-summary h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.lab-body {
+  padding: 0 1.1rem 1.1rem;
+}
+
+.lab-body h3 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin: 1.1rem 0 0.4rem;
+}
+
+.lab-body h3:first-child {
+  margin-top: 0.9rem;
+}
+
+.lab-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.hint-block {
+  border: 1px dashed var(--line-soft);
+  border-radius: var(--radius-md);
+  background: var(--bg-muted);
+  margin: 0.5rem 0 1rem;
+}
+
+.hint-block summary {
+  cursor: pointer;
+  padding: 0.55rem 0.8rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--theme-primary);
+  list-style: none;
+}
+
+.hint-block summary::-webkit-details-marker {
+  display: none;
+}
+
+.hint-block summary::before {
+  content: "💡 ";
+}
+
+.hint-block .hint-content {
+  padding: 0 0.8rem 0.8rem;
+}
+
+.checkpoint-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.checkpoint-list li {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-md);
+  padding: 0.5rem 0.7rem;
+  background: var(--bg-muted);
+}
+
+.checkpoint-list label {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  cursor: pointer;
+  margin: 0;
+}
+
+.checkpoint-list input[type="checkbox"] {
+  margin-top: 0.2rem;
+  flex-shrink: 0;
+}
+
+.checkpoint-list li:has(input:checked) {
+  border-color: color-mix(in srgb, #10b981 45%, var(--line-soft));
+  background: color-mix(in srgb, #10b981 12%, var(--bg-elevated));
+}
+
+.ramp-schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.ticket-card {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+  padding: 1.1rem;
+}
+
+.ticket-card ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.ticket-card li {
+  margin-bottom: 0.3rem;
+}
+
+@media (max-width: 640px) {
+  .not-yet-callout ul {
+    columns: 1;
+  }
+}

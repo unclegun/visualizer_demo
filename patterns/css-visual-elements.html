@@ -21,20 +21,66 @@
 </head>
 <body data-site-root=".." data-nav-section="advanced-ui">
   <div class="scroll-progress"><span data-scroll-progress></span></div>
-  <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
     <div class="container-xl">
       <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"><span class="navbar-toggler-icon"></span></button>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="mainNav">
         <ul class="navbar-nav me-auto gap-lg-1">
           <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" data-nav href="./chartjs-dashboard.html">Patterns</a></li>
-          <li class="nav-item"><a class="nav-link" data-nav data-nav-section="advanced-ui" href="./advanced-ui.html">Advanced UI</a></li>
-          <li class="nav-item"><a class="nav-link" data-nav href="../docs/razor-pages-mapping.html">Razor Pages</a></li>
-          <li class="nav-item"><a class="nav-link" data-nav href="../docs/snippets.html">Snippets</a></li>
-          <li class="nav-item"><a class="nav-link" data-nav href="../docs/conventions.html">Conventions</a></li><li class="nav-item"><a class="nav-link" data-nav href="../docs/htmx-spike.html">HTMX Spike</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-nav data-nav-group="chartjs-dashboard.html,css-visual-elements.html,data-display.html,forms-filters.html,navigation-layout.html,datatable-modal.html,advanced-ui.html,advanced-headers.html,premium-cards.html,microinteractions.html,dashboard-motion.html,focus-pull-hero.html,prop-for-that-runtime-css.html,htmx-partials.html,htmx-modal-form.html,htmx-cascading-selects.html,htmx-table-refresh.html" href="../patterns/chartjs-dashboard.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">Patterns</a>
+            <ul class="dropdown-menu">
+              <li><h6 class="dropdown-header">Core UI patterns</h6></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/chartjs-dashboard.html">Chart.js Dashboard</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/css-visual-elements.html">CSS Visual Elements</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/data-display.html">Data Display</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/forms-filters.html">Forms &amp; Filters</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/navigation-layout.html">Navigation &amp; Layout</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/datatable-modal.html">Datatable + Modal</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><h6 class="dropdown-header">Advanced UI</h6></li>
+              <li><a class="dropdown-item" data-nav data-nav-section="advanced-ui" href="../patterns/advanced-ui.html">Advanced UI Overview</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/advanced-headers.html">Advanced Headers</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/premium-cards.html">Premium Cards</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/microinteractions.html">Microinteractions</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/dashboard-motion.html">Dashboard Motion</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/focus-pull-hero.html">Focus Pull Hero</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/prop-for-that-runtime-css.html">Prop-For-That Runtime CSS</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><h6 class="dropdown-header">HTMX patterns</h6></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/htmx-partials.html">HTMX Partials</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/htmx-modal-form.html">HTMX Modal Form</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/htmx-cascading-selects.html">HTMX Cascading Selects</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/htmx-table-refresh.html">HTMX Table Refresh</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-nav data-nav-group="getting-started.html,razor-pages-mapping.html,conventions.html,snippets.html,htmx-spike.html,llm-context-generator.html,investment-intelligence-design.html" href="../docs/getting-started.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">Docs</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" data-nav href="../docs/getting-started.html">Getting Started</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/razor-pages-mapping.html">Razor Pages Mapping</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/conventions.html">Conventions</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/snippets.html">Snippets</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/htmx-spike.html">HTMX Spike</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/llm-context-generator.html">LLM Context Generator</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/investment-intelligence-design.html">Investment Intelligence Design</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-nav data-nav-group="agile-course.html,full-stack-ramp.html" href="../docs/agile-course.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">Training</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" data-nav href="../docs/agile-course.html">Agile Course</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/full-stack-ramp.html">Full-Stack Ramp</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="https://github.com/unclegun/visualizer_demo" target="_blank" rel="noopener">GitHub</a></li>
         </ul>
-        <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+        </div>
       </div>
     </div>
   </nav>

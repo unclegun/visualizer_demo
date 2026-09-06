@@ -8,11 +8,19 @@ export function initializeNavigation() {
   links.forEach((link) => {
     const href = link.getAttribute("href") || "";
     const grouped = link.dataset.navSection && section && link.dataset.navSection === section;
-    const isActive = grouped || href.endsWith(current) || (current === "index.html" && href === "../index.html") || href === "index.html";
+    const group = link.dataset.navGroup ? link.dataset.navGroup.split(",") : null;
+    const inGroup = !!group && group.includes(current);
+    const isActive = grouped || inGroup || href.endsWith(current) || (current === "index.html" && href === "../index.html") || href === "index.html";
     link.classList.toggle("active", isActive);
+
+    const dropdownToggle = link.closest(".dropdown")?.querySelector(":scope > .dropdown-toggle");
+    if (dropdownToggle && dropdownToggle !== link && isActive) {
+      dropdownToggle.classList.add("active");
+    }
   });
 
-  const active = document.querySelector(".site-navbar .nav-link.active");
+  // Rail underline only tracks links that are actually visible (not hidden inside a closed dropdown).
+  const active = qsa(".site-navbar .nav-link.active").find((link) => link.offsetParent !== null);
   const navList = document.querySelector(".site-navbar .navbar-nav");
   const nav = document.querySelector(".site-navbar");
   if (!active || !navList || !nav || !nav.hasAttribute("data-nav-rail") || window.innerWidth < 992) {

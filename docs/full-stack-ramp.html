@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Frontend to Full Stack: ASP.NET Core Razor Pages | Razor UI Patterns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/bootstrap.min.css" /><link rel="stylesheet" href="../assets/vendor/fontawesome/all.min.css" /><link rel="stylesheet" href="../assets/vendor/prism/prism.min.css" /><link rel="stylesheet" href="../assets/css/theme.css" /><link rel="stylesheet" href="../assets/css/base.css" /><link rel="stylesheet" href="../assets/css/layout.css" /><link rel="stylesheet" href="../assets/css/components/navbar.css" /><link rel="stylesheet" href="../assets/css/components/agile-course.css" /><link rel="stylesheet" href="../assets/css/components/full-stack-ramp.css" />
+</head>
+<body data-site-root=".." class="full-stack-ramp-page">
+    <nav class="navbar navbar-expand-lg site-navbar sticky-top" data-nav-rail>
+    <div class="container-xl">
+      <a class="navbar-brand fw-bold" href="../index.html">Razor UI Patterns</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto gap-lg-1">
+          <li class="nav-item"><a class="nav-link" data-nav href="../index.html">Home</a></li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-nav data-nav-group="chartjs-dashboard.html,css-visual-elements.html,data-display.html,forms-filters.html,navigation-layout.html,datatable-modal.html,advanced-ui.html,advanced-headers.html,premium-cards.html,microinteractions.html,dashboard-motion.html,focus-pull-hero.html,prop-for-that-runtime-css.html,htmx-partials.html,htmx-modal-form.html,htmx-cascading-selects.html,htmx-table-refresh.html" href="../patterns/chartjs-dashboard.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">Patterns</a>
+            <ul class="dropdown-menu">
+              <li><h6 class="dropdown-header">Core UI patterns</h6></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/chartjs-dashboard.html">Chart.js Dashboard</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/css-visual-elements.html">CSS Visual Elements</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/data-display.html">Data Display</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/forms-filters.html">Forms &amp; Filters</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/navigation-layout.html">Navigation &amp; Layout</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/datatable-modal.html">Datatable + Modal</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><h6 class="dropdown-header">Advanced UI</h6></li>
+              <li><a class="dropdown-item" data-nav data-nav-section="advanced-ui" href="../patterns/advanced-ui.html">Advanced UI Overview</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/advanced-headers.html">Advanced Headers</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/premium-cards.html">Premium Cards</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/microinteractions.html">Microinteractions</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/dashboard-motion.html">Dashboard Motion</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/focus-pull-hero.html">Focus Pull Hero</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/prop-for-that-runtime-css.html">Prop-For-That Runtime CSS</a></li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><h6 class="dropdown-header">HTMX patterns</h6></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/htmx-partials.html">HTMX Partials</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/htmx-modal-form.html">HTMX Modal Form</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/htmx-cascading-selects.html">HTMX Cascading Selects</a></li>
+              <li><a class="dropdown-item" data-nav href="../patterns/htmx-table-refresh.html">HTMX Table Refresh</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-nav data-nav-group="getting-started.html,razor-pages-mapping.html,conventions.html,snippets.html,htmx-spike.html,llm-context-generator.html,investment-intelligence-design.html" href="../docs/getting-started.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">Docs</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" data-nav href="../docs/getting-started.html">Getting Started</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/razor-pages-mapping.html">Razor Pages Mapping</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/conventions.html">Conventions</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/snippets.html">Snippets</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/htmx-spike.html">HTMX Spike</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/llm-context-generator.html">LLM Context Generator</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/investment-intelligence-design.html">Investment Intelligence Design</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-nav data-nav-group="agile-course.html,full-stack-ramp.html" href="../docs/agile-course.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">Training</a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" data-nav href="../docs/agile-course.html">Agile Course</a></li>
+              <li><a class="dropdown-item" data-nav href="../docs/full-stack-ramp.html">Full-Stack Ramp</a></li>
+            </ul>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="https://github.com/unclegun/visualizer_demo" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+          <button id="toneToggleBtn" class="btn btn-outline-light btn-sm" type="button">Dark</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container-xl page-shell">
+    <section class="course-hero mb-4">
+      <p class="pattern-hero-kicker mb-2">Team onboarding · Frontend → Full Stack</p>
+      <h1 class="display-6 fw-bold mb-2">Frontend to Full Stack: ASP.NET Core Razor Pages</h1>
+      <p class="lead text-muted mb-3">You already understand the browser and SQL. This course teaches the layer in between: how a request moves from a Razor Page, through a PageModel handler, into a service/DAL, into SQL, and back out as rendered HTML. Six labs, all runnable against the existing reference app.</p>
+      <div class="d-flex flex-wrap gap-2 mb-3">
+        <span class="agile-pill">6 labs</span>
+        <span class="agile-pill">Runs on the reference app</span>
+        <span class="agile-pill">Debugger-first</span>
+        <span class="agile-pill">Sep 7 – Oct 1 ramp</span>
+      </div>
+      <div class="d-flex flex-wrap gap-2 align-items-center">
+        <a class="btn btn-primary" href="#lab-1">Start with Lab 1</a>
+        <a class="btn btn-outline-primary" href="#not-yet">What you can skip for now</a>
+        <a class="btn btn-outline-primary" href="#ramp-schedule">See the schedule</a>
+        <button id="resetProgressBtn" class="btn btn-outline-secondary btn-sm ms-lg-auto" type="button">Reset progress</button>
+      </div>
+      <div class="mt-3">
+        <div class="d-flex justify-content-between ramp-progress-label mb-1">
+          <span>Checkpoint progress</span>
+          <span data-progress-text>0 / 0 complete</span>
+        </div>
+        <div class="ramp-progress-track"><div class="ramp-progress-fill" data-progress-fill></div></div>
+      </div>
+    </section>
+
+    <section id="not-yet" class="mb-5">
+      <h2 class="section-title h3">You Do Not Need to Master These Yet</h2>
+      <p class="section-subtitle">The goal right now is narrow: safely trace and modify a normal application request from browser to database and back. Everything below is real and useful eventually &mdash; just not the bottleneck to being productive on tickets today.</p>
+      <div class="not-yet-callout">
+        <ul>
+          <li>Advanced C# language features</li>
+          <li>Advanced LINQ</li>
+          <li>Reflection</li>
+          <li>Middleware internals</li>
+          <li>Microservices</li>
+          <li>Clean Architecture</li>
+          <li>Design-pattern theory</li>
+          <li>Dependency-injection internals</li>
+          <li>Advanced async programming</li>
+          <li>Entity Framework internals</li>
+        </ul>
+      </div>
+      <p class="mt-3 mb-0">The C# you <strong>do</strong> need for these labs: classes, properties, methods, basic interfaces, nullable values, collections, <code>async</code>/<code>await</code> at a usage level, simple LINQ (<code>Where</code>, <code>Select</code>, <code>FirstOrDefault</code>), and dependency injection at the "it shows up as a constructor parameter" level. That's it &mdash; you'll meet each one inside a lab, not as reading homework.</p>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Core mental model</h2>
+      <p class="section-subtitle">Every lab traces this same loop. If you can point at each box for a given page, you can handle most tickets.</p>
+      <div class="agile-card">
+        <div class="flow-diagram" aria-label="Request flow from browser to database and back">
+          <span class="flow-step is-browser">Browser</span><span class="flow-arrow">→</span>
+          <span class="flow-step">Razor Page (.cshtml)</span><span class="flow-arrow">→</span>
+          <span class="flow-step">PageModel (.cshtml.cs)</span><span class="flow-arrow">→</span>
+          <span class="flow-step">Handler (OnGet / OnPost)</span><span class="flow-arrow">→</span>
+          <span class="flow-step">Service / DAL</span><span class="flow-arrow">→</span>
+          <span class="flow-step">SQL</span><span class="flow-arrow">→</span>
+          <span class="flow-step">Result / model</span><span class="flow-arrow">→</span>
+          <span class="flow-step">Razor / JSON</span><span class="flow-arrow">→</span>
+          <span class="flow-step is-browser">Browser</span>
+        </div>
+        <p class="mt-3 mb-0 text-muted">Reference app mapping: <code>Pages/Index.cshtml</code> is the Razor Page, <code>Pages/Index.cshtml.cs</code> is the PageModel, <code>OnGet</code> is the handler, <code>DAL/DataAccess.cs</code> is the DAL, and SQLite (<code>sales.db</code>) is the database.</p>
+      </div>
+    </section>
+
+    <section id="ramp-schedule" class="mb-5">
+      <h2 class="section-title h3">Suggested ramp schedule</h2>
+      <p class="section-subtitle">A four-week on-ramp into normal sprint work. Adjust dates to your own start week; the sequencing is what matters.</p>
+      <div class="ramp-schedule-grid">
+        <div class="agile-card"><h3>Sep 7–11</h3><p class="mb-0 text-muted">Labs 1–2, plus trace two or three existing features in the reference app end to end.</p></div>
+        <div class="agile-card"><h3>Sep 14–18</h3><p class="mb-0 text-muted">Labs 3–4, plus one small backend change on a real ticket under review.</p></div>
+        <div class="agile-card"><h3>Sep 21–25</h3><p class="mb-0 text-muted">Lab 5, plus one small vertical-slice ticket end to end.</p></div>
+        <div class="agile-card"><h3>Sep 28–30</h3><p class="mb-0 text-muted">Lab 6, plus one real production-style ticket from acceptance criteria only.</p></div>
+        <div class="agile-card"><h3>Oct 1 onward</h3><p class="mb-0 text-muted">Normal sprint work, with code review and occasional pairing as needed.</p></div>
+      </div>
+    </section>
+
+    <section class="mb-5">
+      <h2 class="section-title h3">Labs</h2>
+      <p class="section-subtitle">Work top to bottom. Each lab is collapsible &mdash; expand one at a time and keep the reference app running (<code>dotnet run --project examples/razor-reference/visualizer_demo/visualizer_demo.csproj</code>) alongside your editor.</p>
+
+      <!-- LAB 1 -->
+      <details class="lab-card" id="lab-1" open>
+        <summary class="lab-summary"><span class="lab-index">Lab 1</span><h2>Trace a Request</h2></summary>
+        <div class="lab-body">
+          <div class="lab-meta-grid">
+            <div>
+              <h3>Goal</h3>
+              <p>Follow one page load from the browser into C# code and back, without changing behavior yet.</p>
+            </div>
+            <div>
+              <h3>Mental Model</h3>
+              <div class="flow-diagram flow-mini">
+                <span class="flow-step is-browser">Browser</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Index.cshtml</span><span class="flow-arrow">→</span>
+                <span class="flow-step">IndexModel</span><span class="flow-arrow">→</span>
+                <span class="flow-step">OnGet</span><span class="flow-arrow">→</span>
+                <span class="flow-step">DataAccess</span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Short Explanation</h3>
+          <p class="mb-0">A Razor Page is two files sharing one name: <code>Index.cshtml</code> (markup, what renders) and <code>Index.cshtml.cs</code> (the <strong>PageModel</strong>, the C# behind it). The <code>@page</code> directive at the top of the <code>.cshtml</code> marks it as routable; <code>@model IndexModel</code> connects it to its PageModel. When the browser requests the page with a GET, ASP.NET Core calls <code>OnGet</code> on that PageModel before the markup renders.</p>
+
+          <h3>Relevant Code</h3>
+          <pre><code class="language-csharp">// examples/razor-reference/visualizer_demo/Pages/Index.cshtml.cs
+public class IndexModel : PageModel
+{
+    private readonly DataAccess _dataAccess;
+
+    public IndexModel(DataAccess dataAccess)   // <- dependency injection, usage level only
+    {
+        _dataAccess = dataAccess;
+    }
+
+    public ChartData BarData { get; set; }
+
+    public void OnGet()                        // <- runs on every GET request to this page
+    {
+        BarData = _dataAccess.GetSalesByCategory();
+    }
+}</code></pre>
+          <pre><code class="language-csharp">// examples/razor-reference/visualizer_demo/Program.cs
+builder.Services.AddSingleton&lt;DataAccess&gt;();   // <- makes DataAccess injectable anywhere
+</code></pre>
+          <p class="mb-0">The <code>DataAccess</code> constructor parameter on <code>IndexModel</code> is filled in automatically because it was registered in <code>Program.cs</code>. You don't need to know how that wiring works internally &mdash; only that "constructor parameter = something the app provides for you."</p>
+
+          <h3>Run It</h3>
+          <ol>
+            <li>Open <a href="../examples/razor-reference/visualizer_demo/Pages/Index.cshtml.cs">Pages/Index.cshtml.cs</a> in your editor and locate the <code>IndexModel</code> class.</li>
+            <li>Set a breakpoint on the first line inside <code>OnGet</code>.</li>
+            <li>Run <code>dotnet run --project examples/razor-reference/visualizer_demo/visualizer_demo.csproj</code> with the debugger attached (F5 in VS Code, or <code>dotnet watch</code> plus attach).</li>
+            <li>Load the app's home page in a browser. Confirm the breakpoint hits.</li>
+            <li>Step into <code>_dataAccess.GetSalesByCategory()</code> and watch it return a populated <code>ChartData</code>.</li>
+            <li>Step back out and let the page finish rendering. Find where <code>Model.BarData</code> is used in <code>Index.cshtml</code> (via the <code>_ChartPartial</code> partial).</li>
+          </ol>
+
+          <h3>Change It</h3>
+          <p>Add a <code>Console.WriteLine</code> (or a second breakpoint) right where <code>SalesTableData</code> is assigned in <code>OnGet</code>, and confirm it fires on every reload &mdash; not just the first one.</p>
+          <details class="hint-block"><summary>Hint</summary><div class="hint-content"><p class="mb-0">Handlers run fresh on every request. There is no persistent "page instance" between requests the way a SPA component might behave &mdash; each GET creates a new <code>IndexModel</code>.</p></div></details>
+
+          <h3>Break It</h3>
+          <p>Temporarily rename <code>OnGet</code> to <code>OnGetX</code> and reload the page.</p>
+          <details class="hint-block"><summary>What happens &amp; why</summary><div class="hint-content"><p class="mb-0">The page still loads, but <code>BarData</code> and friends are never populated &mdash; you'll see empty charts/tables, not an error. Razor Pages falls back to doing nothing if it can't find a matching handler for the verb. This is a common silent-bug shape: markup references a property that was never set. Rename it back when done.</p></div></details>
+
+          <h3>Explain It</h3>
+          <p class="mb-0">In your own words, describe what happens between typing a URL and seeing the sales chart on screen, using the words "PageModel", "handler", and "DAL".</p>
+
+          <h3>Checkpoint</h3>
+          <ul class="checkpoint-list">
+            <li><label><input type="checkbox" data-checkpoint="lab1-locate"> I can locate the PageModel for a Razor Page.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab1-handler"> I can identify which handler executes for a given request.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab1-breakpoint"> I can place a breakpoint in a handler and confirm it hits.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab1-dal"> I can follow execution from a handler into the DAL.</label></li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- LAB 2 -->
+      <details class="lab-card" id="lab-2">
+        <summary class="lab-summary"><span class="lab-index">Lab 2</span><h2>Read Data</h2></summary>
+        <div class="lab-body">
+          <div class="lab-meta-grid">
+            <div>
+              <h3>Goal</h3>
+              <p>Follow a SQL <code>SELECT</code> all the way to rendered HTML, and add a new read-only query yourself.</p>
+            </div>
+            <div>
+              <h3>Mental Model</h3>
+              <div class="flow-diagram flow-mini">
+                <span class="flow-step">SQL SELECT</span><span class="flow-arrow">→</span>
+                <span class="flow-step">C# object</span><span class="flow-arrow">→</span>
+                <span class="flow-step">PageModel property</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Razor UI</span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Short Explanation</h3>
+          <p class="mb-0">The DAL runs raw SQL and manually maps each result row onto a plain C# class (a "model"). The PageModel exposes that data as a public property. Razor loops over it with <code>@foreach</code>. There's no magic ORM step here &mdash; every column read is explicit, which makes it easy to trace.</p>
+
+          <h3>Relevant Code</h3>
+          <pre><code class="language-csharp">// DAL/DataAccess.cs
+public ChartData GetSalesByCategory()
+{
+    var data = new ChartData();
+    using var connection = new SqliteConnection(_connectionString);
+    connection.Open();
+    var command = connection.CreateCommand();
+    command.CommandText = "SELECT Category, SUM(Amount) FROM Sales GROUP BY Category ORDER BY SUM(Amount) DESC";
+    using var reader = command.ExecuteReader();
+    while (reader.Read())
+    {
+        data.Labels.Add(reader.GetString(0));   // <- SQL result, column 0
+        data.Values.Add(reader.GetDecimal(1));  // <- SQL result, column 1
+    }
+    return data;                                 // <- C# object
+}</code></pre>
+          <pre><code class="language-csharp">// Models/ChartData.cs
+public class ChartData
+{
+    public List&lt;string&gt; Labels { get; set; } = new();
+    public List&lt;decimal&gt; Values { get; set; } = new();
+}</code></pre>
+          <pre><code class="language-cshtml">&lt;!-- Pages/Shared/_ChartPartial.cshtml, table branch --&gt;
+@foreach (var row in Model.Data.Item2)
+{
+    &lt;tr&gt;
+        @foreach (var cell in row)
+        {
+            &lt;td&gt;@cell&lt;/td&gt;
+        }
+    &lt;/tr&gt;
+}</code></pre>
+
+          <h3>Run It</h3>
+          <ol>
+            <li>Set a breakpoint inside <code>GetSalesTableData()</code> in <code>DataAccess.cs</code>, right after <code>reader.Read()</code>.</li>
+            <li>Reload the home page and inspect <code>reader</code> values per row in the debugger.</li>
+            <li>Step out to <code>IndexModel.OnGet</code> and watch <code>SalesTableData</code> get assigned.</li>
+            <li>Find the "Raw Sales Data" card on the rendered page and match a row's values back to what you saw in the debugger.</li>
+          </ol>
+
+          <h3>Change It</h3>
+          <p>Add a new DAL method <code>GetSalesAboveAmount(decimal minimum)</code> that runs <code>SELECT Category, Amount, Date FROM Sales WHERE Amount &gt;= @minimum</code> and returns <code>List&lt;SalesData&gt;</code>. Call it from <code>OnGet</code>, expose it as a new PageModel property, and print the count somewhere on the page (a simple <code>&lt;p&gt;</code> is fine).</p>
+          <details class="hint-block"><summary>Hint</summary><div class="hint-content"><pre><code class="language-csharp">public List&lt;SalesData&gt; GetSalesAboveAmount(decimal minimum)
+{
+    var sales = new List&lt;SalesData&gt;();
+    using var connection = new SqliteConnection(_connectionString);
+    connection.Open();
+    var command = connection.CreateCommand();
+    command.CommandText = "SELECT Category, Amount, Date FROM Sales WHERE Amount &gt;= @minimum";
+    command.Parameters.AddWithValue("@minimum", minimum);
+    using var reader = command.ExecuteReader();
+    while (reader.Read())
+    {
+        sales.Add(new SalesData
+        {
+            Category = reader.GetString(0),
+            Amount = reader.GetDecimal(1),
+            Date = DateTime.Parse(reader.GetString(2))
+        });
+    }
+    return sales;
+}</code></pre></div></details>
+
+          <h3>Break It</h3>
+          <p>Swap two column indexes in a reader call (for example read column 1 where column 0 was expected) and reload.</p>
+          <details class="hint-block"><summary>What happens &amp; why</summary><div class="hint-content"><p class="mb-0">You'll either get a runtime <code>InvalidCastException</code> (types don't line up, like reading a decimal column as a string) or, worse, no exception at all &mdash; just wrong data silently rendered. Column-index mapping is a common source of subtle DAL bugs; always double check <code>SELECT</code> column order against your <code>reader.GetX(index)</code> calls.</p></div></details>
+
+          <h3>Explain It</h3>
+          <p class="mb-0">Describe, in order, every hop a single sales row takes from the SQLite file to a table cell on screen.</p>
+
+          <h3>Checkpoint</h3>
+          <ul class="checkpoint-list">
+            <li><label><input type="checkbox" data-checkpoint="lab2-sql-trace"> I can trace a SQL result back to rendered HTML.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab2-new-query"> I can add a new read-only DAL query and wire it to a page property.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab2-inspect"> I can inspect a SqliteDataReader's values in the debugger.</label></li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- LAB 3 -->
+      <details class="lab-card" id="lab-3">
+        <summary class="lab-summary"><span class="lab-index">Lab 3</span><h2>Send Data Back</h2></summary>
+        <div class="lab-body">
+          <div class="lab-meta-grid">
+            <div>
+              <h3>Goal</h3>
+              <p>Build a form that submits back to the server, binds to a C# model, and writes to the database.</p>
+            </div>
+            <div>
+              <h3>Mental Model</h3>
+              <div class="flow-diagram flow-mini">
+                <span class="flow-step is-browser">Form submit</span><span class="flow-arrow">→</span>
+                <span class="flow-step">OnPostAsync</span><span class="flow-arrow">→</span>
+                <span class="flow-step">[BindProperty]</span><span class="flow-arrow">→</span>
+                <span class="flow-step">DAL INSERT</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Redirect / Page()</span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Short Explanation</h3>
+          <p class="mb-0">A Razor form posts to the same page by default. <code>[BindProperty]</code> tells ASP.NET Core to fill a property from the posted form fields automatically &mdash; this is <strong>model binding</strong>. A named handler like <code>OnPostAsync</code> (or <code>OnPostCreateAsync</code> for multiple forms on one page) runs when that POST arrives. From there you call the DAL to persist the change, then either <code>return RedirectToPage()</code> (typical after a successful save, avoids duplicate submits on refresh) or <code>return Page()</code> (typical when redisplaying the same form, e.g. on validation failure).</p>
+
+          <h3>Relevant Code</h3>
+          <pre><code class="language-csharp">public class AddSaleModel : PageModel
+{
+    private readonly DataAccess _dataAccess;
+    public AddSaleModel(DataAccess dataAccess) =&gt; _dataAccess = dataAccess;
+
+    [BindProperty]
+    public SalesData NewSale { get; set; } = new();
+
+    public void OnGet() { }
+
+    public async Task&lt;IActionResult&gt; OnPostAsync()
+    {
+        _dataAccess.InsertSale(NewSale);      // <- new DAL method you write
+        return RedirectToPage("./Index");     // <- PRG pattern: redirect after POST
+    }
+}</code></pre>
+          <pre><code class="language-cshtml">&lt;form method="post"&gt;
+    &lt;input asp-for="NewSale.Category" class="form-control" /&gt;
+    &lt;input asp-for="NewSale.Amount" class="form-control" /&gt;
+    &lt;input asp-for="NewSale.Date" class="form-control" /&gt;
+    &lt;button type="submit" class="btn btn-primary"&gt;Save&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+          <p class="mb-0">There is currently no <code>OnPost</code> handler in <code>Pages/Index.cshtml.cs</code> &mdash; that's intentional. You add the first one in this lab.</p>
+
+          <h3>Run It</h3>
+          <ol>
+            <li>Add an <code>InsertSale(SalesData sale)</code> method to <code>DataAccess.cs</code> that runs an <code>INSERT INTO Sales (...) VALUES (...)</code> using parameters (never string-concatenate user input into SQL).</li>
+            <li>Add a small form to <code>Index.cshtml</code> (or a new page) with <code>[BindProperty]</code> and an <code>OnPostAsync</code> handler that calls it.</li>
+            <li>Set a breakpoint in <code>OnPostAsync</code>, submit the form, and inspect the bound values.</li>
+            <li>Confirm the new row appears after redirect by re-running your Lab 2 read query.</li>
+          </ol>
+
+          <h3>Change It</h3>
+          <p>Add a second, named handler <code>OnPostDeleteAsync(int id)</code> on the same page, wired to a per-row delete button (<code>asp-page-handler="Delete"</code>), and a matching DAL <code>DeleteSale(int id)</code>.</p>
+          <details class="hint-block"><summary>Hint</summary><div class="hint-content"><pre><code class="language-cshtml">&lt;form method="post" asp-page-handler="Delete" asp-route-id="@row.Id"&gt;
+    &lt;button type="submit" class="btn btn-outline-danger btn-sm"&gt;Delete&lt;/button&gt;
+&lt;/form&gt;</code></pre><p class="mb-0">A handler named <code>OnPostDeleteAsync</code> is invoked by posting with <code>?handler=Delete</code>, which <code>asp-page-handler="Delete"</code> generates for you.</p></div></details>
+
+          <h3>Break It</h3>
+          <p>Remove <code>[BindProperty]</code> from <code>NewSale</code> and resubmit the form.</p>
+          <details class="hint-block"><summary>What happens &amp; why</summary><div class="hint-content"><p class="mb-0">The form still posts successfully, but <code>NewSale</code> stays at its default (empty) values inside the handler &mdash; nothing binds the posted fields to it. No exception, just quietly wrong data, which is why Lab 4 pairs validation with debugging: you need to be able to notice this instead of assuming binding "just works".</p></div></details>
+
+          <h3>Explain It</h3>
+          <p class="mb-0">Explain what <code>[BindProperty]</code> does, and why <code>RedirectToPage</code> is usually preferred over <code>return Page()</code> immediately after a successful save.</p>
+
+          <h3>Checkpoint</h3>
+          <ul class="checkpoint-list">
+            <li><label><input type="checkbox" data-checkpoint="lab3-form"> I can build a form that posts to a named handler.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab3-bind"> I can inspect submitted values bound via [BindProperty].</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab3-dal-write"> I can add an INSERT/UPDATE/DELETE method to a DAL.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab3-redirect"> I can choose correctly between RedirectToPage and Page().</label></li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- LAB 4 -->
+      <details class="lab-card" id="lab-4">
+        <summary class="lab-summary"><span class="lab-index">Lab 4</span><h2>Validation and Debugging</h2></summary>
+        <div class="lab-body">
+          <div class="lab-meta-grid">
+            <div>
+              <h3>Goal</h3>
+              <p>Reject bad input safely, and get comfortable diagnosing a failed request with the debugger instead of guessing.</p>
+            </div>
+            <div>
+              <h3>Mental Model</h3>
+              <div class="flow-diagram flow-mini">
+                <span class="flow-step">Data annotations</span><span class="flow-arrow">→</span>
+                <span class="flow-step">ModelState</span><span class="flow-arrow">→</span>
+                <span class="flow-step">IsValid check</span><span class="flow-arrow">→</span>
+                <span class="flow-step">return Page()</span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Short Explanation</h3>
+          <p class="mb-0"><strong>Data annotations</strong> like <code>[Required]</code> or <code>[StringLength]</code> are attributes on model properties. When a form posts, ASP.NET Core checks them automatically and records failures in <code>ModelState</code>. Your handler must explicitly check <code>if (!ModelState.IsValid) return Page();</code> &mdash; nothing stops execution for you. On the exception side: an uncaught exception in a handler shows a developer error page locally with a full call stack; use breakpoints and the call stack panel to find where it actually originated, not just where it surfaced.</p>
+
+          <h3>Relevant Code</h3>
+          <pre><code class="language-csharp">public class SalesData
+{
+    [Required]
+    public string Category { get; set; }
+
+    [Range(0.01, 1_000_000)]
+    public decimal Amount { get; set; }
+
+    public DateTime Date { get; set; }
+}</code></pre>
+          <pre><code class="language-csharp">public async Task&lt;IActionResult&gt; OnPostAsync()
+{
+    if (!ModelState.IsValid)
+    {
+        return Page();               // <- redisplay form with validation messages
+    }
+
+    _dataAccess.InsertSale(NewSale);
+    return RedirectToPage("./Index");
+}</code></pre>
+          <pre><code class="language-cshtml">&lt;span asp-validation-for="NewSale.Category" class="text-danger"&gt;&lt;/span&gt;</code></pre>
+
+          <h3>Run It</h3>
+          <ol>
+            <li>Add <code>[Required]</code> to <code>Category</code> on <code>SalesData</code> (or your own model from Lab 3) and add the <code>ModelState.IsValid</code> check to <code>OnPostAsync</code>.</li>
+            <li>Submit the form with an empty category. Confirm the page redisplays with a validation message instead of saving.</li>
+            <li>Set a breakpoint right after the <code>ModelState.IsValid</code> check and inspect <code>ModelState["NewSale.Category"].Errors</code> in the debugger.</li>
+          </ol>
+
+          <h3>Change It</h3>
+          <p>Add a second validation rule (for example <code>[Range]</code> on <code>Amount</code>) and confirm both a missing category and a negative amount are each individually caught and reported.</p>
+          <details class="hint-block"><summary>Hint</summary><div class="hint-content"><p class="mb-0"><code>ModelState</code> collects <em>all</em> validation failures from a single submission, not just the first one &mdash; inspect the whole collection, not one entry, when debugging a form that "isn't validating right".</p></div></details>
+
+          <h3>Break It</h3>
+          <p>Intentionally cause a runtime exception: call <code>_dataAccess.InsertSale(null)</code> or reference a property that doesn't exist on the model.</p>
+          <details class="hint-block"><summary>What happens &amp; why</summary><div class="hint-content"><p class="mb-0">You'll get a <code>NullReferenceException</code> (or similar) and, in development, a detailed error page with a stack trace. Practice reading it bottom-up: find the first line in <em>your</em> code (not framework code) in the call stack &mdash; that's almost always where the real bug is, even if the exception is thrown deeper inside a library call. Undo the change once you've diagnosed it.</p></div></details>
+
+          <h3>Explain It</h3>
+          <p class="mb-0">Explain the difference between a validation failure (expected, handled by <code>ModelState</code>) and an unhandled exception (a bug), and how you'd diagnose each differently.</p>
+
+          <h3>Checkpoint</h3>
+          <ul class="checkpoint-list">
+            <li><label><input type="checkbox" data-checkpoint="lab4-annotations"> I can add data annotations to a model.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab4-modelstate"> I can inspect ModelState errors in the debugger.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab4-callstack"> I can read a call stack to find where a bug actually originates.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab4-diagnose"> I can diagnose a failed save without guessing.</label></li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- LAB 5 -->
+      <details class="lab-card" id="lab-5">
+        <summary class="lab-summary"><span class="lab-index">Lab 5</span><h2>Complete CRUD Vertical Slice</h2></summary>
+        <div class="lab-body">
+          <div class="lab-meta-grid">
+            <div>
+              <h3>Goal</h3>
+              <p>Build list, create, edit, and delete for one entity, reinforcing the full request/data flow end to end.</p>
+            </div>
+            <div>
+              <h3>Mental Model</h3>
+              <div class="flow-diagram flow-mini">
+                <span class="flow-step">List (OnGet)</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Create (OnPost)</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Edit (OnGet/OnPost)</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Delete (OnPost)</span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Short Explanation</h3>
+          <p class="mb-0">A CRUD vertical slice is the same four operations you've already practiced individually, applied consistently to one entity: a list page (<code>OnGet</code> + a read DAL method), a create form (<code>OnPostAsync</code> + <code>[BindProperty]</code> + validation + an insert DAL method), an edit form (<code>OnGetAsync(int id)</code> to load, <code>OnPostAsync</code> to save, an update DAL method), and delete (a named <code>OnPostDeleteAsync(int id)</code> + a delete DAL method). Nothing new conceptually &mdash; the goal is fluency doing all four without step-by-step guidance.</p>
+
+          <h3>Relevant Code</h3>
+          <pre><code class="language-csharp">// Edit.cshtml.cs shape
+public class EditModel : PageModel
+{
+    private readonly DataAccess _dataAccess;
+    public EditModel(DataAccess dataAccess) =&gt; _dataAccess = dataAccess;
+
+    [BindProperty]
+    public SalesData Sale { get; set; }
+
+    public IActionResult OnGet(int id)
+    {
+        Sale = _dataAccess.GetSaleById(id);
+        if (Sale is null) return RedirectToPage("./Index");
+        return Page();
+    }
+
+    public async Task&lt;IActionResult&gt; OnPostAsync(int id)
+    {
+        if (!ModelState.IsValid) return Page();
+        _dataAccess.UpdateSale(id, Sale);
+        return RedirectToPage("./Index");
+    }
+}</code></pre>
+
+          <h3>Run It</h3>
+          <ol>
+            <li>Pick the <code>Sales</code> table (already backed by <code>SalesData</code>) or a new small table if you'd rather practice from scratch.</li>
+            <li>Build <code>Pages/Sales/Index.cshtml(.cs)</code> (list), <code>Create.cshtml(.cs)</code>, <code>Edit.cshtml(.cs)</code>, and a delete handler off the list page.</li>
+            <li>Add <code>GetSaleById</code>, <code>UpdateSale</code>, and confirm your Lab 3 <code>InsertSale</code>/<code>DeleteSale</code> are reused, not duplicated.</li>
+            <li>Manually walk through: create a row, see it in the list, edit it, see the change persist, delete it, confirm it's gone.</li>
+          </ol>
+
+          <h3>Change It</h3>
+          <p>Add server-side validation to the edit form that reuses the same annotations as create, and confirm invalid edits are rejected the same way invalid creates are.</p>
+          <details class="hint-block"><summary>Hint</summary><div class="hint-content"><p class="mb-0">If create and edit both bind to the same <code>SalesData</code> model, validation attributes only need to be defined once, on the model.</p></div></details>
+
+          <h3>Break It</h3>
+          <p>Delete a row, then click "Edit" using a stale link to that same (now-deleted) row's id.</p>
+          <details class="hint-block"><summary>What happens &amp; why</summary><div class="hint-content"><p class="mb-0">If <code>OnGet(int id)</code> doesn't check for a missing record, you'll get a <code>NullReferenceException</code> when the page tries to render <code>Sale.Category</code> on a null <code>Sale</code>. This is why the "not found" redirect in the sample code above matters &mdash; always handle the "id doesn't exist anymore" case explicitly.</p></div></details>
+
+          <h3>Explain It</h3>
+          <p class="mb-0">Walk through, out loud or in writing, everything that happens between clicking "Edit" on a list row and seeing the save confirmation, including every SQL statement executed.</p>
+
+          <h3>Checkpoint</h3>
+          <ul class="checkpoint-list">
+            <li><label><input type="checkbox" data-checkpoint="lab5-list"> I can build a list page backed by a read query.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab5-create"> I can build a validated create form.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab5-edit"> I can build an edit flow that loads then saves a record.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab5-delete"> I can build a delete action with a missing-record guard.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab5-flow"> I can trace the full request/data flow for all four operations.</label></li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- LAB 6 -->
+      <details class="lab-card" id="lab-6">
+        <summary class="lab-summary"><span class="lab-index">Lab 6</span><h2>Realistic Sprint Ticket</h2></summary>
+        <div class="lab-body">
+          <div class="lab-meta-grid">
+            <div>
+              <h3>Goal</h3>
+              <p>Deliver a ticket from acceptance criteria only &mdash; no step-by-step instructions. Decide the shape of the change yourself.</p>
+            </div>
+            <div>
+              <h3>Mental Model</h3>
+              <div class="flow-diagram flow-mini">
+                <span class="flow-step">Acceptance criteria</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Your design</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Implementation</span><span class="flow-arrow">→</span>
+                <span class="flow-step">Verification</span>
+              </div>
+            </div>
+          </div>
+
+          <h3>Short Explanation</h3>
+          <p class="mb-0">Real tickets rarely specify the handler name, model shape, or SQL. This lab is intentionally under-specified: you decide the SQL, the handler(s), the model, the Razor markup, and any DAL/service changes. Use everything from Labs 1&ndash;5. If you get stuck, that's a signal to re-read a specific lab section, not to wait for instructions.</p>
+
+          <div class="ticket-card">
+            <h3 class="mb-0">Ticket: Edit employee office location</h3>
+            <p class="text-muted mb-0">Acceptance criteria:</p>
+            <ul>
+              <li>Search employees by partial last name</li>
+              <li>Display matches</li>
+              <li>Select an employee</li>
+              <li>Edit their office location</li>
+              <li>Office location is required</li>
+              <li>Save the change to the database</li>
+              <li>Show validation errors when the save is rejected</li>
+            </ul>
+          </div>
+
+          <h3>Relevant Code</h3>
+          <p class="mb-0">No sample solution is provided here on purpose. Reuse patterns from: search/filter (Lab 2's parameterized <code>WHERE</code> query), a select-and-edit flow (Lab 5's edit page), and required-field validation (Lab 4's data annotations). If an <code>Employees</code> table doesn't exist yet, add one the same way <code>Sales</code> is created in <code>DataAccess.InitializeDatabase()</code>.</p>
+
+          <h3>Run It</h3>
+          <ol>
+            <li>Decide: one page with a search box and inline edit, or a search page plus a separate edit page? Either is valid &mdash; justify your choice.</li>
+            <li>Write the SQL for the partial last-name search (<code>LIKE</code> with parameters) and the update statement.</li>
+            <li>Build the handler(s), model, and DAL methods needed.</li>
+            <li>Build the Razor markup for search results and the edit form.</li>
+          </ol>
+
+          <h3>Change It</h3>
+          <p>Once it works, add a second search field (first name) without breaking the existing last-name search.</p>
+          <details class="hint-block"><summary>Hint</summary><div class="hint-content"><p class="mb-0">Consider whether your DAL method should take multiple optional parameters or whether two smaller methods are clearer. Either is defensible &mdash; the point is a deliberate choice, not a "correct" answer.</p></div></details>
+
+          <h3>Break It</h3>
+          <p>Try saving with an empty office location, and separately, try searching for a last name that matches nothing.</p>
+          <details class="hint-block"><summary>What happens &amp; why</summary><div class="hint-content"><p class="mb-0">Both are expected states, not bugs: a required-field violation should show a validation message and redisplay the form (Lab 4 pattern); a no-results search should show an empty-state message, not an error. If either currently throws an exception or shows a blank page, that's the gap to fix.</p></div></details>
+
+          <h3>Explain It</h3>
+          <p class="mb-0">Explain your design choices to a teammate or reviewer: why this handler layout, why this SQL shape, and how validation errors surface to the user.</p>
+
+          <h3>Checkpoint</h3>
+          <ul class="checkpoint-list">
+            <li><label><input type="checkbox" data-checkpoint="lab6-design"> I can turn acceptance criteria into a handler/model/SQL design without step-by-step instructions.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab6-search"> I can implement a parameterized partial-match search.</label></li>
+            <li><label><input type="checkbox" data-checkpoint="lab6-complete"> I can complete a small backend change independently.</label></li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <section class="mb-4">
+      <h2 class="section-title h3">Reference app pointers</h2>
+      <div class="course-overview-grid">
+        <div class="agile-card"><h3>PageModel &amp; handlers</h3><p class="mb-0"><code>examples/razor-reference/visualizer_demo/Pages/Index.cshtml.cs</code></p></div>
+        <div class="agile-card"><h3>DAL / SQL</h3><p class="mb-0"><code>examples/razor-reference/visualizer_demo/DAL/DataAccess.cs</code></p></div>
+        <div class="agile-card"><h3>Models</h3><p class="mb-0"><code>examples/razor-reference/visualizer_demo/Models/</code></p></div>
+        <div class="agile-card"><h3>DI registration</h3><p class="mb-0"><code>examples/razor-reference/visualizer_demo/Program.cs</code></p></div>
+        <div class="agile-card"><h3>Run the app</h3><p class="mb-0"><code>dotnet run --project examples/razor-reference/visualizer_demo/visualizer_demo.csproj</code></p></div>
+        <div class="agile-card"><h3>HTMX + handler conventions</h3><p class="mb-0">See <a href="./razor-pages-mapping.html">Razor Pages mapping</a> for named-handler and partial patterns used across this repo.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container-xl site-footer">
+    <div class="d-flex flex-wrap justify-content-between gap-2">
+      <span>Frontend to Full Stack onboarding</span>
+      <span>Reusable team material &middot; runs against examples/razor-reference</span>
+    </div>
+  </footer>
+
+  <script src="../assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+  <script src="../assets/vendor/prism/prism.min.js"></script>
+  <script src="../assets/vendor/prism/prism-csharp.min.js"></script>
+  <script src="../assets/vendor/prism/prism-bash.min.js"></script>
+  <script type="module" src="../assets/js/site.js"></script>
+  <script>
+    (function () {
+      var STORAGE_KEY = "fullStackRampProgress";
+
+      function loadProgress() {
+        try {
+          return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        } catch (err) {
+          return {};
+        }
+      }
+
+      function saveProgress(progress) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+      }
+
+      function updateProgressBar(checkboxes) {
+        var total = checkboxes.length;
+        var checked = checkboxes.filter(function (box) { return box.checked; }).length;
+        var pct = total === 0 ? 0 : Math.round((checked / total) * 100);
+        var fill = document.querySelector("[data-progress-fill]");
+        var text = document.querySelector("[data-progress-text]");
+        if (fill) fill.style.width = pct + "%";
+        if (text) text.textContent = checked + " / " + total + " complete";
+      }
+
+      function init() {
+        var checkboxes = Array.prototype.slice.call(document.querySelectorAll("[data-checkpoint]"));
+        var progress = loadProgress();
+
+        checkboxes.forEach(function (box) {
+          var key = box.getAttribute("data-checkpoint");
+          box.checked = !!progress[key];
+          box.addEventListener("change", function () {
+            progress[key] = box.checked;
+            saveProgress(progress);
+            updateProgressBar(checkboxes);
+          });
+        });
+
+        updateProgressBar(checkboxes);
+
+        var resetBtn = document.getElementById("resetProgressBtn");
+        if (resetBtn) {
+          resetBtn.addEventListener("click", function () {
+            localStorage.removeItem(STORAGE_KEY);
+            checkboxes.forEach(function (box) { box.checked = false; });
+            updateProgressBar(checkboxes);
+          });
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>

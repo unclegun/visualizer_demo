@@ -2,8 +2,6 @@
   --agile-surface: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
   --agile-border: color-mix(in srgb, var(--theme-primary) 24%, var(--line-soft));
   --agile-soft: color-mix(in srgb, var(--theme-primary) 10%, var(--bg-elevated));
-  --agile-success: color-mix(in srgb, #10b981 14%, var(--bg-elevated));
-  --agile-warning: color-mix(in srgb, #f59e0b 12%, var(--bg-elevated));
 }
 
 .course-hero {
@@ -104,7 +102,9 @@
   font-weight: 700;
 }
 
-.lifecycle-flow {
+/* Shared request/workflow flow-diagram component. Reused by agile-course, agile session/print pages, and full-stack-ramp. */
+.lifecycle-flow,
+.flow-diagram {
   display: flex;
   flex-wrap: wrap;
   gap: 0.7rem;
@@ -112,34 +112,54 @@
   margin-top: 1rem;
 }
 
-.lifecycle-step {
+.lifecycle-step,
+.flow-step {
   border: 1px solid var(--line-soft);
   border-radius: 999px;
   background: var(--agile-soft);
   padding: 0.5rem 0.8rem;
   font-size: 0.82rem;
   font-weight: 600;
+  white-space: nowrap;
 }
 
-.lifecycle-arrow {
+.lifecycle-arrow,
+.flow-arrow {
   color: var(--theme-primary);
   font-size: 1.15rem;
 }
 
+.flow-step.is-browser {
+  border-color: color-mix(in srgb, var(--theme-primary) 40%, var(--line-soft));
+  color: var(--theme-primary);
+}
+
+.flow-diagram.flow-mini {
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.flow-diagram.flow-mini .flow-step {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.74rem;
+}
+
+/* Color values reused from the shared .callout-note/.callout-warning/.callout-success system in base.css. */
 .agile-callout {
   padding: 1rem 1.1rem;
-  border-left: 4px solid var(--theme-primary);
+  border-left: 4px solid color-mix(in srgb, var(--theme-primary) 58%, var(--line-soft));
   background: color-mix(in srgb, var(--theme-primary) 8%, var(--bg-elevated));
 }
 
 .agile-callout.success {
-  border-left-color: #10b981;
-  background: var(--agile-success);
+  border-left-color: color-mix(in srgb, #10b981 66%, var(--line-soft));
+  background: color-mix(in srgb, #10b981 9%, var(--bg-elevated));
 }
 
-.agile-callout.warning {
-  border-left-color: #f59e0b;
-  background: var(--agile-warning);
+.agile-callout.warning,
+.not-yet-callout {
+  border-left-color: color-mix(in srgb, #f59e0b 70%, var(--line-soft));
+  background: color-mix(in srgb, #f59e0b 10%, var(--bg-elevated));
 }
 
 .course-tabs .nav-link {
