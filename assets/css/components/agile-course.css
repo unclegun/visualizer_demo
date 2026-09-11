@@ -14,6 +14,327 @@
   box-shadow: var(--shadow-md);
 }
 
+.course-hero.module-hero {
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--theme-primary) 22%, transparent), transparent 58%),
+    linear-gradient(180deg, color-mix(in srgb, var(--bg-elevated) 90%, white), var(--bg-elevated));
+}
+
+.agile-course-intro,
+.schedule-band {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1.2fr) minmax(240px, 0.8fr);
+  padding: 1.35rem;
+  border: 1px solid var(--agile-border);
+  border-radius: var(--radius-xl);
+  background: linear-gradient(120deg, var(--agile-soft), var(--bg-elevated));
+}
+
+.agile-course-intro__meta,
+.module-outcomes__meta {
+  display: grid;
+  gap: 0.65rem;
+  align-content: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.agile-course-intro__meta span,
+.module-outcomes__meta span {
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--theme-primary);
+}
+
+.agile-course-intro__meta strong,
+.module-outcomes__meta strong {
+  display: block;
+  color: var(--text-main);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.outcome-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.outcome-grid .agile-card {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  min-height: 5.5rem;
+}
+
+.agile-icon {
+  flex: 0 0 auto;
+  margin-top: 0.15rem;
+  color: var(--theme-primary);
+}
+
+.course-curriculum {
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.course-curriculum .accordion-item {
+  border-color: var(--line-soft);
+  background: var(--bg-elevated);
+}
+
+.course-curriculum .accordion-button {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 1.15rem;
+  color: var(--text-main);
+  background: var(--bg-elevated);
+}
+
+.course-curriculum .accordion-button:not(.collapsed) {
+  color: var(--theme-primary);
+  background: var(--agile-soft);
+  box-shadow: none;
+}
+
+.course-curriculum .accordion-button strong,
+.course-curriculum .accordion-button small {
+  display: block;
+}
+
+.course-curriculum .accordion-button small {
+  margin-top: 0.25rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 400;
+}
+
+.module-number {
+  flex: 0 0 auto;
+  color: var(--theme-primary);
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.lesson-plan__rows {
+  margin-top: 1rem;
+  border-top: 1px solid var(--line-soft);
+}
+
+.lesson-row {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.4fr) minmax(0, 1.6fr) 70px;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.lesson-row span {
+  width: fit-content;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.35rem;
+  background: var(--agile-soft);
+  color: var(--theme-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.lesson-row em {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-style: normal;
+  text-align: right;
+}
+
+.curriculum-footer {
+  padding-top: 0.9rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.module-outcomes {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
+  gap: 1.25rem;
+  border-color: var(--agile-border);
+  background: linear-gradient(120deg, var(--agile-soft), var(--bg-elevated));
+}
+
+.module-learning-flow {
+  display: grid;
+  grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.module-flow-nav {
+  position: sticky;
+  top: 5.5rem;
+  align-self: start;
+  padding: 0.9rem;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+}
+
+.module-flow-nav summary {
+  cursor: pointer;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.module-flow-nav > div {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 0.7rem;
+}
+
+.module-flow-nav a {
+  padding: 0.35rem 0.45rem;
+  border-radius: 0.35rem;
+  color: var(--text-main);
+  font-size: 0.86rem;
+  text-decoration: none;
+}
+
+.module-flow-nav a:hover,
+.module-flow-nav a:focus-visible {
+  background: var(--agile-soft);
+  color: var(--theme-primary);
+}
+
+.module-flow-main {
+  display: grid;
+  gap: 1rem;
+}
+
+.module-section {
+  margin: 0;
+}
+
+.module-lead-notes details {
+  cursor: pointer;
+}
+
+.module-lead-notes summary {
+  display: grid;
+  gap: 0.3rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.module-lead-notes summary .pattern-hero-kicker {
+  margin: 0;
+}
+
+.module-lead-notes details[open] summary {
+  margin-bottom: 0.8rem;
+}
+
+.module-reference-heading {
+  margin: 1.5rem 0 0.75rem;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.module-reference-heading span {
+  margin-left: 0.5rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.module-support-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.workshop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.workshop-panel {
+  border-color: var(--agile-border);
+}
+
+.workshop-timing {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin-top: 1rem;
+}
+
+.workshop-timing span {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.55rem 0.45rem;
+  border-top: 3px solid var(--theme-primary);
+  background: var(--agile-soft);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.workshop-timing strong {
+  color: var(--text-main);
+  font-size: 0.82rem;
+}
+
+.workshop-list {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.workshop-list li::marker {
+  color: var(--theme-primary);
+  font-weight: 700;
+}
+
+.knowledge-check details {
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.knowledge-check summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.knowledge-check details p {
+  margin: 0.55rem 0 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.course-content-nav a.is-current {
+  border-left: 3px solid var(--theme-primary);
+  background: var(--agile-soft);
+  color: var(--theme-primary);
+  font-weight: 700;
+}
+
+.course-content-nav a span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
 .course-overview-grid,
 .course-summary-grid,
 .session-grid,
@@ -331,6 +652,21 @@
     display: none !important;
   }
 
+  .module-support-grid,
+  .module-resources,
+  .lesson-plan,
+  .module-outcomes {
+    break-inside: avoid;
+  }
+
+  .knowledge-check details {
+    display: block;
+  }
+
+  .knowledge-check details p {
+    display: block;
+  }
+
   .course-tabs {
     display: none !important;
   }
@@ -420,6 +756,41 @@
 }
 
 @media (max-width: 767px) {
+  .agile-course-intro,
+  .schedule-band,
+  .module-outcomes,
+  .module-support-grid,
+  .workshop-grid,
+  .module-learning-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .module-flow-nav {
+    position: static;
+  }
+
+  .outcome-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .workshop-timing {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lesson-row b {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .lesson-row em {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
   .course-tab-panel {
     padding: 0.85rem;
   }
