@@ -1,0 +1,46 @@
+{
+  "generatedAt": "2026-10-22T13:02:03Z",
+  "marketDate": "2026-10-22",
+  "sourceNote": "Generated from free/public delayed data sources. Verify all data before acting. Not financial advice.",
+  "marketBias": {
+    "label": "Risk-Off",
+    "score": 0,
+    "reasoning": [
+      "No penny stock data available.",
+      "Prediction market data unavailable."
+    ]
+  },
+  "bestMove": {
+    "action": "Avoid",
+    "summary": "Most signals are negative or absent; risk-off posture recommended today."
+  },
+  "topPennyStocks": [],
+  "topPredictionMarkets": [],
+  "combinedSignals": [
+    {
+      "label": "Small-cap momentum",
+      "score": 0,
+      "interpretation": "Penny stock momentum is subdued or data is limited."
+    },
+    {
+      "label": "Prediction market confirmation",
+      "score": 0,
+      "interpretation": "Prediction market data is limited or shows low conviction."
+    },
+    {
+      "label": "Volume breadth",
+      "score": 25,
+      "interpretation": "Volume is near or below average; lower conviction."
+    }
+  ],
+  "chatGptInstructions": {
+    "primaryQuestion": "Based only on this file, what is the best move today?",
+    "requiredOutput": [
+      "Best overall move",
+      "Top 3 penny stock candidates",
+      "Top 3 prediction market opportunities",
+      "What to avoid",
+      "Manual verification checklist"
+    ]
+  }
+}
