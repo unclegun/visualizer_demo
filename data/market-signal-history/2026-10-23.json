@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-10-23T12:41:19Z",
+  "marketDate": "2026-10-23",
+  "sourceNote": "Generated from free/public delayed data sources. Verify all data before acting. Not financial advice.",
+  "marketBias": {
+    "label": "Risk-Off",
+    "score": 22,
+    "reasoning": [
+      "Penny stock avg score is 36.0/100 (subdued).",
+      "Average relative volume is 1.23\u00d7 (moderate).",
+      "Prediction market data unavailable."
+    ]
+  },
+  "bestMove": {
+    "action": "Avoid",
+    "summary": "Most signals are negative or absent; risk-off posture recommended today."
+  },
+  "topPennyStocks": [
+    {
+      "ticker": "OCGN",
+      "companyName": "OCGN",
+      "score": 44,
+      "confidence": "Weak Signal",
+      "latestPrice": 0.79,
+      "percentChange": -3.07,
+      "fiveDayChange": -2.95,
+      "twentyDayChange": -21.0,
+      "volume": 6696700,
+      "averageVolume": 6559585,
+      "relativeVolume": 1.02,
+      "rsi": 27.7,
+      "sma5": 0.797,
+      "sma20": 0.9337,
+      "volatility": 0.5226,
+      "entryZone": {
+        "low": 0.7821,
+        "high": 0.7979
+      },
+      "stopLoss": 0.751,
+      "target": 0.868,
+      "riskLevel": "Moderate",
+      "suggestedAction": "Avoid \u2013 insufficient signal quality",
+      "justification": [
+        "Short-term (5-day) momentum is positive."
+      ],
+      "warnings": [
+        "Free data may be delayed."
+      ],
+      "momentumScore": 1,
+      "liquidityScore": 18,
+      "riskScore": 25,
+      "marketDate": "2026-10-22",
+      "rank": 1
+    },
+    {
+      "ticker": "BNGO",
+      "companyName": "BNGO",
+      "score": 28,
+      "confidence": "Insufficient Signal",
+      "latestPrice": 1.18,
+      "percentChange": -5.6,
+      "fiveDayChange": -13.87,
+      "twentyDayChange": -30.18,
+      "volume": 442800,
+      "averageVolume": 304540,
+      "relativeVolume": 1.45,
+      "rsi": 31.9,
+      "sma5": 1.23,
+      "sma20": 1.427,
+      "volatility": 0.5977,
+      "entryZone": {
+        "low": 1.1682,
+        "high": 1.1918
+      },
+      "stopLoss": 1.1134,
+      "target": 1.3133,
+      "riskLevel": "Moderate",
+      "suggestedAction": "Avoid \u2013 insufficient signal quality",
+      "justification": [
+        "No strong bullish signals detected."
+      ],
+      "warnings": [
+        "Free data may be delayed."
+      ],
+      "momentumScore": 0,
+      "liquidityScore": 6,
+      "riskScore": 22,
+      "marketDate": "2026-10-22",
+      "rank": 2
+    }
+  ],
+  "topPredictionMarkets": [],
+  "combinedSignals": [
+    {
+      "label": "Small-cap momentum",
+      "score": 36,
+      "interpretation": "Penny stock momentum is subdued or data is limited."
+    },
+    {
+      "label": "Prediction market confirmation",
+      "score": 0,
+      "interpretation": "Prediction market data is limited or shows low conviction."
+    },
+    {
+      "label": "Volume breadth",
+      "score": 30,
+      "interpretation": "Volume is near or below average; lower conviction."
+    }
+  ],
+  "chatGptInstructions": {
+    "primaryQuestion": "Based only on this file, what is the best move today?",
+    "requiredOutput": [
+      "Best overall move",
+      "Top 3 penny stock candidates",
+      "Top 3 prediction market opportunities",
+      "What to avoid",
+      "Manual verification checklist"
+    ]
+  }
+}
