@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-23T12:41:19Z",
-  "marketDate": "2026-10-23",
+  "generatedAt": "2026-10-26T14:24:09Z",
+  "marketDate": "2026-10-26",
   "sourceNote": "Generated from free/public delayed data sources. Verify all data before acting. Not financial advice.",
   "pennyStocks": {
     "universe": [
@@ -55,92 +55,8 @@
       "HGEN",
       "INPX"
     ],
-    "scored": [
-      {
-        "ticker": "OCGN",
-        "companyName": "OCGN",
-        "score": 44,
-        "confidence": "Weak Signal",
-        "latestPrice": 0.79,
-        "percentChange": -3.07,
-        "fiveDayChange": -2.95,
-        "twentyDayChange": -21.0,
-        "volume": 6696700,
-        "averageVolume": 6559585,
-        "relativeVolume": 1.02,
-        "rsi": 27.7,
-        "sma5": 0.797,
-        "sma20": 0.9337,
-        "volatility": 0.5226,
-        "entryZone": {
-          "low": 0.7821,
-          "high": 0.7979
-        },
-        "stopLoss": 0.751,
-        "target": 0.868,
-        "riskLevel": "Moderate",
-        "suggestedAction": "Avoid \u2013 insufficient signal quality",
-        "justification": [
-          "Short-term (5-day) momentum is positive."
-        ],
-        "warnings": [
-          "Free data may be delayed."
-        ],
-        "momentumScore": 1,
-        "liquidityScore": 18,
-        "riskScore": 25,
-        "marketDate": "2026-10-22",
-        "rank": 1
-      },
-      {
-        "ticker": "BNGO",
-        "companyName": "BNGO",
-        "score": 28,
-        "confidence": "Insufficient Signal",
-        "latestPrice": 1.18,
-        "percentChange": -5.6,
-        "fiveDayChange": -13.87,
-        "twentyDayChange": -30.18,
-        "volume": 442800,
-        "averageVolume": 304540,
-        "relativeVolume": 1.45,
-        "rsi": 31.9,
-        "sma5": 1.23,
-        "sma20": 1.427,
-        "volatility": 0.5977,
-        "entryZone": {
-          "low": 1.1682,
-          "high": 1.1918
-        },
-        "stopLoss": 1.1134,
-        "target": 1.3133,
-        "riskLevel": "Moderate",
-        "suggestedAction": "Avoid \u2013 insufficient signal quality",
-        "justification": [
-          "No strong bullish signals detected."
-        ],
-        "warnings": [
-          "Free data may be delayed."
-        ],
-        "momentumScore": 0,
-        "liquidityScore": 6,
-        "riskScore": 22,
-        "marketDate": "2026-10-22",
-        "rank": 2
-      }
-    ],
-    "rawByTicker": {
-      "OCGN": {
-        "historyRows": 60,
-        "latestDate": "2026-10-22",
-        "latestClose": 0.7900000214576721
-      },
-      "BNGO": {
-        "historyRows": 60,
-        "latestDate": "2026-10-22",
-        "latestClose": 1.1799999475479126
-      }
-    }
+    "scored": [],
+    "rawByTicker": {}
   },
   "predictionMarkets": {
     "rawByPlatform": {
