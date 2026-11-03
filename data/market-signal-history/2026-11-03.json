@@ -1,0 +1,84 @@
+{
+  "generatedAt": "2026-11-03T15:20:02Z",
+  "marketDate": "2026-11-03",
+  "sourceNote": "Generated from free/public delayed data sources. Verify all data before acting. Not financial advice.",
+  "marketBias": {
+    "label": "Risk-Off",
+    "score": 13,
+    "reasoning": [
+      "Penny stock avg score is 22.0/100 (subdued).",
+      "Average relative volume is 0.13\u00d7 (weak).",
+      "Prediction market data unavailable."
+    ]
+  },
+  "bestMove": {
+    "action": "Avoid",
+    "summary": "Most signals are negative or absent; risk-off posture recommended today."
+  },
+  "topPennyStocks": [
+    {
+      "ticker": "BNGO",
+      "companyName": "BNGO",
+      "score": 22,
+      "confidence": "Insufficient Signal",
+      "latestPrice": 1.18,
+      "percentChange": 1.72,
+      "fiveDayChange": -3.28,
+      "twentyDayChange": -18.62,
+      "volume": 22603,
+      "averageVolume": 178225,
+      "relativeVolume": 0.13,
+      "rsi": 38.2,
+      "sma5": 1.18,
+      "sma20": 1.2685,
+      "volatility": 0.5488,
+      "entryZone": {
+        "low": 1.1682,
+        "high": 1.1918
+      },
+      "stopLoss": 1.1188,
+      "target": 1.3024,
+      "riskLevel": "Moderate",
+      "suggestedAction": "Avoid \u2013 insufficient signal quality",
+      "justification": [
+        "No strong bullish signals detected."
+      ],
+      "warnings": [
+        "Free data may be delayed."
+      ],
+      "momentumScore": 0,
+      "liquidityScore": 0,
+      "riskScore": 22,
+      "marketDate": "2026-11-03",
+      "rank": 1
+    }
+  ],
+  "topPredictionMarkets": [],
+  "combinedSignals": [
+    {
+      "label": "Small-cap momentum",
+      "score": 22,
+      "interpretation": "Penny stock momentum is subdued or data is limited."
+    },
+    {
+      "label": "Prediction market confirmation",
+      "score": 0,
+      "interpretation": "Prediction market data is limited or shows low conviction."
+    },
+    {
+      "label": "Volume breadth",
+      "score": 3,
+      "interpretation": "Volume is near or below average; lower conviction."
+    }
+  ],
+  "chatGptInstructions": {
+    "primaryQuestion": "Based only on this file, what is the best move today?",
+    "requiredOutput": [
+      "Best overall move",
+      "Top 3 penny stock candidates",
+      "Top 3 prediction market opportunities",
+      "What to avoid",
+      "Manual verification checklist"
+    ]
+  }
+}
