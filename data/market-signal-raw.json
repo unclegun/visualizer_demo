@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-11-03T15:20:02Z",
-  "marketDate": "2026-11-03",
+  "generatedAt": "2026-11-04T15:32:50Z",
+  "marketDate": "2026-11-04",
   "sourceNote": "Generated from free/public delayed data sources. Verify all data before acting. Not financial advice.",
   "pennyStocks": {
     "universe": [
@@ -55,51 +55,8 @@
       "HGEN",
       "INPX"
     ],
-    "scored": [
-      {
-        "ticker": "BNGO",
-        "companyName": "BNGO",
-        "score": 22,
-        "confidence": "Insufficient Signal",
-        "latestPrice": 1.18,
-        "percentChange": 1.72,
-        "fiveDayChange": -3.28,
-        "twentyDayChange": -18.62,
-        "volume": 22603,
-        "averageVolume": 178225,
-        "relativeVolume": 0.13,
-        "rsi": 38.2,
-        "sma5": 1.18,
-        "sma20": 1.2685,
-        "volatility": 0.5488,
-        "entryZone": {
-          "low": 1.1682,
-          "high": 1.1918
-        },
-        "stopLoss": 1.1188,
-        "target": 1.3024,
-        "riskLevel": "Moderate",
-        "suggestedAction": "Avoid \u2013 insufficient signal quality",
-        "justification": [
-          "No strong bullish signals detected."
-        ],
-        "warnings": [
-          "Free data may be delayed."
-        ],
-        "momentumScore": 0,
-        "liquidityScore": 0,
-        "riskScore": 22,
-        "marketDate": "2026-11-03",
-        "rank": 1
-      }
-    ],
-    "rawByTicker": {
-      "BNGO": {
-        "historyRows": 60,
-        "latestDate": "2026-11-03",
-        "latestClose": 1.1799999475479126
-      }
-    }
+    "scored": [],
+    "rawByTicker": {}
   },
   "predictionMarkets": {
     "rawByPlatform": {
