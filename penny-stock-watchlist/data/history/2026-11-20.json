@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-11-20T16:21:31Z",
+  "marketDate": "2026-11-20",
+  "disclaimer": "This is NOT financial advice. All data may be delayed. Penny stocks are highly speculative and most retail traders lose money. This tool is for educational and research purposes only. Do not make trading decisions based solely on this data. Always do your own research and consult a licensed financial advisor.",
+  "recommendations": [
+    {
+      "ticker": "BNGO",
+      "score": 22,
+      "price": 0.8989,
+      "percentChange": 1.0,
+      "volume": 73658,
+      "averageVolume": 235817,
+      "relativeVolume": 0.31,
+      "rsi": 31.0,
+      "volatility": 0.7893,
+      "sma5": 0.9318,
+      "sma20": 1.0964,
+      "gapPct": 1.01,
+      "momentumScore": 0,
+      "liquidityScore": 0,
+      "riskScore": 22,
+      "entryZone": "0.89 \u2013 0.91",
+      "stopLoss": 0.83,
+      "target": 1.03,
+      "riskLevel": "Moderate",
+      "reasons": [
+        "No strong bullish signals detected \u2013 low conviction"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-20",
+      "rank": 1
+    }
+  ]
+}
