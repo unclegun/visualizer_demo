@@ -1,6 +1,597 @@
 {
-  "generatedAt": "2026-11-26T07:36:49Z",
-  "marketDate": "2026-11-26",
+  "generatedAt": "2026-11-27T08:03:02Z",
+  "marketDate": "2026-11-25",
   "disclaimer": "This is NOT financial advice. All data may be delayed. Penny stocks are highly speculative and most retail traders lose money. This tool is for educational and research purposes only. Do not make trading decisions based solely on this data. Always do your own research and consult a licensed financial advisor.",
-  "recommendations": []
+  "recommendations": [
+    {
+      "ticker": "OCGN",
+      "score": 52,
+      "price": 0.844,
+      "percentChange": -3.98,
+      "volume": 4305500,
+      "averageVolume": 7647380,
+      "relativeVolume": 0.56,
+      "rsi": 49.8,
+      "volatility": 1.0721,
+      "sma5": 0.8124,
+      "sma20": 0.8225,
+      "gapPct": -0.91,
+      "momentumScore": 21,
+      "liquidityScore": 15,
+      "riskScore": 16,
+      "entryZone": "0.84 \u2013 0.85",
+      "stopLoss": 0.76,
+      "target": 1.01,
+      "riskLevel": "High",
+      "reasons": [
+        "Short-term (5-day) momentum is positive",
+        "Price is above the 5-day moving average",
+        "Price is above the 20-day moving average",
+        "RSI (49.8) is in a healthy range"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 1
+    },
+    {
+      "ticker": "CLOV",
+      "score": 41,
+      "price": 3.76,
+      "percentChange": 1.35,
+      "volume": 5685100,
+      "averageVolume": 5575065,
+      "relativeVolume": 1.02,
+      "rsi": 33.2,
+      "volatility": 0.7845,
+      "sma5": 3.75,
+      "sma20": 4.44,
+      "gapPct": -1.62,
+      "momentumScore": 1,
+      "liquidityScore": 18,
+      "riskScore": 22,
+      "entryZone": "3.72 \u2013 3.80",
+      "stopLoss": 3.48,
+      "target": 4.32,
+      "riskLevel": "Moderate",
+      "reasons": [
+        "Price is above the 5-day moving average"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 2
+    },
+    {
+      "ticker": "DPRO",
+      "score": 40,
+      "price": 2.14,
+      "percentChange": 9.18,
+      "volume": 847200,
+      "averageVolume": 915745,
+      "relativeVolume": 0.93,
+      "rsi": 31.4,
+      "volatility": 1.1363,
+      "sma5": 2.004,
+      "sma20": 2.7963,
+      "gapPct": -1.02,
+      "momentumScore": 16,
+      "liquidityScore": 8,
+      "riskScore": 16,
+      "entryZone": "2.12 \u2013 2.16",
+      "stopLoss": 1.91,
+      "target": 2.6,
+      "riskLevel": "High",
+      "reasons": [
+        "Up 9.2% on the day",
+        "Short-term (5-day) momentum is positive",
+        "Price is above the 5-day moving average"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 3
+    },
+    {
+      "ticker": "SOUN",
+      "score": 38,
+      "price": 2.645,
+      "percentChange": 0.76,
+      "volume": 19318700,
+      "averageVolume": 20199185,
+      "relativeVolume": 0.96,
+      "rsi": 22.6,
+      "volatility": 0.7766,
+      "sma5": 2.737,
+      "sma20": 3.5692,
+      "gapPct": -3.43,
+      "momentumScore": 0,
+      "liquidityScore": 18,
+      "riskScore": 25,
+      "entryZone": "2.62 \u2013 2.67",
+      "stopLoss": 2.45,
+      "target": 3.03,
+      "riskLevel": "Moderate",
+      "reasons": [
+        "No strong bullish signals detected \u2013 low conviction"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 4
+    },
+    {
+      "ticker": "SIGA",
+      "score": 35,
+      "price": 2.62,
+      "percentChange": 0.0,
+      "volume": 771600,
+      "averageVolume": 675770,
+      "relativeVolume": 1.14,
+      "rsi": 41.5,
+      "volatility": 0.8895,
+      "sma5": 2.518,
+      "sma20": 2.8815,
+      "gapPct": -1.53,
+      "momentumScore": 11,
+      "liquidityScore": 8,
+      "riskScore": 16,
+      "entryZone": "2.59 \u2013 2.65",
+      "stopLoss": 2.4,
+      "target": 3.06,
+      "riskLevel": "High",
+      "reasons": [
+        "Short-term (5-day) momentum is positive",
+        "Price is above the 5-day moving average",
+        "RSI (41.5) is in a healthy range"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 5
+    },
+    {
+      "ticker": "CNEY",
+      "score": 29,
+      "price": 0.415,
+      "percentChange": 8.92,
+      "volume": 41200,
+      "averageVolume": 67570,
+      "relativeVolume": 0.61,
+      "rsi": 44.4,
+      "volatility": 1.0871,
+      "sma5": 0.383,
+      "sma20": 0.4567,
+      "gapPct": 3.67,
+      "momentumScore": 18,
+      "liquidityScore": 0,
+      "riskScore": 6,
+      "entryZone": "0.41 \u2013 0.42",
+      "stopLoss": 0.37,
+      "target": 0.5,
+      "riskLevel": "Very High",
+      "reasons": [
+        "Up 8.9% on the day",
+        "Short-term (5-day) momentum is positive",
+        "Price is above the 5-day moving average",
+        "RSI (44.4) is in a healthy range",
+        "Positive opening gap (3.7%)"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data",
+        "Price below $0.50 \u2013 very high fraud/delist risk"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 6
+    },
+    {
+      "ticker": "WKHS",
+      "score": 27,
+      "price": 1.95,
+      "percentChange": 4.28,
+      "volume": 225600,
+      "averageVolume": 701270,
+      "relativeVolume": 0.32,
+      "rsi": 33.4,
+      "volatility": 1.564,
+      "sma5": 1.842,
+      "sma20": 2.6385,
+      "gapPct": 0.53,
+      "momentumScore": 14,
+      "liquidityScore": 1,
+      "riskScore": 12,
+      "entryZone": "1.93 \u2013 1.97",
+      "stopLoss": 1.66,
+      "target": 2.53,
+      "riskLevel": "Very High",
+      "reasons": [
+        "Up 4.3% on the day",
+        "Short-term (5-day) momentum is positive",
+        "Price is above the 5-day moving average"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data",
+        "Extreme annualised volatility (156%)"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 7
+    },
+    {
+      "ticker": "PHIO",
+      "score": 25,
+      "price": 0.675,
+      "percentChange": -3.3,
+      "volume": 65200,
+      "averageVolume": 69635,
+      "relativeVolume": 0.94,
+      "rsi": 29.3,
+      "volatility": 0.6174,
+      "sma5": 0.6868,
+      "sma20": 0.7825,
+      "gapPct": 1.15,
+      "momentumScore": 0,
+      "liquidityScore": 0,
+      "riskScore": 25,
+      "entryZone": "0.67 \u2013 0.68",
+      "stopLoss": 0.64,
+      "target": 0.75,
+      "riskLevel": "Moderate",
+      "reasons": [
+        "No strong bullish signals detected \u2013 low conviction"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 8
+    },
+    {
+      "ticker": "SEED",
+      "score": 25,
+      "price": 0.54,
+      "percentChange": 0.0,
+      "volume": 19900,
+      "averageVolume": 14250,
+      "relativeVolume": 1.4,
+      "rsi": 27.6,
+      "volatility": 0.5731,
+      "sma5": 0.588,
+      "sma20": 0.6705,
+      "gapPct": 0.0,
+      "momentumScore": 0,
+      "liquidityScore": 0,
+      "riskScore": 25,
+      "entryZone": "0.53 \u2013 0.55",
+      "stopLoss": 0.51,
+      "target": 0.6,
+      "riskLevel": "Moderate",
+      "reasons": [
+        "No strong bullish signals detected \u2013 low conviction"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 9
+    },
+    {
+      "ticker": "VNET",
+      "score": 25,
+      "price": 2.06,
+      "percentChange": 4.57,
+      "volume": 7166800,
+      "averageVolume": 8226445,
+      "relativeVolume": 0.87,
+      "rsi": 32.5,
+      "volatility": 1.6643,
+      "sma5": 2.188,
+      "sma20": 2.8325,
+      "gapPct": -3.05,
+      "momentumScore": 0,
+      "liquidityScore": 18,
+      "riskScore": 12,
+      "entryZone": "2.04 \u2013 2.08",
+      "stopLoss": 1.74,
+      "target": 2.71,
+      "riskLevel": "Very High",
+      "reasons": [
+        "Up 4.6% on the day"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data",
+        "Extreme annualised volatility (166%)"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 10
+    },
+    {
+      "ticker": "BTBT",
+      "score": 22,
+      "price": 0.481,
+      "percentChange": -1.23,
+      "volume": 29773800,
+      "averageVolume": 24994495,
+      "relativeVolume": 1.19,
+      "rsi": 29.1,
+      "volatility": 1.4535,
+      "sma5": 0.5296,
+      "sma20": 0.6964,
+      "gapPct": -6.78,
+      "momentumScore": 0,
+      "liquidityScore": 18,
+      "riskScore": 9,
+      "entryZone": "0.48 \u2013 0.49",
+      "stopLoss": 0.41,
+      "target": 0.61,
+      "riskLevel": "Very High",
+      "reasons": [
+        "No strong bullish signals detected \u2013 low conviction"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data",
+        "Price below $0.50 \u2013 very high fraud/delist risk"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 11
+    },
+    {
+      "ticker": "IMPP",
+      "score": 22,
+      "price": 3.93,
+      "percentChange": 0.26,
+      "volume": 134600,
+      "averageVolume": 280070,
+      "relativeVolume": 0.48,
+      "rsi": 32.3,
+      "volatility": 0.5803,
+      "sma5": 3.956,
+      "sma20": 4.3805,
+      "gapPct": -1.28,
+      "momentumScore": 0,
+      "liquidityScore": 0,
+      "riskScore": 22,
+      "entryZone": "3.89 \u2013 3.97",
+      "stopLoss": 3.71,
+      "target": 4.36,
+      "riskLevel": "Moderate",
+      "reasons": [
+        "No strong bullish signals detected \u2013 low conviction"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 12
+    },
+    {
+      "ticker": "NRXP",
+      "score": 20,
+      "price": 2.18,
+      "percentChange": 1.87,
+      "volume": 841100,
+      "averageVolume": 1896430,
+      "relativeVolume": 0.44,
+      "rsi": 43.1,
+      "volatility": 1.3423,
+      "sma5": 2.259,
+      "sma20": 2.3413,
+      "gapPct": 0.0,
+      "momentumScore": 0,
+      "liquidityScore": 4,
+      "riskScore": 16,
+      "entryZone": "2.16 \u2013 2.20",
+      "stopLoss": 1.9,
+      "target": 2.73,
+      "riskLevel": "High",
+      "reasons": [
+        "RSI (43.1) is in a healthy range"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 13
+    },
+    {
+      "ticker": "BNGO",
+      "score": 19,
+      "price": 0.84,
+      "percentChange": 3.7,
+      "volume": 82500,
+      "averageVolume": 258530,
+      "relativeVolume": 0.32,
+      "rsi": 31.0,
+      "volatility": 0.8004,
+      "sma5": 0.838,
+      "sma20": 1.037,
+      "gapPct": -1.23,
+      "momentumScore": 3,
+      "liquidityScore": 0,
+      "riskScore": 16,
+      "entryZone": "0.83 \u2013 0.85",
+      "stopLoss": 0.78,
+      "target": 0.97,
+      "riskLevel": "High",
+      "reasons": [
+        "Up 3.7% on the day",
+        "Price is above the 5-day moving average"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 14
+    },
+    {
+      "ticker": "GOVX",
+      "score": 19,
+      "price": 1.76,
+      "percentChange": 3.53,
+      "volume": 26700,
+      "averageVolume": 664274,
+      "relativeVolume": 0.04,
+      "rsi": 15.8,
+      "volatility": 1.4557,
+      "sma5": 1.78,
+      "sma20": 2.7464,
+      "gapPct": -2.35,
+      "momentumScore": 0,
+      "liquidityScore": 0,
+      "riskScore": 19,
+      "entryZone": "1.74 \u2013 1.78",
+      "stopLoss": 1.52,
+      "target": 2.24,
+      "riskLevel": "High",
+      "reasons": [
+        "Up 3.5% on the day"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 15
+    },
+    {
+      "ticker": "ZKIN",
+      "score": 19,
+      "price": 1.45,
+      "percentChange": 3.57,
+      "volume": 18000,
+      "averageVolume": 15750,
+      "relativeVolume": 1.14,
+      "rsi": 47.1,
+      "volatility": 1.3775,
+      "sma5": 1.534,
+      "sma20": 1.5083,
+      "gapPct": 0.71,
+      "momentumScore": 3,
+      "liquidityScore": 0,
+      "riskScore": 16,
+      "entryZone": "1.44 \u2013 1.46",
+      "stopLoss": 1.26,
+      "target": 1.83,
+      "riskLevel": "High",
+      "reasons": [
+        "Up 3.6% on the day",
+        "RSI (47.1) is in a healthy range"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 16
+    },
+    {
+      "ticker": "GFAI",
+      "score": 14,
+      "price": 2.63,
+      "percentChange": -9.31,
+      "volume": 47300,
+      "averageVolume": 27665,
+      "relativeVolume": 1.71,
+      "rsi": 15.6,
+      "volatility": 1.4899,
+      "sma5": 3.41,
+      "sma20": 5.8345,
+      "gapPct": -8.97,
+      "momentumScore": 0,
+      "liquidityScore": 0,
+      "riskScore": 19,
+      "entryZone": "2.60 \u2013 2.66",
+      "stopLoss": 2.26,
+      "target": 3.37,
+      "riskLevel": "High",
+      "reasons": [
+        "No strong bullish signals detected \u2013 low conviction"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 17
+    },
+    {
+      "ticker": "ARBK",
+      "score": 12,
+      "price": 1.05,
+      "percentChange": -11.76,
+      "volume": 47300,
+      "averageVolume": 70125,
+      "relativeVolume": 0.67,
+      "rsi": 33.2,
+      "volatility": 1.3039,
+      "sma5": 1.0646,
+      "sma20": 1.294,
+      "gapPct": -4.2,
+      "momentumScore": 1,
+      "liquidityScore": 0,
+      "riskScore": 16,
+      "entryZone": "1.04 \u2013 1.06",
+      "stopLoss": 0.92,
+      "target": 1.31,
+      "riskLevel": "High",
+      "reasons": [
+        "Short-term (5-day) momentum is positive"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 18
+    },
+    {
+      "ticker": "BFRI",
+      "score": 11,
+      "price": 0.478,
+      "percentChange": -0.83,
+      "volume": 176600,
+      "averageVolume": 207200,
+      "relativeVolume": 0.85,
+      "rsi": 24.9,
+      "volatility": 1.3801,
+      "sma5": 0.5134,
+      "sma20": 0.7408,
+      "gapPct": 1.24,
+      "momentumScore": 0,
+      "liquidityScore": 2,
+      "riskScore": 9,
+      "entryZone": "0.47 \u2013 0.48",
+      "stopLoss": 0.42,
+      "target": 0.6,
+      "riskLevel": "Very High",
+      "reasons": [
+        "No strong bullish signals detected \u2013 low conviction"
+      ],
+      "warnings": [
+        "Penny stocks are highly volatile and speculative",
+        "Recommendation uses free, possibly delayed data",
+        "Price below $0.50 \u2013 very high fraud/delist risk"
+      ],
+      "marketDate": "2026-11-25",
+      "rank": 19
+    }
+  ]
 }
